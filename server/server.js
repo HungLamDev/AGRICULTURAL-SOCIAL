@@ -11,6 +11,7 @@ app.use(cookieParser());
 
 // Routes
 app.use('/api', require('./routes/authRouter'))
+app.use('/api', require('./routes/userRouter'))
 
 mongoose.connect(process.env.MONGODB_URL)
     .then(() => console.log('Connected to MongoDB'))
