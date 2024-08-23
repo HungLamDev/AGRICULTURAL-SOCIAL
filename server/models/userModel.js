@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
       },
       website:{
             type: String,
-            default: 'male'
+            default: ''
       },
       followers:[{
             type: mongoose.Types.ObjectId, 
