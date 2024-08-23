@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../../redux/actions/authAction'
 import { GLOBALTYPES } from '../../redux/actions/globalTypes'
-import Avatar from '../alert/Avatar'
+import Avatar from '../Avatar'
 
 const Menu = () => {
       const navLink = [
