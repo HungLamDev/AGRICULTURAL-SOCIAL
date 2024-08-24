@@ -1,11 +1,9 @@
 import { combineReducers } from "redux";
-import auth from  './authReducer'
+import auth from "./authReducer";
 import alert from "./alertReducer";
-import theme from "./themReducer"
-import profile from "./profileReducer"
+import theme from "./themReducer";
 export default combineReducers({
-      auth, 
-      alert,
-      theme,
-      profile
-})
+  auth,
+  alert,
+  theme,
+});
