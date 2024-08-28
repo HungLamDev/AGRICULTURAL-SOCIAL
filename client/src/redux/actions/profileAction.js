@@ -1,5 +1,5 @@
 import { GLOBALTYPES } from "./globalTypes";
-import { getDataAPI, putDataAPI } from "../../utils/fetchData";
+import { getDataAPI, patchDataAPI } from "../../utils/fetchData";
 import { imageUpload } from "../../utils/imageUpload";
 export const PROFILE_TYPES = {
   LOADING: "LOADING",
@@ -32,35 +32,67 @@ export const getProfileUsers =
 export const updateUserProfile =
   ({ userData, avatar, auth }) =>
   async (dispatch) => {
+    if (!auth || !auth.user) {
+      console.error("Auth object or user is undefined:", auth);
+      return dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: "Đối tượng xác thực hoặc người dùng không hợp lệ!" },
+      });
+    }
+    // Kiểm tra dữ liệu đầu vào
     if (!userData.fullname)
       return dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { err: "Nhập tên đăng nhập !" },
+        payload: { error: "Nhập tên đăng nhập!" },
       });
     if (userData.fullname.length > 25)
       return dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { err: "Tên đăng nhập quá dài !" },
+        payload: { error: "Tên đăng nhập quá dài!" },
       });
-    if (userData.story.length > 200)
+    if (userData.story?.length > 200)
       return dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { err: "Thông tin quá dài !" },
+        payload: { error: "Thông tin quá dài!" },
       });
+
+    console.log(userData, avatar);
+
     try {
       let media;
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
-      if (avatar) media = await imageUpload([avatar]);
-      console.log(media);
-      const res = await putDataAPI(
-        `/user/${auth.user._id}`,
+
+      if (avatar) {
+        // Upload image nếu có avatar mới
+        media = await imageUpload([avatar]);
+        console.log("Uploaded media:", media);
+        if (!media || !media[0]?.url) {
+          throw new Error("Image upload failed!");
+        }
+      }
+
+      const profilePicture = avatar ? media[0].url : auth.user.avatar;
+      if (!auth || !auth.user) {
+        throw new Error("Auth object or user is undefined");
+      }
+      console.log("Sending data:", {
+        ...userData,
+        profilePicture: profilePicture,
+      });
+
+      // Gửi yêu cầu PATCH để cập nhật thông tin người dùng
+      const res = await patchDataAPI(
+        `user/${auth.user._id}`,
         {
           ...userData,
-          profilePicture: avatar ? media[0].url : auth.user.avatar,
+          profilePicture: profilePicture,
         },
         auth.token
       );
-      console.log(res);
+
+      console.log("API Response:", res.data);
+
+      // Cập nhật trạng thái auth với thông tin mới của người dùng
       dispatch({
         type: GLOBALTYPES.AUTH,
         payload: {
@@ -68,18 +100,26 @@ export const updateUserProfile =
           user: {
             ...auth.user,
             ...userData,
-            profilePicture: avatar ? media[0].url : auth.user.avatar,
+            profilePicture: profilePicture,
           },
         },
       });
+
       dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { err: res.response?.data?.msg || "Đã xảy ra lỗi" },
+        payload: { success: "Cập nhật thành công!" + res.data.msg },
       });
-    } catch (err) {
+    } catch (error) {
+      console.error("Error updating user profile:", error); // Log lỗi
       dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { err: err.response?.data?.msg || "Đã xảy ra lỗi" },
+        payload: {
+          error:
+            error.response?.data?.msg ||
+            "An error occurred while updating the profile.",
+        },
       });
+    } finally {
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     }
   };
