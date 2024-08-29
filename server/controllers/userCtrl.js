@@ -29,19 +29,45 @@ const userCtrl = {
   },
   updateUser: async (req, res) => {
     try {
-      const updateData = req.body;
-      if (!fullname)
-        return res.status(400).json({ msg: "Please add your full name." });
+      console.log("Request Headers:", req.headers);
+      console.log("Request Body:", req.body);
+      console.log("Request Params:", req.params);
+      console.log("User ID from auth middleware:", req.params.id);
+      const { avatar, fullname, mobile, address, story, website, gender } =
+        req.body;
 
-      await Users.findOneAndUpdate(
-        { _id: req.params._id },
-        { $set: updateData }
-      );
-      if (!user) {
-        return res.status(404).json("No user !");
+      // Kiểm tra xem fullname có rỗng không
+      if (!fullname) {
+        return res.status(400).json({ msg: "Please add your full name." });
       }
-      res.json({ msg: "Update Success!" });
+
+      // Cập nhật thông tin người dùng
+      const updatedUser = await Users.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          avatar,
+          fullname,
+          mobile,
+          address,
+          story,
+          website,
+          gender,
+        },
+        { new: true } // Tùy chọn trả về tài liệu đã cập nhật và kiểm tra dữ liệu hợp lệ
+      );
+
+      // Kiểm tra xem người dùng có tồn tại không
+      if (!updatedUser) {
+        return res.status(404).json({ msg: "User not found." });
+      }
+
+      // Trả về thông tin người dùng đã cập nhật
+      res.json({
+        msg: "Update Success!",
+        user: updatedUser, // Trả về đối tượng người dùng đã cập nhật
+      });
     } catch (err) {
+      console.error("Error in updateUser:", err); // Log lỗi chi tiết
       return res.status(500).json({ msg: err.message });
     }
   },

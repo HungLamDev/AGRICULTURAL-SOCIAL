@@ -18,7 +18,7 @@ const EditProfile = ({ setOnEdit }) => {
   const { fullname, mobile, address, website, story, gender } = userData;
   const [avatar, setAvatar] = useState("");
 
-  const { auth } = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth);
   const currentUser = useSelector((state) => state.auth?.user);
 
   const changeAvatar = (e) => {
@@ -35,7 +35,16 @@ const EditProfile = ({ setOnEdit }) => {
   useEffect(() => {
     setUserData(currentUser);
   }, [currentUser]);
+  useEffect(() => {
+    setUserData(auth.user);
+  }, [auth.user]);
   const handleSubmit = (e) => {
+    if (!auth || !auth.user) {
+      return dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: "Đối tượng xác thực hoặc người dùng không hợp lệ!" },
+      });
+    }
     e.preventDefault();
     dispatch(
       updateUserProfile({
@@ -44,7 +53,6 @@ const EditProfile = ({ setOnEdit }) => {
         auth,
       })
     );
-    console.log(userData);
   };
 
   return (
@@ -147,6 +155,7 @@ const EditProfile = ({ setOnEdit }) => {
           <select
             name="gender"
             id="gender"
+            value={gender.value}
             className="custom-select text-capitalize"
             onChange={handleInput}
           >
