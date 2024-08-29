@@ -1,22 +1,19 @@
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import {thunk} from 'redux-thunk'; // Remove curly braces
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import { thunk } from "redux-thunk"; // Remove curly braces
+import { composeWithDevTools } from "redux-devtools-extension";
 
-import rootReducer from './reducers';
+import rootReducer from "./reducers";
 
-import { compose } from 'redux';
+import { compose } from "redux";
 
 const store = createStore(
   rootReducer,
-  compose(applyMiddleware(thunk))
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 const DataProvider = ({ children }) => {
-  return (
-    <Provider store={store}>
-      {children}
-    </Provider>
-  );
+  return <Provider store={store}>{children}</Provider>;
 };
 
 export default DataProvider;

@@ -43,7 +43,7 @@ const userCtrl = {
 
       // Cập nhật thông tin người dùng
       const updatedUser = await Users.findOneAndUpdate(
-        { _id: req.user._id },
+        { _id: req.params.id },
         {
           avatar,
           fullname,

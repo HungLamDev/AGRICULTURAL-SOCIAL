@@ -3,6 +3,6 @@ const auth = require("../middleware/auth");
 const userCtrl = require("../controllers/userCtrl");
 
 router.get("/search", auth, userCtrl.searchUser);
+router.patch("/user/:id", auth, userCtrl.updateUser);
 router.get("/user/:id", auth, userCtrl.getUser);
-router.patch("/user/", auth, userCtrl.updateUser);
 module.exports = router;
