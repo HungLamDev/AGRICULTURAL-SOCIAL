@@ -3,11 +3,13 @@ const Users = require("../models/userModel");
 const userCtrl = {
   searchUser: async (req, res) => {
     try {
+      console.log("Query parameters:", req.query);
       const users = await Users.find({
         username: { $regex: req.query.username },
       })
         .limit(10)
         .select("fullname username avatar");
+      console.log("Found users:", users);
 
       res.json({ users });
     } catch (err) {

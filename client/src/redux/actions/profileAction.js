@@ -14,7 +14,7 @@ export const getProfileUsers =
     if (!users || !users.find((user) => user._id === id)) {
       try {
         dispatch({ type: PROFILE_TYPES.LOADING, payload: true });
-        const res = await getDataAPI(`/user/${id}`, auth.token);
+        const res = await getDataAPI(`user/${id}`, auth.token);
         console.log(res);
 
         dispatch({
@@ -140,6 +140,14 @@ export const follow =
         user: { ...auth.user, following: [...auth.user.following, newUser] },
       },
     });
+    try {
+      await patchDataAPI(`user/${user._id}/follow`, {}, auth.token);
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response?.data?.msg || "An error occurred" },
+      });
+    }
   };
 export const unfollow =
   ({ users, user, auth }) =>
@@ -163,4 +171,12 @@ export const unfollow =
         },
       },
     });
+    try {
+      await patchDataAPI(`user/${user._id}/unfollow`, {}, auth.token);
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response?.data?.msg || "An error occurred" },
+      });
+    }
   };
