@@ -33,26 +33,32 @@ const EditProfile = ({ setOnEdit }) => {
     setUserData({ ...userData, [name]: value });
   };
   useEffect(() => {
-    setUserData(currentUser);
+    setUserData(currentUser || initState);
   }, [currentUser]);
   useEffect(() => {
     setUserData(auth.user);
   }, [auth.user]);
   const handleSubmit = (e) => {
+    e.preventDefault();
     if (!auth || !auth.user) {
       return dispatch({
         type: GLOBALTYPES.ALERT,
         payload: { error: "Đối tượng xác thực hoặc người dùng không hợp lệ!" },
       });
     }
-    e.preventDefault();
+
     dispatch(
       updateUserProfile({
         userData,
         avatar,
         auth,
       })
-    );
+    ).catch((error) => {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: error.message || "Đã xảy ra lỗi!" },
+      });
+    });
   };
 
   return (

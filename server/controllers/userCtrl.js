@@ -3,12 +3,17 @@ const Users = require("../models/userModel");
 const userCtrl = {
   searchUser: async (req, res) => {
     try {
+      console.log("Query parameters:", req.query);
+      const { username } = req.query;
       const users = await Users.find({
-        username: { $regex: req.query.username },
+        username: { $regex: username, $options: "i" },
       })
         .limit(10)
         .select("fullname username avatar");
-
+      console.log("Found users:", users);
+      if (users.length === 0) {
+        return res.status(400).json({ msg: "User does not exist." });
+      }
       res.json({ users });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -18,7 +23,7 @@ const userCtrl = {
     try {
       const user = await Users.findById(req.params.id)
         .select("-password")
-        .populate("followers following", "-password");
+        .populate({ path: "followers following", select: "-password" });
       if (!user)
         return res.status(400).json({ msg: "Người dùng không tồn tại!" });
 
@@ -64,7 +69,6 @@ const userCtrl = {
       // Trả về thông tin người dùng đã cập nhật
       res.json({
         msg: "Update Success!",
-        user: updatedUser, // Trả về đối tượng người dùng đã cập nhật
       });
     } catch (err) {
       console.error("Error in updateUser:", err); // Log lỗi chi tiết
@@ -86,7 +90,7 @@ const userCtrl = {
           $push: { followers: req.user._id },
         },
         { new: true }
-      ).populate("followers following", "-password");
+      ).populate({ path: "followers following", select: "-password" });
 
       await Users.findOneAndUpdate(
         { _id: req.user._id },
@@ -109,7 +113,7 @@ const userCtrl = {
           $pull: { followers: req.user._id },
         },
         { new: true }
-      ).populate("followers following", "-password");
+      ).populate({ path: "followers following", select: "-password" });
 
       await Users.findOneAndUpdate(
         { _id: req.user._id },

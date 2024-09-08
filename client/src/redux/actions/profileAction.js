@@ -14,7 +14,7 @@ export const getProfileUsers =
     if (!users || !users.find((user) => user._id === id)) {
       try {
         dispatch({ type: PROFILE_TYPES.LOADING, payload: true });
-        const res = await getDataAPI(`/user/${id}`, auth.token);
+        const res = await getDataAPI(`user/${id}`, auth.token);
         console.log(res);
 
         dispatch({
@@ -87,12 +87,10 @@ export const updateUserProfile =
         `user/${auth.user._id}`,
         {
           ...userData,
-          profilePicture: profilePicture,
+          avatar: profilePicture,
         },
         auth.token
       );
-
-      console.log("API Response:", res.data);
 
       // Cập nhật trạng thái auth với thông tin mới của người dùng
       dispatch({
@@ -111,6 +109,7 @@ export const updateUserProfile =
         type: GLOBALTYPES.ALERT,
         payload: { success: "Cập nhật thành công!" + res.data.msg },
       });
+      console.log("API Response:", res.data);
     } catch (error) {
       console.error("Error updating user profile:", error); // Log lỗi
       dispatch({
@@ -128,7 +127,18 @@ export const updateUserProfile =
 export const follow =
   ({ users, user, auth }) =>
   async (dispatch) => {
-    let newUser = { ...user, followers: [...user.followers, auth.user] };
+    let newUser;
+
+    if (users.every((item) => item._id !== user._id)) {
+      newUser = { ...user, followers: [...user.followers, auth.user] };
+    } else {
+      users.forEach((item) => {
+        if (item._id === user._id) {
+          newUser = { ...item, followers: [...item.followers, auth.user] };
+        }
+      });
+    }
+
     dispatch({
       type: PROFILE_TYPES.FOLLOW,
       payload: newUser,
@@ -140,6 +150,14 @@ export const follow =
         user: { ...auth.user, following: [...auth.user.following, newUser] },
       },
     });
+    // try {
+    //   await patchDataAPI(`user/${user._id}/follow`, {}, auth.token);
+    // } catch (err) {
+    //   dispatch({
+    //     type: GLOBALTYPES.ALERT,
+    //     payload: { error: err.response?.data?.msg || "An error occurred" },
+    //   });
+    // }
   };
 export const unfollow =
   ({ users, user, auth }) =>
@@ -163,4 +181,12 @@ export const unfollow =
         },
       },
     });
+    // try {
+    //   await patchDataAPI(`user/${user._id}/unfollow`, {}, auth.token);
+    // } catch (err) {
+    //   dispatch({
+    //     type: GLOBALTYPES.ALERT,
+    //     payload: { error: err.response?.data?.msg || "An error occurred" },
+    //   });
+    // }
   };

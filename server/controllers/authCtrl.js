@@ -100,18 +100,43 @@ const authCtrl = {
       const rf_token = req.cookies.refreshtoken;
       if (!rf_token)
         return res.status(400).json({ msg: "Vui lòng đăng nhập!" });
+
       jwt.verify(
         rf_token,
         process.env.REFRESH_TOKEN_SECRET,
         async (err, result) => {
           if (err) return res.status(400).json({ msg: "Vui lòng đăng nhập!" });
+
           const user = await User.findById(result.id)
             .select("-password")
-            .populate("followers following", "-password");
+            .populate(
+              "followers following",
+              "-password",
+              "avatar username fullname followers following"
+            );
           if (!user) return res.status(400).json({ msg: "Không tồn tại!" });
-          const access_token = createAccessToken({ ID: result.id });
+
+          // Kiểm tra access token cũ nếu còn hiệu lực thì không tạo mới
+          const access_token = req.headers.authorization?.split(" ")[1];
+          if (access_token) {
+            try {
+              const decoded = jwt.verify(
+                access_token,
+                process.env.ACCESS_TOKEN_SECRET
+              );
+              if (decoded && decoded.exp * 1000 > Date.now()) {
+                // Token vẫn còn hiệu lực, trả về token cũ
+                return res.json({ access_token, user });
+              }
+            } catch (error) {
+              // Token hết hạn hoặc không hợp lệ, tiếp tục tạo mới
+            }
+          }
+
+          const new_access_token = createAccessToken({ id: result.id });
+
           res.json({
-            access_token,
+            access_token: new_access_token,
             user,
           });
         }
