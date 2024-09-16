@@ -11,6 +11,12 @@ export const PROFILE_TYPES = {
 export const getProfileUsers =
   ({ users = [], id, auth }) =>
   async (dispatch) => {
+    if (!id) {
+      return dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: "User ID is required" },
+      });
+    }
     if (!users || !users.find((user) => user._id === id)) {
       try {
         dispatch({ type: PROFILE_TYPES.LOADING, payload: true });
@@ -82,7 +88,6 @@ export const updateUserProfile =
         profilePicture: profilePicture,
       });
 
-      // Gửi yêu cầu PATCH để cập nhật thông tin người dùng
       const res = await patchDataAPI(
         `user/${auth.user._id}`,
         {
@@ -92,7 +97,6 @@ export const updateUserProfile =
         auth.token
       );
 
-      // Cập nhật trạng thái auth với thông tin mới của người dùng
       dispatch({
         type: GLOBALTYPES.AUTH,
         payload: {
@@ -127,6 +131,12 @@ export const updateUserProfile =
 export const follow =
   ({ users, user, auth }) =>
   async (dispatch) => {
+    if (!auth || !auth.user._id || !user._id) {
+      return dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: "Invalid user ID" },
+      });
+    }
     let newUser;
 
     if (users.every((item) => item._id !== user._id)) {
@@ -150,23 +160,42 @@ export const follow =
         user: { ...auth.user, following: [...auth.user.following, newUser] },
       },
     });
-    // try {
-    //   await patchDataAPI(`user/${user._id}/follow`, {}, auth.token);
-    // } catch (err) {
-    //   dispatch({
-    //     type: GLOBALTYPES.ALERT,
-    //     payload: { error: err.response?.data?.msg || "An error occurred" },
-    //   });
-    // }
+    try {
+      await patchDataAPI(`user/${user._id}/follow`, {}, auth.token);
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response?.data?.msg || "An error occurred" },
+      });
+    }
   };
 export const unfollow =
   ({ users, user, auth }) =>
   async (dispatch) => {
-    let newUser = {
-      ...user,
-      followers: DeleteData(user.followers, auth.user._id),
-    };
-    console.log(newUser);
+    if (!auth || !auth.user || !auth.user._id || !user._id) {
+      return dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: "Invalid user ID" },
+      });
+    }
+    let newUser;
+
+    if (users.every((item) => item._id !== user._id)) {
+      newUser = {
+        ...user,
+        followers: DeleteData(user.followers, auth.user._id),
+      };
+    } else {
+      users.forEach((item) => {
+        if (item._id === user._id) {
+          newUser = {
+            ...item,
+            followers: DeleteData(item.followers, auth.user._id),
+          };
+        }
+      });
+    }
+
     dispatch({
       type: PROFILE_TYPES.UNFOLLOW,
       payload: newUser,
@@ -176,17 +205,17 @@ export const unfollow =
       payload: {
         ...auth,
         user: {
-          ...auth,
+          ...auth.user,
           following: DeleteData(auth.user.following, newUser._id),
         },
       },
     });
-    // try {
-    //   await patchDataAPI(`user/${user._id}/unfollow`, {}, auth.token);
-    // } catch (err) {
-    //   dispatch({
-    //     type: GLOBALTYPES.ALERT,
-    //     payload: { error: err.response?.data?.msg || "An error occurred" },
-    //   });
-    // }
+    try {
+      await patchDataAPI(`user/${user._id}/unfollow`, {}, auth.token);
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response?.data?.msg || "An error occurred" },
+      });
+    }
   };
