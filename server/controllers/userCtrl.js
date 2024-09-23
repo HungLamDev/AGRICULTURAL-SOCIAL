@@ -21,11 +21,15 @@ const userCtrl = {
   },
   getUser: async (req, res) => {
     try {
-      const user = await Users.findById(req.params.id)
+      const { id } = req.params;
+      if (!id) return res.status(400).json({ msg: "ID is required" });
+
+      const user = await Users.findById(id)
         .select("-password")
-        .populate({ path: "followers following", select: "-password" });
-      if (!user)
-        return res.status(400).json({ msg: "Người dùng không tồn tại!" });
+        .populate("followers", "username fullname avatar")
+        .populate("following", "username fullname avatar");
+
+      if (!user) return res.status(400).json({ msg: "User not found" });
 
       res.json({ user });
     } catch (err) {

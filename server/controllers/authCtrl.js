@@ -111,7 +111,6 @@ const authCtrl = {
             .select("-password")
             .populate(
               "followers following",
-              "-password",
               "avatar username fullname followers following"
             );
           if (!user) return res.status(400).json({ msg: "Không tồn tại!" });

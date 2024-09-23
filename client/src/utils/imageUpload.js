@@ -10,6 +10,7 @@ export const imageUpload = async (images) => {
   let arr = [];
   for (const item of images) {
     const formData = new FormData();
+
     if (item.camera) {
       formData.append("file", item.camera);
     } else {

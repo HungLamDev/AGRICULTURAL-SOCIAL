@@ -49,3 +49,7 @@
     @import url("./avatar.css");
     /*------------ profile---------------*/
     @import url("./profile.css");
+       /*------------ home---------------*/
+    @import url("./home.css");
+     /*------------statusModal ---------------*/
+     @import url("./statusModalStyle.css");

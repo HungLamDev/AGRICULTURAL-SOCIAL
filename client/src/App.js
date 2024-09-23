@@ -7,17 +7,25 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Alert from "./components/alert/Alert";
 import Header from "./components/header/Header";
+import StatusModal from "./components/StatusModal";
 import { useDispatch, useSelector } from "react-redux";
 import { refrechToken } from "./redux/actions/authAction";
+import { getPosts } from "./redux/actions/postAction";
 
 const App = () => {
   const auth = useSelector((state) => state.auth);
+  const status = useSelector((state) => state.status);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(refrechToken());
   }, [dispatch]);
-
+  useEffect(() => {
+    if (auth.token) {
+      dispatch(getPosts(auth.token));
+    }
+  }, [dispatch, auth.token]);
   return (
     <Router>
       <Alert />
@@ -25,6 +33,7 @@ const App = () => {
       <div className="App">
         <div className="main">
           {auth.token && <Header />}
+          {status && <StatusModal />}
           <Routes>
             <Route path="/" element={auth.token ? <Home /> : <Login />} />
             <Route path="/register" element={<Register />} />

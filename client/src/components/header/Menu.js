@@ -7,7 +7,7 @@ import Avatar from "../Avatar";
 
 const Menu = () => {
   const navLink = [
-    { label: "Trang chủ", icon: "home", path: "/" },
+    { label: "Trang chủ", icon: "home", path: "/home" },
     { label: "Tin nhắn", icon: "near_me", path: "/message" },
     { label: "Thảo luận", icon: "explore", path: "/discover" },
     { label: "Yêu thích", icon: "favorite", path: "/notify" },

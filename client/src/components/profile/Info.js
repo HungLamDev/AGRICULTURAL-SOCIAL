@@ -11,6 +11,8 @@ import { getProfileUsers } from "../../redux/actions/profileAction";
 const Info = () => {
   const { id } = useParams();
   const auth = useSelector((state) => state.auth);
+  const theme = useSelector((state) => state.theme);
+
   const profile = useSelector((state) => state.profile);
 
   const dispatch = useDispatch();
@@ -41,7 +43,7 @@ const Info = () => {
     <div className="info">
       {userData.map((user) => (
         <div className="info-container" key={user._id}>
-          <Avatar src={user.avatar} size="supper-avatar" />
+          <Avatar src={user.avatar} theme={theme} size="supper-avatar" />
           <div className="info_content">
             <div className="info_content_title title-content">
               <h2>{user.username}</h2>
