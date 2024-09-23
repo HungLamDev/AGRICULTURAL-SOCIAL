@@ -64,16 +64,12 @@ export const updateUserProfile =
         payload: { error: "Thông tin quá dài!" },
       });
 
-    console.log(userData, avatar);
-
     try {
       let media;
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
 
       if (avatar) {
-        // Upload image nếu có avatar mới
         media = await imageUpload([avatar]);
-        console.log("Uploaded media:", media);
         if (!media || !media[0]?.url) {
           throw new Error("Image upload failed!");
         }
@@ -83,10 +79,6 @@ export const updateUserProfile =
       if (!auth || !auth.user) {
         throw new Error("Auth object or user is undefined");
       }
-      console.log("Sending data:", {
-        ...userData,
-        profilePicture: profilePicture,
-      });
 
       const res = await patchDataAPI(
         `user/${auth.user._id}`,
@@ -113,7 +105,7 @@ export const updateUserProfile =
         type: GLOBALTYPES.ALERT,
         payload: { success: "Cập nhật thành công!" + res.data.msg },
       });
-      console.log("API Response:", res.data);
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.data.msg } });
     } catch (error) {
       console.error("Error updating user profile:", error); // Log lỗi
       dispatch({

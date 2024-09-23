@@ -2,13 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { GLOBALTYPES } from "../redux/actions/globalTypes";
 import { imageShow, videoShow } from "../utils/mediaShow";
-import { createPost } from "../redux/actions/postAction";
+import { createPost, updatePost } from "../redux/actions/postAction";
 import Icons from "./Icons";
 import category from "../data/category.json";
 // import Icons from "./Icons";
 const StatusModal = () => {
   const auth = useSelector((state) => state.auth);
   const theme = useSelector((state) => state.theme);
+  const status = useSelector((state) => state.status);
 
   const dispatch = useDispatch();
   const [content, setContent] = useState("");
@@ -46,8 +47,19 @@ const StatusModal = () => {
         type: GLOBALTYPES.ALERT,
         payload: { error: "Vui lòng chọn ảnh hoặc video! " },
       });
-    dispatch(createPost({ content, hashtag, images, auth }));
+    if (status.onEdit) {
+      dispatch(updatePost({ content, hashtag, images, auth, status }));
+    } else {
+      dispatch(createPost({ content, hashtag, images, auth }));
+    }
   };
+  useEffect(() => {
+    if (status.onEdit) {
+      setContent(status.desc);
+      setImages(status.img);
+      setHashtag(status.hashtag);
+    }
+  }, [status]);
   return (
     <div className="status_modal">
       <form onSubmit={handleSubmit}>
@@ -70,15 +82,14 @@ const StatusModal = () => {
             value={content}
             placeholder={`${auth.user.username} ơi, bạn đang nghĩ gì?`}
             onChange={(e) => setContent(e.target.value)}
-            style={{
-              filter: theme ? "invert(1)" : "invert(0)",
-              color: theme ? "white" : "#111",
-              background: theme ? "rgba(0,0,0,.03)" : "",
-            }}
           />
           <div className="show_imgs">
             {images.map((img, index) => (
-              <div key={index} id="file_img">
+              <div
+                key={index}
+                style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}
+                id="file_img"
+              >
                 {img.url ? (
                   <>
                     {img.url.match(/video/i)
@@ -110,7 +121,7 @@ const StatusModal = () => {
           </div>
           <div className="d-flex">
             <div className="flex-fill"></div>
-            {/* <Icons setContent={setContent} content={content} theme={theme} /> */}
+            <Icons setContent={setContent} content={content} />
           </div>
           <div className="input_images">
             <i className="fas fa-camera" />
