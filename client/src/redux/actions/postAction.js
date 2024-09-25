@@ -1,6 +1,11 @@
 import { GLOBALTYPES } from "./globalTypes";
 import { imageUpload } from "../../utils/imageUpload";
-import { postDataAPI, getDataAPI, patchDataAPI } from "../../utils/fetchData";
+import {
+  postDataAPI,
+  getDataAPI,
+  patchDataAPI,
+  putDataAPI,
+} from "../../utils/fetchData";
 
 export const POSTTYPES = {
   CREATE_POST: "CREATE_POST",
@@ -123,5 +128,63 @@ export const getPost =
           },
         });
       }
+    }
+  };
+export const likePost =
+  ({ post, auth }) =>
+  async (dispatch) => {
+    const newPost = { ...post, like: [...(post.like || []), auth.user] };
+    dispatch({ type: POSTTYPES.UPDATE_POST, payload: newPost });
+    try {
+      await putDataAPI(`post/${post._id}/like`, null, auth.token);
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { success: "Bạn vừa thích bài viết này!" },
+      });
+      const msg = {
+        id: auth.user._id,
+        text: "Thích bài viết của bạn !",
+        recipients: [post.user._id],
+        url: `/post/${post._id}`,
+        content: post.content,
+        image: post.img.length > 0 ? post.img[0].url : "",
+      };
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: {
+          err: err.response ? err.response.data.msg : "Lỗi khi lấy bài viết",
+        },
+      });
+    }
+  };
+export const unlikePost =
+  ({ post, auth }) =>
+  async (dispatch) => {
+    const newPost = {
+      ...post,
+      like: post.like.filter((lk) => lk._id !== auth.user._id),
+    };
+    dispatch({ type: POSTTYPES.UPDATE_POST, payload: newPost });
+    try {
+      await putDataAPI(`post/${post._id}/unlike`, null, auth.token);
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { success: "Bạn vừa bỏ thích bài viết này!" },
+      });
+      // Notify
+      const msg = {
+        id: auth.user._id,
+        text: "Bỏ thích bài viết của bạn !",
+        recipients: [post.user._id],
+        url: `/post/${post._id}`,
+      };
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: {
+          err: err.response ? err.response.data.msg : "Lỗi khi lấy bài viết",
+        },
+      });
     }
   };
