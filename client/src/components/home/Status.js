@@ -13,7 +13,7 @@ const Status = () => {
       <Avatar src={auth.user.avatar} size="big-avatar" theme={theme} />
 
       <button
-        className="statusBtn flex-fill"
+        className="status_button flex-fill"
         onClick={() => dispatch({ type: GLOBALTYPES.STATUS, payload: true })}
       >
         {auth.user.username} ơi , bạn đang nghĩ gì thế?

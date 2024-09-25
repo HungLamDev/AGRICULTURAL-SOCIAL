@@ -5,6 +5,7 @@ const initialState = {
   loading: false,
   posts: [],
   diaries: [],
+  detailPost: [],
   result: 0,
   page: 2,
 };
@@ -44,6 +45,7 @@ const postReducer = (state = initialState, action) => {
         ...state,
         posts: DeleteData(state.posts, action.payload._id),
       };
+
     default:
       return state;
   }

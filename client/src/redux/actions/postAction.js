@@ -52,11 +52,9 @@ export const createPost =
   };
 export const getPosts = (token) => async (dispatch) => {
   try {
-    console.log(token);
     dispatch({ type: POSTTYPES.LOADING_POST, payload: true });
 
     const res = await getDataAPI("post", token);
-    console.log(res);
     dispatch({
       type: POSTTYPES.GET_POSTS,
       payload: { ...res.data },
@@ -107,5 +105,23 @@ export const updatePost =
         type: GLOBALTYPES.ALERT,
         payload: { err: err.response.data.msg },
       });
+    }
+  };
+export const getPost =
+  ({ detailPost, id, auth }) =>
+  async (dispatch) => {
+    if (detailPost.every((post) => post._id !== id)) {
+      try {
+        const res = await getDataAPI(`post/${id}`, auth.token);
+        console.log(res.data);
+        dispatch({ type: POSTTYPES.GET_POST, payload: res.data.post });
+      } catch (err) {
+        dispatch({
+          type: GLOBALTYPES.ALERT,
+          payload: {
+            err: err.response ? err.response.data.msg : "Lỗi khi lấy bài viết",
+          },
+        });
+      }
     }
   };

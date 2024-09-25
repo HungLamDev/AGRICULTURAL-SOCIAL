@@ -5,7 +5,7 @@ import theme from "./themReducer";
 import profile from "./profileReducer";
 import status from "./statusReducer";
 import Homepost from "./postReducer";
-
+import detailPost from "./detailPostReducer";
 export default combineReducers({
   auth,
   alert,
@@ -13,4 +13,5 @@ export default combineReducers({
   profile,
   status,
   Homepost,
+  detailPost,
 });
