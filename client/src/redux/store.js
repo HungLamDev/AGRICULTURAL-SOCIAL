@@ -5,8 +5,7 @@ import rootReducer from "./reducers";
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(thunk), // Include thunk middleware
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk), // Include thunk middleware
   devTools: process.env.NODE_ENV !== "production", // Enable devTools in development
 });
 
