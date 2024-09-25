@@ -5,8 +5,12 @@ const Carousel = ({ images, id }) => {
   const isActive = (index) => {
     if (index === 0) return "active";
   };
+<<<<<<< HEAD
   const { theme } = useSelector((state) => state.theme);
 
+=======
+  const { theme } = useSelector((state) => state);
+>>>>>>> 64bcc2770e47106978c59d1536be757362eca712
   return (
     <div id={`image${id}`} className="carousel slide" data-bs-ride="carousel">
       <div className="carousel-indicators" style={{ zIndex: 1 }}>
