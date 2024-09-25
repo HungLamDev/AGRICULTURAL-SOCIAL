@@ -109,3 +109,10 @@ export const updatePost =
       });
     }
   };
+  export const likePost = ({ post, auth }) => async (dispatch) => {
+    const likes = Array.isArray(post.likes) ? post.likes : []; 
+    const newPost = { ...post, like: [...likes, auth.user] }; 
+    dispatch({type: POSTTYPES.UPDATE_POST, payload: newPost});
+  };
+
+

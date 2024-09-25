@@ -6,6 +6,7 @@
       left: 0;
       z-index: 2;
       box-shadow: 0 0 10px #ddd;
+      border: 1px solid rgb(0, 0, 0, .125);
 }
 .header .navbar{
       width: 100%;
@@ -107,6 +108,7 @@
             box-shadow: 0 0 10px #ddd;
             z-index: 2;
             background: #f8f9fa;
+            border: 1px solid rgb(0, 0, 0, .125);
       }
       .header .menu .navbar-nav{
             display: flex;

@@ -6,7 +6,6 @@ const Carousel = ({ images, id }) => {
     if (index === 0) return "active";
   };
   const { theme } = useSelector((state) => state);
-  console.log({ theme });
   return (
     <div id={`image${id}`} className="carousel slide" data-bs-ride="carousel">
       <div className="carousel-indicators" style={{ zIndex: 1 }}>
