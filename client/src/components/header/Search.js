@@ -1,98 +1,127 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDataAPI } from "../../utils/fetchData";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import UserCard from "../UserCard";
-import { IoIosSearch } from "react-icons/io";
-import loadIcon from "../../images/loading.gif";
+import { Link } from "react-router-dom";
 
 const Search = () => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
-  const [load, setLoad] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [loadData, setLoadData] = useState(false);
 
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth?.token);
+
   const dispatch = useDispatch();
-
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!search) return;
-    try {
-      setLoad(true);
-      const res = await getDataAPI(`search?username=${search}`, auth.token);
-      if (res.data.users.length === 0) {
-        dispatch({
-          type: GLOBALTYPES.ALERT,
-          payload: { error: "Người dùng không tồn tại!" },
-        });
-      } else {
-        setUsers(res.data.users);
-      }
-      setUsers(res.data.users);
-      setLoad(false);
-    } catch (err) {
-      dispatch({
-        type: GLOBALTYPES.ALERT,
-        payload: { error: err.response?.data?.msg || "An error occurred" },
-      });
-    }
-  };
 
   const handleClose = () => {
     setSearch("");
     setUsers([]);
+    setPosts([]);
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!search) return;
+    if (!search.trim()) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { err: "Vui lòng nhập từ khóa tìm kiếm!" },
+      });
+      return;
+    }
+
+    try {
+      setLoadData(true);
+      await getDataAPI(`search?search=${search}`, auth).then((res) => {
+        const result = res.data;
+        if (result.users.length === 0 && result.posts.length === 0) {
+          console.log("No users or posts found, dispatching alert...");
+          dispatch({
+            type: GLOBALTYPES.ALERT,
+            payload: { err: "Không tìm thấy!" },
+          });
+        } else {
+          setUsers(result.users);
+          setPosts(result.posts);
+        }
+      });
+
+      setLoadData(false);
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { err: err.response?.statusText || "Đã xảy ra lỗi!" },
+      });
+      setLoadData(false);
+    }
   };
 
   return (
-    <form className="search_form" onSubmit={handleSearch}>
+    <form className="search_box" onSubmit={handleSearch}>
       <input
         type="text"
         name="search"
         value={search}
         id="search"
-        title="Enter to Search"
-        onChange={(e) =>
-          setSearch(e.target.value.toLowerCase().replace(/ /g, ""))
-        }
+        onChange={(e) => setSearch(e.target.value)}
       />
-      {users.length === 0 && (
-        <div className="search_icon" style={{ opacity: search ? 0 : 0.3 }}>
-          <span className="material-icons">search</span>
-          <span>search</span>
-        </div>
-      )}
-      {users.length > 0 && (
-        <div
-          className="close_search"
-          style={{ opacity: 1 }}
-          onClick={handleClose}
-        >
+      <div className="search_icon" style={{ opacity: search ? 0 : 0.5 }}>
+        <span className="material-icons">search</span>
+        <span>Tìm kiếm ...</span>
+      </div>
+      {!loadData && (
+        <div className="close_search" onClick={handleClose}>
           &times;
         </div>
       )}
-      <button
-        className="submit"
-        type="submit"
-        disabled={!search || load}
-        style={{
-          display: users.length === 0 ? "block" : "none",
-          opacity: search ? 1 : 1,
-        }}
-      >
-        <IoIosSearch />
-      </button>
+      {loadData && (
+        <div className="d-flex align-items-center loading_icon">
+          <div
+            className="spinner-border ms-auto"
+            role="status"
+            aria-hidden="true"
+          ></div>
+        </div>
+      )}
 
-      {load && <img className="loading" src={loadIcon} alt="loading" />}
-      <div className="users">
-        {search &&
-          users.map((user) => (
-            <UserCard
-              key={user._id}
-              user={user}
-              border="border"
-              handleClose={handleClose}
-            />
-          ))}
+      <button type="submit" style={{ display: "none" }}>
+        Tìm Kiếm
+      </button>
+      <div className="search_result">
+        <div className="users">
+          {search &&
+            users.map((user) => (
+              <UserCard
+                key={user._id}
+                user={user}
+                boder="boder"
+                handleClose={handleClose}
+              />
+            ))}
+        </div>
+        <div className="posts">
+          {search &&
+            posts.map((post) => (
+              <Link
+                to={`post/${post._id}`}
+                key={post._id}
+                style={{ textDecoration: "none", color: "#000" }}
+                onClick={() => handleClose()}
+              >
+                <div
+                  style={{
+                    padding: "10px",
+                    borderTop: "1px solid #ccc",
+                    fontSize: "0.9rem",
+                  }}
+                >
+                  {post.desc.slice(0, 70)} ...
+                </div>
+              </Link>
+            ))}
+        </div>
       </div>
     </form>
   );

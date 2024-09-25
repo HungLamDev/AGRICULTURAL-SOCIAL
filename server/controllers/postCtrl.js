@@ -69,5 +69,20 @@ const postCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  getPost: async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id)
+        .populate("user like", " -password")
+        .populate({
+          path: "comments",
+          populate: { path: "user likes", select: "-password" },
+        });
+      return res.status(200).json({
+        post,
+      });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 module.exports = postCtrl;
