@@ -51,8 +51,8 @@ const Menu = () => {
             <Avatar src={auth.user.avatar} theme={theme} size="medium-avatar" />
           </span>
           <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-            <Link className="dropdown-item" to={`/profile/${auth.user._id}`}>
-              Thông tin cá nhân
+            <Link className="dropdown-item" to={`/user/${auth.user._id}`}>
+              Trang cá nhân
             </Link>
             <label
               htmlFor="theme"

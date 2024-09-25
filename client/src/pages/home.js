@@ -3,13 +3,15 @@ import Status from "../components/home/Status";
 import Posts from "../components/home/Posts";
 import { useSelector } from "react-redux";
 import LoadIcon from "../images/loading.gif";
+import RightSideBar from "../components/RightSideBar";
 const Home = () => {
   const postHome = useSelector((state) => state.Homepost);
 
   return (
     <div className="home row mx-0">
-      <div className="col-md-8">
+      <div>
         <Status />
+        <RightSideBar />
         {postHome.loading ? (
           <img src={LoadIcon} alt="loading" className="d-block mx-auto" />
         ) : postHome.result === 0 && postHome.posts.length === 0 ? (
@@ -18,7 +20,6 @@ const Home = () => {
           <Posts />
         )}
       </div>
-      <div className="col-md-4">RightSideBar</div>
     </div>
   );
 };

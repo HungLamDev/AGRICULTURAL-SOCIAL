@@ -2,41 +2,48 @@ import { GLOBALTYPES, DeleteData } from "./globalTypes";
 import { getDataAPI, patchDataAPI } from "../../utils/fetchData";
 import { imageUpload } from "../../utils/imageUpload";
 export const PROFILE_TYPES = {
-  LOADING: "LOADING",
+  LOADING: "LOADING_USER",
   GET_USER: "GET_USER",
   FOLLOW: "FOLLOW",
   UNFOLLOW: "UNFOLLOW",
+  GET_ID: "GET_USER_ID",
+  GET_POSTS: "GET_USER_POSTS",
 };
 
 export const getProfileUsers =
   ({ users = [], id, auth }) =>
   async (dispatch) => {
+    dispatch({ type: PROFILE_TYPES.GET_ID, payload: id });
     if (!id) {
       return dispatch({
         type: GLOBALTYPES.ALERT,
         payload: { error: "User ID is required" },
       });
     }
-    if (!users || !users.find((user) => user._id === id)) {
-      try {
-        dispatch({ type: PROFILE_TYPES.LOADING, payload: true });
-        const res = await getDataAPI(`user/${id}`, auth.token);
-        console.log(res);
 
-        dispatch({
-          type: PROFILE_TYPES.GET_USER,
-          payload: { user: res.data.user },
-        });
+    try {
+      dispatch({ type: PROFILE_TYPES.LOADING, payload: true });
+      const res = await getDataAPI(`user/${id}`, auth.token);
+      const resPosts = await getDataAPI(`post/user_posts/${id}`, auth.token);
+      console.log({ res, resPosts });
 
-        dispatch({ type: PROFILE_TYPES.LOADING, payload: false });
-      } catch (err) {
-        dispatch({
-          type: GLOBALTYPES.ALERT,
-          payload: { error: err.response?.data?.msg || "An error occurred" },
-        });
-      }
+      dispatch({
+        type: PROFILE_TYPES.GET_USER,
+        payload: { user: res.data },
+      });
+      dispatch({
+        type: PROFILE_TYPES.GET_POSTS,
+        payload: { ...resPosts.data, _id: id, page: 2 },
+      });
+      dispatch({ type: PROFILE_TYPES.LOADING, payload: false });
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response?.data?.msg || "An error occurred" },
+      });
     }
   };
+
 export const updateUserProfile =
   ({ userData, avatar, auth }) =>
   async (dispatch) => {

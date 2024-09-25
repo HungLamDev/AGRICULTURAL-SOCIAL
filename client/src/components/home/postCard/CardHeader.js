@@ -74,7 +74,7 @@ const CardHeader = ({ post }) => {
         <div className="card_name m-2">
           <h6>
             <Link
-              to={`/user/${post.user._id}`}
+              to={`user/${post.user._id}`}
               className="text-dark"
               style={{ textDecoration: "none" }}
             >

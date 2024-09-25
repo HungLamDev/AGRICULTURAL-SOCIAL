@@ -5,7 +5,9 @@ const Carousel = ({ images, id }) => {
   const isActive = (index) => {
     if (index === 0) return "active";
   };
-  const { theme } = useSelector((state) => state);
+
+  const { theme } = useSelector((state) => state.theme);
+
   return (
     <div id={`image${id}`} className="carousel slide" data-bs-ride="carousel">
       <div className="carousel-indicators" style={{ zIndex: 1 }}>
@@ -27,14 +29,14 @@ const Carousel = ({ images, id }) => {
                 <video
                   controls
                   src={image.url}
-                  className="d-block w-100 ${theme ? 'dark-theme' : ''}"
+                  className={`d-block w-100 ${theme ? "dark-theme" : ""}`}
                   alt="video"
                   style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}
                 />
               ) : (
                 <img
                   src={image.url}
-                  className="d-block w-100 ${theme ? 'dark-theme' : ''}"
+                  className={`d-block w-100 ${theme ? "dark-theme" : ""}`}
                   alt="carousel"
                   style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}
                 />

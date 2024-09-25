@@ -1,3 +1,11 @@
+:root {
+  --light-color: #ffffff;
+  --dark-color: #000;
+  --light-green: #88c431;
+  --dark-green: #004225;
+  --main-color: #4bef76;
+--bg-color: #dff3c1;
+}
 * {
       padding: 0;
       box-sizing: border-box;
@@ -53,3 +61,5 @@
     @import url("./home.css");
      /*------------statusModal ---------------*/
      @import url("./statusModalStyle.css");
+    /*------------postThumbStyle ---------------*/
+    @import url("./postThumbStyle.css");
