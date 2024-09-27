@@ -11,15 +11,9 @@ export const PROFILE_TYPES = {
 };
 
 export const getProfileUsers =
-  ({ users = [], id, auth }) =>
+  ({ id, auth }) =>
   async (dispatch) => {
     dispatch({ type: PROFILE_TYPES.GET_ID, payload: id });
-    if (!id) {
-      return dispatch({
-        type: GLOBALTYPES.ALERT,
-        payload: { error: "User ID is required" },
-      });
-    }
 
     try {
       dispatch({ type: PROFILE_TYPES.LOADING, payload: true });
@@ -29,7 +23,7 @@ export const getProfileUsers =
 
       dispatch({
         type: PROFILE_TYPES.GET_USER,
-        payload: { user: res.data },
+        payload: { user: res.data.user },
       });
       dispatch({
         type: PROFILE_TYPES.GET_POSTS,

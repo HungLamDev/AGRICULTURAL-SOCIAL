@@ -10,7 +10,7 @@ const Search = () => {
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loadData, setLoadData] = useState(false);
-
+  const theme = useSelector((state) => state?.theme);
   const auth = useSelector((state) => state.auth?.token);
 
   const dispatch = useDispatch();
@@ -98,6 +98,7 @@ const Search = () => {
                 user={user}
                 boder="boder"
                 handleClose={handleClose}
+                theme={theme}
               />
             ))}
         </div>

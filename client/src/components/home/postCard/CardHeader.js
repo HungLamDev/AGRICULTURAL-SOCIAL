@@ -11,7 +11,7 @@ import moment from "moment";
 
 const CardHeader = ({ post }) => {
   const auth = useSelector((state) => state.auth);
-  const { theme } = useSelector((state) => state);
+  const theme = useSelector((state) => state.theme);
 
   // const socket = useSelector((state) => state.socket);
 

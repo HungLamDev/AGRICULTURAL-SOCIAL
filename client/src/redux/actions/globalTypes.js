@@ -2,7 +2,7 @@ export const GLOBALTYPES = {
   AUTH: "AUTH",
   ALERT: "ALERT",
   THEME: "THEME",
-  MODE: "MODE",
+  MODAl: "MODAL",
   STATUS: "STATUS",
   SOCKET: "SOCKET",
   ONLINE: "ONLINE",

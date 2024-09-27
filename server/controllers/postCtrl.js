@@ -28,7 +28,12 @@ const postCtrl = {
       const followingUsers = [...req.user.following, req.user._id];
       const posts = await Post.find({
         user: { $in: followingUsers },
-      }).populate("user like", "fullname username avatar ");
+      })
+        .populate("user like", "fullname username avatar ")
+        .populate({
+          path: "comments",
+          populate: { path: "user likes", select: "-password" },
+        });
       return res.status(200).json({
         msg: "Lấy bài viết thành công!",
         result: posts.length,

@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-const PostThumb = ({ posts, result }) => {
+const PostThumb = ({ posts, result, theme }) => {
   if (result === 0) return <h5>Chưa có bài viết !</h5>;
 
   return (
@@ -17,9 +16,18 @@ const PostThumb = ({ posts, result }) => {
             post.img.length > 0 &&
             post.img[0]?.url ? (
               post.img[0].url.includes("video") ? (
-                <video controls src={post.img[0].url} alt={post.img[0].url} />
+                <video
+                  controls
+                  src={post.img[0].url}
+                  alt={post.img[0].url}
+                  style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}
+                />
               ) : (
-                <img src={post.img[0].url} alt={post.img[0].url} />
+                <img
+                  src={post.img[0].url}
+                  alt={post.img[0].url}
+                  style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}
+                />
               )
             ) : (
               <div className="p-4">{post.desc}</div>

@@ -3,8 +3,8 @@ import CardBody from "./home/postCard/CardBody";
 import CardFooter from "./home/postCard/CardFooter";
 import CardHeader from "./home/postCard/CardHeader";
 
-// import CommentInput from "./home/CommentInput";
-// import Comments from "./home/Comments";
+import CommentInput from "./home/CommentIput";
+import Comments from "./home/Comments";
 
 const PostCard = ({ post }) => {
   return (
@@ -13,8 +13,8 @@ const PostCard = ({ post }) => {
       <CardBody post={post} />
       <CardFooter post={post} />
 
-      {/* <Comments post={post} /> */}
-      {/* <CommentInput post={post}/> */}
+      <Comments post={post} />
+      <CommentInput post={post} />
     </div>
   );
 };

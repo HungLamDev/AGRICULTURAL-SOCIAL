@@ -3,8 +3,8 @@ import Carousel from "../../Carousel";
 import { useSelector } from "react-redux";
 
 const CardBody = ({ post }) => {
-  const theme = useSelector((state) => state.auth.theme);
-  console.log({ theme });
+  const theme = useSelector((state) => state.theme);
+
   const [readMore, setReadMore] = useState(false);
 
   return (

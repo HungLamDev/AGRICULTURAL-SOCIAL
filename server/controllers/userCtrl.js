@@ -28,7 +28,6 @@ const userCtrl = {
         .select("-password")
         .populate("followers", "username fullname avatar")
         .populate("following", "username fullname avatar");
-
       if (!user) return res.status(400).json({ msg: "User not found" });
 
       res.json({ user });

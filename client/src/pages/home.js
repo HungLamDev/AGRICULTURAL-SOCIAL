@@ -3,7 +3,7 @@ import Status from "../components/home/Status";
 import Posts from "../components/home/Posts";
 import { useSelector } from "react-redux";
 import LoadIcon from "../images/loading.gif";
-import RightSideBar from "../components/RightSideBar";
+import RightSideBar from "../components/home/RightSideBar";
 const Home = () => {
   const postHome = useSelector((state) => state.Homepost);
 
