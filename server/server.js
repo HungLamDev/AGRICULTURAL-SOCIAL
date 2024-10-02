@@ -15,11 +15,12 @@ app.use("/api", require("./routes/postRouter"));
 app.use("/api", require("./routes/authRouter"));
 app.use("/api", require("./routes/userRouter"));
 app.use("/api", require("./routes/searchRoute"));
+app.use("/api", require("./routes/commentRoute"));
 
 mongoose.set("strictQuery", false);
 const mongoOptions = {
-  useNewUrlParser: true, // Cập nhật để sử dụng trình phân tích URL mới
-  useUnifiedTopology: true, // Cập nhật để sử dụng động cơ phát hiện và giám sát mới
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 };
 
 mongoose

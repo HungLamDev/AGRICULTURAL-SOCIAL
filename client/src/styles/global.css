@@ -63,3 +63,9 @@
      @import url("./statusModalStyle.css");
     /*------------postThumbStyle ---------------*/
     @import url("./postThumbStyle.css");
+       /*------------commentsStyle---------------*/
+     @import url("./commentsStyle.css");
+       /*------------newsStyle---------------*/
+     @import url("./newsStyle.css");
+
+    

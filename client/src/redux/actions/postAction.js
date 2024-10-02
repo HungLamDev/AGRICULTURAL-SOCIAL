@@ -5,6 +5,7 @@ import {
   getDataAPI,
   patchDataAPI,
   putDataAPI,
+  deleteDataAPI,
 } from "../../utils/fetchData";
 
 export const POSTTYPES = {
@@ -185,6 +186,44 @@ export const unlikePost =
         payload: {
           err: err.response ? err.response.data.msg : "Lỗi khi lấy bài viết",
         },
+      });
+    }
+  };
+export const getNewsPosts = (token) => async (dispatch) => {
+  try {
+    dispatch({ type: POSTTYPES.LOADING_NEWS_POST, payload: true });
+
+    const res = await getDataAPI("post/news/result", token);
+    dispatch({
+      type: POSTTYPES.NEWS_POST,
+      payload: { ...res.data },
+    });
+    dispatch({ type: POSTTYPES.LOADING_NEWS_POST, payload: false });
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: { err: err.response.data.msg },
+    });
+  }
+};
+export const deletePost =
+  ({ post, auth }) =>
+  async (dispatch) => {
+    dispatch({ type: POSTTYPES.DELETE_POST, payload: post });
+    try {
+      const res = await deleteDataAPI(`post/${post._id}`, auth.token);
+
+      const msg = {
+        id: post._id,
+        text: "Xóa bài viết !",
+        recipients: res.data.newPost.user.followers,
+        url: `post/${post._id}`,
+      };
+      return msg;
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { err: err.response.data.msg },
       });
     }
   };

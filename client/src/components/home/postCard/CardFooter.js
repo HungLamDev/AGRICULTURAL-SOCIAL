@@ -6,7 +6,7 @@ import { BASE_URL } from "../../../utils/config";
 import { useSelector, useDispatch } from "react-redux";
 import { likePost, unlikePost } from "../../../redux/actions/postAction";
 const CardFooter = ({ post }) => {
-  const { auth } = useSelector((state) => state);
+  const auth = useSelector((state) => state.auth);
   const [isLike, setIsLike] = useState(false);
   const [loadLike, setLoadLike] = useState(false);
   const [isShare, setIsShare] = useState(false);

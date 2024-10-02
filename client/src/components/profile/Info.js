@@ -8,10 +8,13 @@ import Followers from "./Followers";
 import Following from "./Following";
 import { getProfileUsers } from "../../redux/actions/profileAction";
 
+import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+
 const Info = () => {
   const { id } = useParams();
   const auth = useSelector((state) => state.auth);
   const profile = useSelector((state) => state.profile);
+  const theme = useSelector((state) => state.theme);
 
   const dispatch = useDispatch();
 
@@ -24,19 +27,29 @@ const Info = () => {
     if (id === auth.user._id) {
       setUserData([auth.user]);
     } else {
-      const newData = profile.users.filter((user) => user._id === id);
+      const newData = profile.users.filter(
+        (user) => user._id && user._id.toString() === id.toString()
+      );
+      console.log("ID for comparison:", id);
+      console.log({ newData });
       setUserData(newData);
     }
   }, [auth, dispatch, id, profile.users]);
-
+  useEffect(() => {
+    if (showFollowers || showFollowing || onEdit) {
+      dispatch({ type: GLOBALTYPES.MODAl, payload: true });
+    } else {
+      dispatch({ type: GLOBALTYPES.MODAl, payload: false });
+    }
+  }, [showFollowers, showFollowing, onEdit, dispatch]);
   return (
     <div className="info">
       {userData.map((user) => (
         <div className="info-container" key={user._id}>
-          <Avatar src={user.avatar} size="supper-avatar" />
+          <Avatar src={user.avatar} size="supper-avatar" theme={theme} />
           <div className="info_content">
             <div className="info_content_title title-content">
-              <h2>{user.username}</h2>
+              <h2 style={{ fontWeight: "bold" }}>{user.username}</h2>
               {user._id === auth.user._id ? (
                 <button
                   className="btn btn-outline-info"

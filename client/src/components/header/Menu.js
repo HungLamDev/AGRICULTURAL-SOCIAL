@@ -7,10 +7,10 @@ import Avatar from "../Avatar";
 
 const Menu = () => {
   const navLink = [
+    { label: "Nổi bật", icon: "feed", path: "/news" },
     { label: "Trang chủ", icon: "home", path: "/home" },
-    { label: "Tin nhắn", icon: "near_me", path: "/message" },
-    { label: "Thảo luận", icon: "explore", path: "/discover" },
-    { label: "Yêu thích", icon: "favorite", path: "/notify" },
+    { label: "Chợ", icon: "shopping_bag", path: "/market" },
+    { label: "Tin nhắn", icon: "send", path: "/message" },
   ];
   const auth = useSelector((state) => state.auth);
   const theme = useSelector((state) => state.theme);
