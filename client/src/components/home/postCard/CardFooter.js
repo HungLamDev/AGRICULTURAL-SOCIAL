@@ -12,6 +12,7 @@ const CardFooter = ({ post }) => {
   const [isShare, setIsShare] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saveLoad, setSaveLoad] = useState(false);
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (post.like.find((lk) => lk._id === auth.user._id)) {

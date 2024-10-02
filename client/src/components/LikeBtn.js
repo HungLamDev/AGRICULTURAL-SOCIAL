@@ -1,17 +1,20 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const LikeBtn = ({ isLike, handleLike, handleUnLike }) => {
+  const { theme } = useSelector((state) => state);
   return (
     <>
       {isLike ? (
         <span
-          className="material-symbols-outlined text-danger p-2"
+          className="material-symbols-outlined text-danger"
+          style={{ filter: theme ? "invert(1)" : "invert(0)" }}
           onClick={handleUnLike}
         >
           favorite
         </span>
       ) : (
-        <span className="material-symbols-outlined p-2" onClick={handleLike}>
+        <span className="material-symbols-outlined" onClick={handleLike}>
           favorite
         </span>
       )}
