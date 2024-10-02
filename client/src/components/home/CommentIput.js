@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createComment } from "../../redux/actions/commentAction";
+import Icons from "../Icons";
 const CommentIput = ({ children, post, onReply, setOnReply }) => {
   const [content, setContent] = useState("");
   const auth = useSelector((state) => state.auth);
@@ -19,7 +20,7 @@ const CommentIput = ({ children, post, onReply, setOnReply }) => {
       reply: onReply && onReply.commentId,
       tag: onReply && onReply.user,
     };
-
+    console.log({ newComment });
     dispatch(createComment({ post, newComment, auth }));
   };
   const dispatch = useDispatch();
@@ -33,9 +34,22 @@ const CommentIput = ({ children, post, onReply, setOnReply }) => {
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
+
       <button type="submit" className="commentBtn">
         Bình luận
       </button>
+      <Icons
+        setContent={setContent}
+        content={content}
+        style={{
+          border: "none",
+          outline: "none",
+          background: "var(--bg-color)",
+          fontWeight: 600,
+          color: "var(--dark-screen)",
+          padding: "10px",
+        }}
+      />
     </form>
   );
 };

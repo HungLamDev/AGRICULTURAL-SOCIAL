@@ -32,8 +32,61 @@
     background: #eee;
     padding: 10px;
     border-radius: 10px;
+    align-items: center;
 }
 .comment_card .comment_content   .readMode {
     cursor: pointer;
     color: #9b9b9b;
+}
+.comment_card .comment_content textarea{
+    width: 100%;
+    border: none;
+    outline: none;
+}
+.comment_card .comment_content .nav-item{
+    cursor: pointer;
+    opacity: 0;
+}
+.comment_card .comment_content:hover .nav-item{
+    opacity: 1;
+}
+.comment_card .comment_content .dropdown-menu{
+    position: absolute;
+    right: 0;
+    left: inherit;
+}
+.comment_card .comment_content .dropdown-item{
+    display: flex;
+    margin: 10px 0;
+}
+@media (max-width: 430px) {
+    .comment_input {
+        margin: 6px 4px;
+        padding: 6px;
+    }
+
+    .comment_input input {
+        
+        padding: 6px;
+        font-size: 14px;
+    }
+
+    .comment_input .commentBtn {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+
+    .comment_display {
+        padding: 6px 10px;
+    }
+
+    .comment_card .comment_content {
+        padding: 8px;
+      
+    }
+
+    .comment_card .comment_content textarea {
+        padding: 6px;
+        font-size: 14px;
+    }
 }

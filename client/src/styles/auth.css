@@ -13,7 +13,11 @@
       max-width: 400px;
       width: 100%;
       border: 1px solid #ddd;
-      padding: 50px 50px;
+      padding: 0 25px 25px 25px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       
 }
 .auth_page form .pass{
@@ -29,3 +33,29 @@
       opacity: 0.5;
       
 }
+.auth_page form .logo_login {
+      max-width: 350px;
+  }
+.auth_page .login_btn {
+      width: 100%;
+      margin-top: 10px;
+      padding: 5px;
+      background: var(--bg-color);
+      border: 1px solid var(--light-green);
+      border-radius: 10px;
+  }
+.row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px; /* Adjust spacing */
+    }
+    
+.row label {
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+
+    }
+label input[type="radio"] {
+      margin-left: 5px; 
+    }   

@@ -1,17 +1,22 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { deleteComment } from "../../../redux/actions/commentAction";
 const CommentMenu = ({ post, comment, setOnEdit }) => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const handleRemove = () => {};
+  const handleRemove = () => {
+    if (post.user._id === auth.user._id || comment.user._id === auth.user._id) {
+      dispatch(deleteComment({ post, auth, comment }));
+    }
+  };
   const MenuItem = () => {
     return (
       <>
         <div className="dropdown-item" onClick={() => setOnEdit(true)}>
-          <span className="material-symbols-outlined">edit</span>
+          <span className="material-symbols-outlined ">edit</span>
           Chỉnh sửa
         </div>
-        <div className="dropdown-item" onClick={handleRemove}>
+        <div className="dropdown-item " onClick={handleRemove}>
           <span className="material-symbols-outlined">delete</span>
           Xóa
         </div>
