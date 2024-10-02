@@ -53,7 +53,7 @@ const Register = () => {
             value={fullname}
             style={{ background: `${alert.fullname ? "#DDDDDD" : ""}` }}
           />
-          <small className="form-text text-bg-danger">
+          <small className=" text-danger">
             {alert.fullname ? alert.fullname : ""}
           </small>
         </div>
@@ -69,7 +69,7 @@ const Register = () => {
             value={username.toLowerCase().replace(/ /g, "")}
             style={{ background: `${alert.username ? "#DDDDDD" : ""}` }}
           />
-          <small className="form-text text-bg-danger">
+          <small className=" text-danger">
             {alert.username ? alert.username : ""}
           </small>
         </div>
@@ -86,7 +86,7 @@ const Register = () => {
             value={email}
             style={{ background: `${alert.email ? "#DDDDDD" : ""}` }}
           />
-          <small className="form-text text-bg-danger">
+          <small className=" text-danger">
             {alert.email ? alert.email : ""}
           </small>
         </div>
@@ -107,7 +107,7 @@ const Register = () => {
               {typePass ? <FaRegEyeSlash /> : <FaRegEye />}
             </small>
           </div>
-          <small className="form-text text-bg-danger text-100">
+          <small className=" text-danger ">
             {alert.password ? alert.password : ""}
           </small>
         </div>
