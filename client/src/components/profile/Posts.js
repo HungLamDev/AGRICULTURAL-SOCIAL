@@ -3,7 +3,7 @@ import PostThumb from "./PostThumb";
 import { useSelector } from "react-redux";
 const Post = ({ auth, id, dispatch, profile }) => {
   const [posts, setPosts] = useState([]);
-  const [result, setResult] = useState(9);
+  const [result, setResult] = useState(4);
   const theme = useSelector((state) => state.theme);
   useEffect(() => {
     const foundData = profile.posts.find((data) => data._id === id);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FollowBtn from "../profile/FollowBtn";
 import { getSuggestions } from "../../redux/actions/suggestionAction";
