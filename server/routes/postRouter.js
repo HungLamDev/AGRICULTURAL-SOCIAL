@@ -16,4 +16,7 @@ router.get("/post/getSavePosts/result", auth, postCtrl.getSavePosts);
 router.get("/post/news/result", auth, postCtrl.getNewsPost);
 
 router.delete("/post/:id", auth, postCtrl.deletePost);
+
+router.put("/post/savePost/:id", auth, postCtrl.savePost);
+router.put("/post/unSavePost/:id", auth, postCtrl.unSavePost);
 module.exports = router;

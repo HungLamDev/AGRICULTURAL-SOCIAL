@@ -5,6 +5,7 @@ import { getNewsPosts } from "../../redux/actions/postAction";
 import moment from "moment";
 import NewsCard from "../../components/home/newsCard";
 import FollowBtn from "../../components/profile/FollowBtn";
+import UserCardVertical from "../../components/UserCardVertical";
 
 const Index = () => {
   const auth = useSelector((state) => state.auth);
@@ -26,7 +27,6 @@ const Index = () => {
   useEffect(() => {
     if (newsPost) {
       const postCp = [...newsPost.posts];
-      console.log({ postCp });
       const userPosts = postCp.filter(
         (post) => post.user && post.user.role === "user"
       );
@@ -48,41 +48,41 @@ const Index = () => {
       <div className="news_times">{currentTime.format("YYYY-MM-DD HH:mm")}</div>
       <div>
         <h5 className="title_post">Chuyên gia đầu nghành</h5>
-        {/* <div
+        <div
           className="suggestions d-flex justify-content-center"
           style={{ overflow: "auto" }}
         >
           {suggestions.users
-            .filter((item) => item.roles === "user")
+            .filter((item) => item && item.role === "expert")
             .map((user) => (
-              //     <UserCardVertical key={user._id} user={user}>
-              <FollowBtn user={user} />
-              //     </UserCardVertical>
+              <UserCardVertical key={user._id} user={user}>
+                <FollowBtn user={user} />
+              </UserCardVertical>
             ))}
-        </div> */}
+        </div>
       </div>
       <div className="expert_post">
         <h5 className="title_post">Bài viết từ chuyên gia</h5>
-        {/* {newsPost.posts
-          .filter((post) => post.user.role === "user")
+        {newsPost.posts
+          .filter((post) => post.user && post.user.role === "expert")
           .map((post, index) => (
             <NewsCard key={post._id} posts={post} />
-          ))} */}
+          ))}
       </div>
       <div>
         <h5 className="title_post">Người dùng hàng đầu</h5>
-        {/* <div
+        <div
           className="suggestions d-flex justify-content-center"
           style={{ overflow: "auto" }}
         >
           {suggestions.users
-            .filter((item) => item.roles === "user")
+            .filter((item) => item && item.role === "expert")
             .map((user) => (
-              //     <UserCardVertical key={user._id} user={user}>
-              <FollowBtn user={user} />
-              //     </UserCardVertical>
+              <UserCardVertical key={user._id} user={user}>
+                <FollowBtn user={user} />
+              </UserCardVertical>
             ))}
-        </div> */}
+        </div>
       </div>
       <div className="user_post">
         <h5 className="title_post">Nổi bật từ người dùng</h5>

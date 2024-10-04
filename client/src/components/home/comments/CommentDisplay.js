@@ -3,7 +3,6 @@ import CommentCard from "./CommentCard";
 const CommentDisplay = ({ comment, post, replyCmt }) => {
   const [showRep, setShowRep] = useState([]);
   const [next, setNext] = useState(1);
-  console.log({ replyCmt });
   useEffect(() => {
     setShowRep(replyCmt.slice(replyCmt.length - next));
   }, [replyCmt, next]);

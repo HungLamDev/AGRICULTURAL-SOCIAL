@@ -23,7 +23,6 @@ export const createPost =
   ({ content, hashtag, images, auth }) =>
   async (dispatch) => {
     let media = [];
-
     try {
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
       if (images.length > 0) media = await imageUpload(images);
@@ -162,6 +161,7 @@ export const likePost =
 export const unlikePost =
   ({ post, auth }) =>
   async (dispatch) => {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     const newPost = {
       ...post,
       like: post.like.filter((lk) => lk._id !== auth.user._id),
@@ -220,6 +220,52 @@ export const deletePost =
         url: `post/${post._id}`,
       };
       return msg;
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { err: err.response.data.msg },
+      });
+    }
+  };
+
+export const savePost =
+  ({ post, auth }) =>
+  async (dispatch) => {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+    const savedPosts = Array.isArray(auth.user.save) ? auth.user.save : [];
+    const newUser = { ...auth.user, saved: [...savedPosts, post._id] };
+    dispatch({ type: GLOBALTYPES.AUTH, payload: { ...auth, user: newUser } });
+    try {
+      await putDataAPI(`post/savePost/${post._id}`, null, auth.token);
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { success: "Bạn vừa lưu bài viết này!" },
+      });
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { err: err.response.data.msg },
+      });
+    }
+  };
+
+export const unSavePost =
+  ({ post, auth }) =>
+  async (dispatch) => {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+
+    const newUser = {
+      ...auth.user,
+      saved: auth.user.saved.filter((id) => id !== post._id),
+    };
+    dispatch({ type: GLOBALTYPES.AUTH, payload: { ...auth, user: newUser } });
+
+    try {
+      await putDataAPI(`post/unSavePost/${post._id}`, null, auth.token);
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { success: "Bạn vừa bỏ lưu bài viết này!" },
+      });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,

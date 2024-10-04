@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const LikeBtn = ({ isLike, handleLike, handleUnLike }) => {
-  const { theme } = useSelector((state) => state);
+  const theme = useSelector((state) => state.theme);
   return (
     <>
       {isLike ? (

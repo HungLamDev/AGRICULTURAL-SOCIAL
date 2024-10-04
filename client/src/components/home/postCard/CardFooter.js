@@ -4,7 +4,12 @@ import ShareModal from "../../ShareModal";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../../../utils/config";
 import { useSelector, useDispatch } from "react-redux";
-import { likePost, unlikePost } from "../../../redux/actions/postAction";
+import {
+  likePost,
+  unlikePost,
+  savePost,
+  unSavePost,
+} from "../../../redux/actions/postAction";
 const CardFooter = ({ post }) => {
   const auth = useSelector((state) => state.auth);
   const [isLike, setIsLike] = useState(false);
@@ -21,6 +26,13 @@ const CardFooter = ({ post }) => {
       setIsLike(false);
     }
   }, [auth.user._id, post.like]);
+  useEffect(() => {
+    if (auth.user.saved.find((id) => id === post._id)) {
+      setSaved(true);
+    } else {
+      setSaved(false);
+    }
+  }, [auth.user.saved, post._id]);
 
   const handleLike = async () => {
     if (loadLike) return;
@@ -36,6 +48,19 @@ const CardFooter = ({ post }) => {
     await dispatch(unlikePost({ post, auth }));
     setLoadLike(false);
   };
+  const handleSavePost = async () => {
+    if (saveLoad) return;
+    setSaveLoad(true);
+    await dispatch(savePost({ post, auth }));
+    setSaveLoad(false);
+  };
+  const handleUnSavePost = async () => {
+    if (saveLoad) return;
+    setSaveLoad(true);
+    await dispatch(unSavePost({ post, auth }));
+    setSaveLoad(false);
+  };
+
   return (
     <div className="card_footer">
       <div className="card_icon_menu">
@@ -58,13 +83,14 @@ const CardFooter = ({ post }) => {
         {saved ? (
           <span
             className="material-symbols-outlined text-success"
-            // onClick={handleUnSavePost}
+            onClick={handleUnSavePost}
           >
             bookmark
           </span>
         ) : (
-          // onClick={handleSavePost}
-          <span className="material-symbols-outlined">bookmark</span>
+          <span className="material-symbols-outlined" onClick={handleSavePost}>
+            bookmark
+          </span>
         )}
       </div>
       <div className="d-flex justify-content-between">

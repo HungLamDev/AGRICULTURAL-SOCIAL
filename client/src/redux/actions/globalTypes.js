@@ -10,10 +10,13 @@ export const GLOBALTYPES = {
 };
 
 export const EditData = (data, id, post) => {
+  if (!Array.isArray(data)) {
+    console.error("data không phải là một mảng:", data);
+    return [];
+  }
   const newData = data.map((item) => (item._id === id ? post : item));
   return newData;
 };
-
 export const DeleteData = (data, id) => {
   const newData = data.filter((item) => item._id !== id);
   return newData;
