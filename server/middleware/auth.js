@@ -7,7 +7,9 @@ const auth = async (req, res, next) => {
     const authHeader = req.headers["authorization"];
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(400).json({ msg: "Invalid Authentication." });
+      return res
+        .status(400)
+        .json({ msg: "Invalid Authentication header format." });
     }
 
     const token = authHeader.split(" ")[1];
@@ -17,13 +19,13 @@ const auth = async (req, res, next) => {
       return res.status(400).json({ msg: "Invalid User ID format." });
     }
 
-    const user = await Users.findOne({ _id: decoded.id });
-    if (!user) return res.status(400).json({ msg: "User does not exist." });
+    const user = await Users.findById(decoded.id);
+    if (!user) return res.status(404).json({ msg: "User not found." });
     req.user = user;
     next();
   } catch (err) {
     console.error("Error in auth middleware:", err);
-    return res.status(500).json({ msg: err.message });
+    return res.status(500).json({ msg: "Internal Server Error." });
   }
 };
 

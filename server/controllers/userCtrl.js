@@ -26,8 +26,8 @@ const userCtrl = {
 
       const user = await Users.findById(id)
         .select("-password")
-        .populate("followers", "username fullname avatar")
-        .populate("following", "username fullname avatar");
+        .populate("followers", "-password")
+        .populate("following", "-password");
       if (!user) return res.status(400).json({ msg: "User not found" });
 
       res.json({ user });

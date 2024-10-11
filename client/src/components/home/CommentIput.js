@@ -5,6 +5,8 @@ import Icons from "../Icons";
 const CommentIput = ({ children, post, onReply, setOnReply }) => {
   const [content, setContent] = useState("");
   const auth = useSelector((state) => state.auth);
+  const socket = useSelector((state) => state.socket);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!content.trim()) {
@@ -21,7 +23,7 @@ const CommentIput = ({ children, post, onReply, setOnReply }) => {
       tag: onReply && onReply.user,
     };
     console.log({ newComment });
-    dispatch(createComment({ post, newComment, auth }));
+    dispatch(createComment({ post, newComment, auth, socket }));
   };
   const dispatch = useDispatch();
 

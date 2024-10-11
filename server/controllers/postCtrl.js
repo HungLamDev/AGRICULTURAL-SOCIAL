@@ -39,9 +39,8 @@ const postCtrl = {
   },
   getPosts: async (req, res) => {
     try {
-      const followingUsers = [...req.user.following, req.user._id];
       const posts = await Post.find({
-        user: { $in: followingUsers },
+        user: [...req.user.followers, req.user._id],
       })
         .sort("-createdAt")
         .populate("user like", "fullname username avatar ")
@@ -89,11 +88,12 @@ const postCtrl = {
           img,
           hashtag,
         }
-      ).populate("user like", "avatar username followers");
-      // .populate({
-      //   path: "comments",
-      //   populate: { path: "user likes", select: "-password" },
-      // });
+      )
+        .populate("user like", "-password")
+        .populate({
+          path: "comments",
+          populate: { path: "user likes", select: "-password" },
+        });
       return res.status(200).json({
         msg: "Cập nhật bài viết thành công !",
         newPost: {
@@ -110,11 +110,12 @@ const postCtrl = {
   getPost: async (req, res) => {
     try {
       const post = await Post.findById(req.params.id)
-        .populate("user like", " -password")
+        .populate("user like", "-password")
         .populate({
           path: "comments",
           populate: { path: "user likes", select: "-password" },
         });
+
       return res.status(200).json({
         post,
       });
@@ -125,8 +126,6 @@ const postCtrl = {
   likePost: async (req, res) => {
     try {
       const post = await Post.find({ _id: req.params.id, like: req.user._id });
-      console.log("Post ID:", req.params.id);
-      console.log("User ID:", req.user._id);
       if (post.length > 0)
         return res.status(403).json({ msg: "Bạn đã thích bài viết nảy rồi !" });
       const updatedPost = await Post.findOneAndUpdate(

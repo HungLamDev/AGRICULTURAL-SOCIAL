@@ -9,6 +9,7 @@ import detailPost from "./detailPostReducer";
 import mode from "./modeReducer";
 import newsPost from "./newsPostReducer";
 import suggestions from "./suggestionReducer";
+import socket from "./socketRenducer";
 
 export default combineReducers({
   auth,
@@ -21,4 +22,5 @@ export default combineReducers({
   mode,
   newsPost,
   suggestions,
+  socket,
 });

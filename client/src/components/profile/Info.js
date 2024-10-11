@@ -27,9 +27,7 @@ const Info = () => {
     if (id === auth.user._id) {
       setUserData([auth.user]);
     } else {
-      const newData = profile.users.filter(
-        (user) => user._id && user._id.toString() === id.toString()
-      );
+      const newData = profile.users.filter((user) => user._id === id);
       console.log("ID for comparison:", id);
       console.log({ newData });
       setUserData(newData);
