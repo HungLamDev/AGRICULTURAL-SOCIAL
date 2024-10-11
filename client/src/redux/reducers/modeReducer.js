@@ -1,5 +1,5 @@
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-const initialState = false;
+const initialState = {};
 
 const modeReducer = (state = initialState, action) => {
   switch (action.type) {

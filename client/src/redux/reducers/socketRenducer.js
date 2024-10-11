@@ -1,11 +1,12 @@
 import { GLOBALTYPES } from "../actions/globalTypes";
-const statusReducer = (state = false, action) => {
-  switch (action.type) {
-    case GLOBALTYPES.STATUS:
-      return action.payload;
 
+const socketReducer = (state = [], action) => {
+  switch (action.type) {
+    case GLOBALTYPES.SOCKET:
+      return action.payload;
     default:
       return state;
   }
 };
-export default statusReducer;
+
+export default socketReducer;

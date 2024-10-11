@@ -118,7 +118,6 @@ export const getPost =
     if (detailPost.every((post) => post._id !== id)) {
       try {
         const res = await getDataAPI(`post/${id}`, auth.token);
-        console.log(res.data);
         dispatch({ type: POSTTYPES.GET_POST, payload: res.data.post });
       } catch (err) {
         dispatch({
@@ -131,10 +130,19 @@ export const getPost =
     }
   };
 export const likePost =
-  ({ post, auth }) =>
+  ({ post, auth, socket }) =>
   async (dispatch) => {
-    const newPost = { ...post, like: [...(post.like || []), auth.user] };
+    const userWithFollowers = {
+      ...auth.user,
+      followers: auth.user.followers || [],
+    };
+    const newPost = {
+      ...post,
+      user: userWithFollowers,
+      like: [...post.like, auth.user],
+    };
     dispatch({ type: POSTTYPES.UPDATE_POST, payload: newPost });
+    socket.emit("likePost", newPost);
     try {
       await putDataAPI(`post/${post._id}/like`, null, auth.token);
       dispatch({
@@ -159,14 +167,23 @@ export const likePost =
     }
   };
 export const unlikePost =
-  ({ post, auth }) =>
+  ({ post, auth, socket }) =>
   async (dispatch) => {
+    const userWithFollowers = {
+      ...auth.user,
+      followers: auth.user.followers || [],
+    };
+    console.log(userWithFollowers);
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     const newPost = {
       ...post,
+      user: userWithFollowers,
       like: post.like.filter((lk) => lk._id !== auth.user._id),
     };
+    console.log("newPost", newPost);
+
     dispatch({ type: POSTTYPES.UPDATE_POST, payload: newPost });
+    socket.emit("unlikePost", newPost);
     try {
       await putDataAPI(`post/${post._id}/unlike`, null, auth.token);
       dispatch({
