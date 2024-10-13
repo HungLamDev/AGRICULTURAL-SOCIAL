@@ -10,6 +10,7 @@ import mode from "./modeReducer";
 import newsPost from "./newsPostReducer";
 import suggestions from "./suggestionReducer";
 import socket from "./socketRenducer";
+import notifyUser from "./notifyUserReducer";
 
 export default combineReducers({
   auth,
@@ -23,4 +24,5 @@ export default combineReducers({
   newsPost,
   suggestions,
   socket,
+  notifyUser,
 });

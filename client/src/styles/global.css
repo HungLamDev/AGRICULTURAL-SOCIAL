@@ -68,5 +68,7 @@
      @import url("./commentsStyle.css");
        /*------------newsStyle---------------*/
      @import url("./newsStyle.css");
+  /*------------notificationsStyle---------------*/
+  @import url("./notificationsStyle.css");
 
     

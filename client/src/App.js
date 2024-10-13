@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { refrechToken } from "./redux/actions/authAction";
 import { getPosts } from "./redux/actions/postAction";
 import { getSuggestions } from "./redux/actions/suggestionAction";
+import { getNotifies } from "./redux/actions/notifyAction";
+
 import io from "socket.io-client";
 import SocketClient from "./SocketClient";
 
@@ -38,6 +40,7 @@ function App() {
     if (auth.token) {
       dispatch(getPosts(auth.token));
       dispatch(getSuggestions(auth.token));
+      dispatch(getNotifies(auth.token));
     }
   }, [dispatch, auth.token]);
   return (

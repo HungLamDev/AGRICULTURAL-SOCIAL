@@ -10,6 +10,7 @@ const StatusModal = () => {
   const auth = useSelector((state) => state.auth);
   const theme = useSelector((state) => state.theme);
   const status = useSelector((state) => state.status);
+  const socket = useSelector((state) => state.socket);
 
   const dispatch = useDispatch();
   const [content, setContent] = useState("");
@@ -48,9 +49,9 @@ const StatusModal = () => {
         payload: { error: "Vui lòng chọn ảnh hoặc video! " },
       });
     if (status.onEdit) {
-      dispatch(updatePost({ content, hashtag, images, auth, status }));
+      dispatch(updatePost({ content, hashtag, images, auth, status, socket }));
     } else {
-      dispatch(createPost({ content, hashtag, images, auth }));
+      dispatch(createPost({ content, hashtag, images, auth, socket }));
     }
   };
   useEffect(() => {
