@@ -88,6 +88,7 @@ const SocketServer = (socket) => {
       });
     }
   });
+  //follow
   socket.on("follow", (newUser) => {
     const user = users.find((user) => user.id === newUser._id);
     console.log("follow user", user);
@@ -97,6 +98,22 @@ const SocketServer = (socket) => {
     const user = users.find((user) => user.id === newUser._id);
     console.log("unfollow user", user);
     user && socket.to(`${user.socketId}`).emit("unfollowToClient", newUser);
+  });
+  //notify
+  socket.on("createNotify", (msg) => {
+    console.log(msg);
+    const client = users.find((user) => msg.recipients.includes(user.id));
+    console.log(client);
+
+    client && socket.to(`${client.socketId}`).emit("createNotifyToClient", msg);
+  });
+
+  socket.on("removeNotify", (msg) => {
+    console.log("remove", msg);
+    const client = users.find((user) => msg.recipients.includes(user.id));
+    console.log("remove client", msg);
+
+    client && socket.to(`${client.socketId}`).emit("removeNotifyToClient", msg);
   });
 };
 

@@ -7,6 +7,7 @@ import {
   putDataAPI,
   deleteDataAPI,
 } from "../../utils/fetchData";
+import { createNotify, removeNotify } from "./notifyAction";
 
 export const POSTTYPES = {
   CREATE_POST: "CREATE_POST",
@@ -20,7 +21,7 @@ export const POSTTYPES = {
   NEWS_POST: "NEWS_POST",
 };
 export const createPost =
-  ({ content, hashtag, images, auth }) =>
+  ({ content, hashtag, images, auth, socket }) =>
   async (dispatch) => {
     let media = [];
     try {
@@ -32,7 +33,6 @@ export const createPost =
         { desc: content, img: media, hashtag },
         auth.token
       );
-      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
       dispatch({
         type: POSTTYPES.CREATE_POST,
         payload: { ...res.data.newPost, user: auth.user },
@@ -43,11 +43,17 @@ export const createPost =
         id: res.data.newPost._id,
         text: "Đã thêm bài viết !",
         recipients: res.data.newPost.user.followers,
-        url: `/post/${res.data.newPost._id}`,
+        url: `post/${res.data.newPost._id}`,
         content,
         image: media.length > 0 ? media[0].url : "",
       };
+      dispatch(createNotify({ msg, auth, socket }));
+
       dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.data.msg } });
+      dispatch({
+        type: GLOBALTYPES.STATUS,
+        payload: false,
+      });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -153,7 +159,7 @@ export const likePost =
         id: auth.user._id,
         text: "Thích bài viết của bạn !",
         recipients: [post.user._id],
-        url: `/post/${post._id}`,
+        url: `post/${post._id}`,
         content: post.content,
         image: post.img.length > 0 ? post.img[0].url : "",
       };
@@ -195,7 +201,7 @@ export const unlikePost =
         id: auth.user._id,
         text: "Bỏ thích bài viết của bạn !",
         recipients: [post.user._id],
-        url: `/post/${post._id}`,
+        url: `post/${post._id}`,
       };
     } catch (err) {
       dispatch({
@@ -224,7 +230,7 @@ export const getNewsPosts = (token) => async (dispatch) => {
   }
 };
 export const deletePost =
-  ({ post, auth }) =>
+  ({ post, auth, socket }) =>
   async (dispatch) => {
     dispatch({ type: POSTTYPES.DELETE_POST, payload: post });
     try {
@@ -236,7 +242,7 @@ export const deletePost =
         recipients: res.data.newPost.user.followers,
         url: `post/${post._id}`,
       };
-      return msg;
+      dispatch(removeNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,

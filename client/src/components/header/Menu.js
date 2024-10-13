@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/actions/authAction";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import Avatar from "../Avatar";
+import NotifyModal from "../NotifyModal";
 
 const Menu = () => {
   const navLink = [
@@ -14,6 +15,7 @@ const Menu = () => {
   ];
   const auth = useSelector((state) => state.auth);
   const theme = useSelector((state) => state.theme);
+  const notify = useSelector((state) => state.notifyUser);
 
   const dispatch = useDispatch();
 
@@ -39,6 +41,34 @@ const Menu = () => {
             </Link>
           </li>
         ))}
+        <li
+          className="nav-item dropdown align-items-center d-flex"
+          style={{ padding: "0 15px" }}
+        >
+          <span
+            className="nav-link position-relative"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
+            <span
+              className="material-icons p-0"
+              style={{ color: notify.data.length > 0 ? "#004225" : "" }}
+            >
+              notifications
+            </span>
+            <span className="notify_length">{notify.data.length}</span>
+          </span>
+          <div
+            className="dropdown-menu position-absolute dropdown-menu-end"
+            aria-labelledby="navbarDropdown"
+            style={{ transform: "translateX(60px)" }}
+          >
+            <NotifyModal />
+          </div>
+        </li>
         <li className="nav-item dropdown">
           <span
             className="nav-link dropdown-toggle pb-3"
