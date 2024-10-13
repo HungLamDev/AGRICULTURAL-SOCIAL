@@ -5,7 +5,6 @@ const initialState = {
   loading: false,
   posts: [],
   diaries: [],
-  detailPost: [],
   result: 0,
   page: 2,
 };
@@ -23,7 +22,6 @@ const postReducer = (state = initialState, action) => {
         loading: action.payload,
       };
     case POSTTYPES.GET_POSTS:
-      console.log(action.payload);
       return {
         ...state,
         posts: action.payload.posts,

@@ -10,7 +10,7 @@ const detailPostReducer = (state = [], action) => {
       }
       return state;
     case POSTTYPES.UPDATE_POST:
-      return EditData(state, action.payload._id, action.payload);
+      return EditData(...state, action.payload._id, action.payload);
     default:
       return state;
   }

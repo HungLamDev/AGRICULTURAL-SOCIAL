@@ -5,6 +5,7 @@ const initialState = {
   loading: false,
   users: [],
   posts: [],
+  ids: [],
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -15,13 +16,17 @@ const profileReducer = (state = initialState, action) => {
         loading: action.payload,
       };
     case PROFILE_TYPES.GET_USER:
-      if (!state.users.find((user) => user._id === action.payload.user._id)) {
+      const existingUser = state.users.find(
+        (user) => user._id === action.payload.user._id
+      );
+      if (existingUser) {
+        return state;
+      } else {
         return {
           ...state,
           users: [...state.users, action.payload.user],
         };
       }
-      return state;
     case PROFILE_TYPES.FOLLOW:
       return {
         ...state,
@@ -32,6 +37,21 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         users: EditData(state.users, action.payload?._id, action.payload),
+      };
+    case PROFILE_TYPES.GET_ID:
+      return {
+        ...state,
+        ids: [...state.ids, action.payload],
+      };
+    case PROFILE_TYPES.GET_POSTS:
+      return {
+        ...state,
+        posts: [...state.posts, action.payload],
+      };
+    case PROFILE_TYPES.UPDATE_POST:
+      return {
+        ...state,
+        posts: EditData(state.posts, action.payload._id, action.payload),
       };
     default:
       return state;

@@ -7,11 +7,11 @@ import { deletePost } from "../../../redux/actions/postAction";
 import { BASE_URL } from "../../../utils/config";
 import moment from "moment";
 
-// import { createReport } from "../../../redux/actions/reportAction";
+import { createReport } from "../../../redux/actions/reportAction";
 
 const CardHeader = ({ post }) => {
   const auth = useSelector((state) => state.auth);
-  const { theme } = useSelector((state) => state);
+  const theme = useSelector((state) => state.theme);
 
   // const socket = useSelector((state) => state.socket);
 
@@ -22,49 +22,49 @@ const CardHeader = ({ post }) => {
     console.log(post);
     dispatch({ type: GLOBALTYPES.STATUS, payload: { ...post, onEdit: true } });
   };
-  // const handleDeletePost = () => {
-  //   const confirmDelete = window.confirm(
-  //     "Bạn có chắc chắn muốn xóa bài viết này?"
-  //   );
-  //   if (confirmDelete) {
-  //     dispatch(deletePost({ post, auth, socket }));
-  //     return navigate("/");
-  //   }
-  // };
+  const handleDeletePost = () => {
+    const confirmDelete = window.confirm(
+      "Bạn có chắc chắn muốn xóa bài viết này?"
+    );
+    if (confirmDelete) {
+      dispatch(deletePost({ post, auth }));
+      return navigate("/");
+    }
+  };
 
-  // const handleCopyLink = () => {
-  //   navigator.clipboard
-  //     .writeText(`${BASE_URL}/post/${post._id}`)
-  //     .then(() => {
-  //       dispatch({
-  //         type: GLOBALTYPES.NOTIFY,
-  //         payload: { success: "Đã sao chép liên kết thành công" },
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       dispatch({
-  //         type: GLOBALTYPES.NOTIFY,
-  //         payload: { err: "Lỗi khi sao chép:" + error },
-  //       });
-  //     });
-  // };
+  const handleCopyLink = () => {
+    navigator.clipboard
+      .writeText(`${BASE_URL}/post/${post._id}`)
+      .then(() => {
+        dispatch({
+          type: GLOBALTYPES.ALERT,
+          payload: { success: "Đã sao chép liên kết thành công" },
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: GLOBALTYPES.ALERT,
+          payload: { err: "Lỗi khi sao chép:" + error },
+        });
+      });
+  };
 
-  // const handleReport = () => {
-  //   const confirmReport = window.prompt("Lý do báo cáo: ");
-  //   if (confirmReport) {
-  //     const report = {
-  //       user: auth.user._id,
-  //       related: post._id,
-  //       text: confirmReport,
-  //       type: "post",
-  //     };
-  //     dispatch(createReport({ report, auth }));
-  //     dispatch({
-  //       type: GLOBALTYPES.NOTIFY,
-  //       payload: { success: "Cảm ơn bạn đã đóng góp !" },
-  //     });
-  //   }
-  // };
+  const handleReport = () => {
+    const confirmReport = window.prompt("Lý do báo cáo: ");
+    if (confirmReport) {
+      const report = {
+        user: auth.user._id,
+        related: post._id,
+        text: confirmReport,
+        type: "post",
+      };
+      dispatch(createReport({ report, auth }));
+      dispatch({
+        type: GLOBALTYPES.NOTIFY,
+        payload: { success: "Cảm ơn bạn đã đóng góp !" },
+      });
+    }
+  };
 
   return (
     <div className="card_header">
@@ -74,7 +74,7 @@ const CardHeader = ({ post }) => {
         <div className="card_name m-2">
           <h6>
             <Link
-              to={`/user/${post.user._id}`}
+              to={`user/${post.user._id}`}
               className="text-dark"
               style={{ textDecoration: "none" }}
             >
@@ -109,20 +109,18 @@ const CardHeader = ({ post }) => {
                 <span className="material-symbols-outlined">edit</span> Chỉnh
                 sửa bài viết
               </div>
-              {/* onClick={handleDeletePost} */}
-              <div className="dropdown-item">
+              <div className="dropdown-item" onClick={handleDeletePost}>
                 <span className="material-symbols-outlined">delete</span> Xóa
                 bài viết
               </div>
             </>
           )}
-          {/* onClick={handleCopyLink} */}
-          <div className="dropdown-item">
+
+          <div className="dropdown-item" onClick={handleCopyLink}>
             <span className="material-symbols-outlined">share</span> Sao chép
             liên kết
           </div>
-          {/* onClick={handleReport} */}
-          <div className="dropdown-item">
+          <div className="dropdown-item" onClick={handleReport}>
             <span className="material-symbols-outlined">report</span> Báo cáo
           </div>
         </div>

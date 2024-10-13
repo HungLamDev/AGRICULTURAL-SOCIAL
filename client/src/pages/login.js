@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { login } from "../redux/actions/authAction";
 import { useDispatch, useSelector } from "react-redux";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import Logo from "../images/logo_ngang.png";
 
 const Login = () => {
   const initialState = { email: "", password: "" };
@@ -10,7 +11,7 @@ const Login = () => {
   const { email, password } = userData;
 
   const navigate = useNavigate();
-  const auth  = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth);
 
   const [typePass, setTypePass] = useState(false);
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const Login = () => {
   return (
     <div className="auth_page">
       <form onSubmit={handleSubmit}>
-        <h3 className="text-center mb-4">Mạng Xã Hội</h3>
+        <img src={Logo} alt="logo" className="logo_login" />
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Tài Khoản</label>
           <input
@@ -74,7 +75,10 @@ const Login = () => {
 
         <p className="my-2 text-center">
           Bạn chưa có tài khoản?{" "}
-          <Link to="/register" style={{ color: "crimson" }}>
+          <Link
+            to="/register"
+            style={{ color: "crimson", textDecoration: "none" }}
+          >
             Đăng ký
           </Link>
         </p>

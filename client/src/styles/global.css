@@ -39,6 +39,7 @@
       /* max-width: 1000px; */
       width: 100%;
       margin: auto;
+      
     }
     img{
       object-fit: cover;
@@ -61,3 +62,13 @@
     @import url("./home.css");
      /*------------statusModal ---------------*/
      @import url("./statusModalStyle.css");
+    /*------------postThumbStyle ---------------*/
+    @import url("./postThumbStyle.css");
+       /*------------commentsStyle---------------*/
+     @import url("./commentsStyle.css");
+       /*------------newsStyle---------------*/
+     @import url("./newsStyle.css");
+  /*------------notificationsStyle---------------*/
+  @import url("./notificationsStyle.css");
+
+    

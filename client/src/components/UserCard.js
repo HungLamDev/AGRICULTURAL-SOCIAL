@@ -1,6 +1,7 @@
 import React from "react";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
+
 const UserCard = ({
   children,
   user,
@@ -8,6 +9,7 @@ const UserCard = ({
   handleClose,
   setshowFollowers,
   setshowFollowing,
+  theme,
 }) => {
   const handleCloseALL = async () => {
     if (handleClose) handleClose();
@@ -20,11 +22,12 @@ const UserCard = ({
     >
       <div>
         <Link
-          to={`/profile/${user._id}`}
+          to={`/user/${user._id}`}
           onClick={handleCloseALL}
           className="d-flex align-items-center"
+          style={{ textDecoration: "none", color: "#000" }}
         >
-          <Avatar src={user.avatar} size="big-avatar" />
+          <Avatar src={user.avatar} size="big-avatar" theme={theme} />
           <div className="ml-1" style={{ transform: "translateY(-6px)" }}>
             <span className="d-block">{user.username}</span>
             <small style={{ opacity: 0.7 }}>{user.fullname}</small>

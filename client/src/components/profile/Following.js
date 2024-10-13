@@ -4,7 +4,7 @@ import FollowBtn from "./FollowBtn";
 import { useSelector } from "react-redux";
 const Following = ({ users, setshowFollowing }) => {
   const auth = useSelector((state) => state.auth);
-  console.log(users);
+
   return (
     <div className="follow">
       <div className="follow_box">

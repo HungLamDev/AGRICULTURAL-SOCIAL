@@ -1,5 +1,5 @@
 const Users = require("../models/userModel");
-
+const bcrypt = require("bcrypt");
 const userCtrl = {
   searchUser: async (req, res) => {
     try {
@@ -26,9 +26,8 @@ const userCtrl = {
 
       const user = await Users.findById(id)
         .select("-password")
-        .populate("followers", "username fullname avatar")
-        .populate("following", "username fullname avatar");
-
+        .populate("followers", "-password")
+        .populate("following", "-password");
       if (!user) return res.status(400).json({ msg: "User not found" });
 
       res.json({ user });
@@ -42,35 +41,48 @@ const userCtrl = {
       console.log("Request Body:", req.body);
       console.log("Request Params:", req.params);
       console.log("User ID from auth middleware:", req.params.id);
-      const { avatar, fullname, mobile, address, story, website, gender } =
-        req.body;
 
-      // Kiểm tra xem fullname có rỗng không
+      const {
+        avatar,
+        fullname,
+        mobile,
+        address,
+        password,
+        story,
+        website,
+        gender,
+      } = req.body;
+      let hashed;
       if (!fullname) {
         return res.status(400).json({ msg: "Please add your full name." });
       }
+      if (req.body.password) {
+        const salt = await bcrypt.genSalt(10);
+        hashed = await bcrypt.hash(req.body.password, salt);
+      }
+      const updateData = {
+        avatar,
+        fullname,
+        mobile,
+        address,
+        story,
+        website,
+        gender,
+      };
 
-      // Cập nhật thông tin người dùng
+      if (hashed) {
+        updateData.password = hashed;
+      }
+
       const updatedUser = await Users.findOneAndUpdate(
         { _id: req.params.id },
-        {
-          avatar,
-          fullname,
-          mobile,
-          address,
-          story,
-          website,
-          gender,
-        },
-        { new: true } // Tùy chọn trả về tài liệu đã cập nhật và kiểm tra dữ liệu hợp lệ
+        { $set: updateData },
+        { new: true }
       );
-
-      // Kiểm tra xem người dùng có tồn tại không
       if (!updatedUser) {
         return res.status(404).json({ msg: "User not found." });
       }
 
-      // Trả về thông tin người dùng đã cập nhật
       res.json({
         msg: "Update Success!",
       });

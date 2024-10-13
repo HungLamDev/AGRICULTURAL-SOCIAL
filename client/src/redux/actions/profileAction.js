@@ -2,41 +2,42 @@ import { GLOBALTYPES, DeleteData } from "./globalTypes";
 import { getDataAPI, patchDataAPI } from "../../utils/fetchData";
 import { imageUpload } from "../../utils/imageUpload";
 export const PROFILE_TYPES = {
-  LOADING: "LOADING",
+  LOADING: "LOADING_USER",
   GET_USER: "GET_USER",
   FOLLOW: "FOLLOW",
   UNFOLLOW: "UNFOLLOW",
+  GET_ID: "GET_USER_ID",
+  GET_POSTS: "GET_USER_POSTS",
 };
 
 export const getProfileUsers =
-  ({ users = [], id, auth }) =>
+  ({ id, auth }) =>
   async (dispatch) => {
-    if (!id) {
-      return dispatch({
+    dispatch({ type: PROFILE_TYPES.GET_ID, payload: id });
+
+    try {
+      dispatch({ type: PROFILE_TYPES.LOADING, payload: true });
+      const res = await getDataAPI(`user/${id}`, auth.token);
+      const resPosts = await getDataAPI(`post/user_posts/${id}`, auth.token);
+      console.log({ res, resPosts });
+
+      dispatch({
+        type: PROFILE_TYPES.GET_USER,
+        payload: res.data,
+      });
+      dispatch({
+        type: PROFILE_TYPES.GET_POSTS,
+        payload: { ...resPosts.data, _id: id, page: 2 },
+      });
+      dispatch({ type: PROFILE_TYPES.LOADING, payload: false });
+    } catch (err) {
+      dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { error: "User ID is required" },
+        payload: { error: err.response?.data?.msg || "An error occurred" },
       });
     }
-    if (!users || !users.find((user) => user._id === id)) {
-      try {
-        dispatch({ type: PROFILE_TYPES.LOADING, payload: true });
-        const res = await getDataAPI(`user/${id}`, auth.token);
-        console.log(res);
-
-        dispatch({
-          type: PROFILE_TYPES.GET_USER,
-          payload: { user: res.data.user },
-        });
-
-        dispatch({ type: PROFILE_TYPES.LOADING, payload: false });
-      } catch (err) {
-        dispatch({
-          type: GLOBALTYPES.ALERT,
-          payload: { error: err.response?.data?.msg || "An error occurred" },
-        });
-      }
-    }
   };
+
 export const updateUserProfile =
   ({ userData, avatar, auth }) =>
   async (dispatch) => {
@@ -121,7 +122,7 @@ export const updateUserProfile =
     }
   };
 export const follow =
-  ({ users, user, auth }) =>
+  ({ users, user, auth, socket }) =>
   async (dispatch) => {
     if (!auth || !auth.user._id || !user._id) {
       return dispatch({
@@ -152,8 +153,12 @@ export const follow =
         user: { ...auth.user, following: [...auth.user.following, newUser] },
       },
     });
+
     try {
-      await patchDataAPI(`user/${user._id}/follow`, {}, auth.token);
+      const res = await patchDataAPI(`user/${user._id}/follow`, {}, auth.token);
+      console.log("follow", res);
+      console.log("follow", res.data.newUser);
+      socket.emit("follow", res.data.newUser);
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -162,7 +167,7 @@ export const follow =
     }
   };
 export const unfollow =
-  ({ users, user, auth }) =>
+  ({ users, user, auth, socket }) =>
   async (dispatch) => {
     if (!auth || !auth.user || !auth.user._id || !user._id) {
       return dispatch({
@@ -203,7 +208,15 @@ export const unfollow =
       },
     });
     try {
-      await patchDataAPI(`user/${user._id}/unfollow`, {}, auth.token);
+      const res = await patchDataAPI(
+        `user/${user._id}/unfollow`,
+        {},
+        auth.token
+      );
+      console.log("unfolow", res);
+      console.log("unfolow", res.data.newUser);
+
+      socket.emit("unfollow", res.data.newUser);
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,

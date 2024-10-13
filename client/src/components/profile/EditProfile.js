@@ -9,13 +9,15 @@ const EditProfile = ({ setOnEdit }) => {
     fullname: "",
     mobile: "",
     address: " ",
+    password: "",
     website: "",
     story: "",
     gender: "",
   };
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(initState);
-  const { fullname, mobile, address, website, story, gender } = userData;
+  const { fullname, mobile, address, website, password, story, gender } =
+    userData;
   const [avatar, setAvatar] = useState("");
 
   const auth = useSelector((state) => state.auth);
@@ -128,6 +130,16 @@ const EditProfile = ({ setOnEdit }) => {
             type="text"
             name="website"
             value={website}
+            className="form-control"
+            onChange={handleInput}
+          />
+        </div>
+        <div className="form-group my-2">
+          <label htmlFor="password">Mật khẩu</label>
+          <input
+            type="password"
+            name="password"
+            value={password}
             className="form-control"
             onChange={handleInput}
           />

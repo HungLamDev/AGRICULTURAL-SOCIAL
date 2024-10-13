@@ -4,16 +4,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/actions/authAction";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import Avatar from "../Avatar";
+import NotifyModal from "../NotifyModal";
 
 const Menu = () => {
   const navLink = [
+    { label: "Nổi bật", icon: "feed", path: "/news" },
     { label: "Trang chủ", icon: "home", path: "/home" },
-    { label: "Tin nhắn", icon: "near_me", path: "/message" },
-    { label: "Thảo luận", icon: "explore", path: "/discover" },
-    { label: "Yêu thích", icon: "favorite", path: "/notify" },
+    { label: "Chợ", icon: "shopping_bag", path: "/market" },
+    { label: "Tin nhắn", icon: "send", path: "/message" },
   ];
   const auth = useSelector((state) => state.auth);
   const theme = useSelector((state) => state.theme);
+  const notify = useSelector((state) => state.notifyUser);
 
   const dispatch = useDispatch();
 
@@ -39,6 +41,34 @@ const Menu = () => {
             </Link>
           </li>
         ))}
+        <li
+          className="nav-item dropdown align-items-center d-flex"
+          style={{ padding: "0 15px" }}
+        >
+          <span
+            className="nav-link position-relative"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
+            <span
+              className="material-icons p-0"
+              style={{ color: notify.data.length > 0 ? "#004225" : "" }}
+            >
+              notifications
+            </span>
+            <span className="notify_length">{notify.data.length}</span>
+          </span>
+          <div
+            className="dropdown-menu position-absolute dropdown-menu-end"
+            aria-labelledby="navbarDropdown"
+            style={{ transform: "translateX(60px)" }}
+          >
+            <NotifyModal />
+          </div>
+        </li>
         <li className="nav-item dropdown">
           <span
             className="nav-link dropdown-toggle pb-3"
@@ -51,8 +81,8 @@ const Menu = () => {
             <Avatar src={auth.user.avatar} theme={theme} size="medium-avatar" />
           </span>
           <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-            <Link className="dropdown-item" to={`/profile/${auth.user._id}`}>
-              Thông tin cá nhân
+            <Link className="dropdown-item" to={`/user/${auth.user._id}`}>
+              Trang cá nhân
             </Link>
             <label
               htmlFor="theme"

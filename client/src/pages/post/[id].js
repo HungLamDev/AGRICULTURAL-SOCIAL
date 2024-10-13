@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getPost } from "../../redux/actions/postAction";
 import PostCard from "../../components/PostCard";
+import LoadIcon from "../../images/loading.gif";
 
 const Post = () => {
   const { id } = useParams();
@@ -21,6 +22,9 @@ const Post = () => {
   }, [auth, detailPost, dispatch, id]);
   return (
     <div className="posts">
+      {post.length === 0 && (
+        <img src={LoadIcon} alt="loading" className="d-block mx-auto my-4" />
+      )}
       {post.map((item) => (
         <PostCard key={item._id} post={item} />
       ))}
