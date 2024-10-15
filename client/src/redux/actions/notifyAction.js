@@ -32,20 +32,34 @@ export const removeNotify =
   ({ msg, auth, socket }) =>
   async (dispatch) => {
     try {
-      await deleteDataAPI(`notify/${msg.id}?url=${msg.url}`, auth.token);
+      console.log("msg", msg);
 
-      socket.emit("removeNotify", msg);
+      const res = await deleteDataAPI(
+        `notify/${msg.id}?url=${msg.url}`,
+        auth.token
+      );
+      console.log("res", res);
+      if (res && res.data) {
+        socket.emit("removeNotify", msg);
+      } else {
+        throw new Error("Invalid response from API");
+      }
     } catch (err) {
+      console.error("Error removing notify:", err);
+      const errorMessage =
+        err.response && err.response.data
+          ? err.response.data.msg
+          : "Error occurred";
       dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { err: err.response.data.msg },
+        payload: { err: errorMessage },
       });
     }
   };
+
 export const getNotifies = (token) => async (dispatch) => {
   try {
     const res = await getDataAPI("notify", token);
-    console.log(res);
     dispatch({ type: NOTIFY_TYPES.GET_NOTIFIES, payload: res.data.notifies });
   } catch (err) {
     dispatch({

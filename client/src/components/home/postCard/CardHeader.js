@@ -13,7 +13,7 @@ const CardHeader = ({ post }) => {
   const auth = useSelector((state) => state.auth);
   const theme = useSelector((state) => state.theme);
 
-  // const socket = useSelector((state) => state.socket);
+  const socket = useSelector((state) => state.socket);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const CardHeader = ({ post }) => {
       "Bạn có chắc chắn muốn xóa bài viết này?"
     );
     if (confirmDelete) {
-      dispatch(deletePost({ post, auth }));
+      dispatch(deletePost({ post, auth, socket }));
       return navigate("/");
     }
   };

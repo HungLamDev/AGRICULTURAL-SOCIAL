@@ -101,19 +101,24 @@ const SocketServer = (socket) => {
   });
   //notify
   socket.on("createNotify", (msg) => {
-    console.log(msg);
-    const client = users.find((user) => msg.recipients.includes(user.id));
-    console.log(client);
-
-    client && socket.to(`${client.socketId}`).emit("createNotifyToClient", msg);
+    const client = users.filter((user) => msg.recipients.includes(user.id));
+    if (client.length > 0) {
+      client.forEach((client) => {
+        socket.to(`${client.socketId}`).emit("createNotifyToClient", msg);
+      });
+    }
   });
 
   socket.on("removeNotify", (msg) => {
-    console.log("remove", msg);
-    const client = users.find((user) => msg.recipients.includes(user.id));
-    console.log("remove client", msg);
+    console.log("msg", msg);
 
-    client && socket.to(`${client.socketId}`).emit("removeNotifyToClient", msg);
+    const client = users.filter((user) => msg.recipients.includes(user.id));
+    console.log("client", client);
+    if (client.length > 0) {
+      client.forEach((client) => {
+        socket.to(`${client.socketId}`).emit("removeNotifyToClient", msg);
+      });
+    }
   });
 };
 

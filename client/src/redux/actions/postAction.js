@@ -163,6 +163,7 @@ export const likePost =
         content: post.content,
         image: post.img.length > 0 ? post.img[0].url : "",
       };
+      dispatch(createNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -203,6 +204,7 @@ export const unlikePost =
         recipients: [post.user._id],
         url: `post/${post._id}`,
       };
+      dispatch(removeNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
