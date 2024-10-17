@@ -36,9 +36,10 @@
       background: white;
     }
     .main{
-      /* max-width: 1000px; */
+     
       width: 100%;
       margin: auto;
+      min-height: 100vh;
       
     }
     img{
@@ -46,7 +47,7 @@
     
     }
     
-    
+
     
     /*------------ auth---------------*/
     @import url("./auth.css");

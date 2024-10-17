@@ -18,24 +18,26 @@ const UserCardVertical = ({
   };
 
   return (
-    <div className={`p-2 text-center ${border}`}>
+    <div
+      className={`d-flex p-2 align-items-center justify-content-between w-100 ${border}`}
+    >
       <div>
         <Link
           to={`/user/${user._id}`}
           onClick={handleCloseAll}
-          className=""
+          className="d-flex align-items-center"
           style={{ textDecoration: "none", color: "#000" }}
         >
           <Avatar src={user.avatar} size="big-avatar" />
-          <div className="py-2">
-            <small className="fw-bold">{user.username}</small>
+          <div className="ml-1" style={{ transform: "translateY(-2px)" }}>
+            <small className="d-block">{user.username}</small>
             {user.roles === "expert" && (
               <i
                 className="fa-solid fa-circle-check text-success"
                 style={{ fontSize: "10px", paddingLeft: "5px" }}
               ></i>
             )}
-            <small className="d-flex">
+            <small className="">
               {msg
                 ? user.text && (
                     <>

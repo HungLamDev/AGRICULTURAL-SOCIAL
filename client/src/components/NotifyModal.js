@@ -3,11 +3,31 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Avatar from "./Avatar";
 import moment from "moment";
+import { isReadNotify, deleteAllNotifies } from "../redux/actions/notifyAction";
+import { GLOBALTYPES } from "../redux/actions/globalTypes";
 
 const NotifyModal = () => {
   const auth = useSelector((state) => state.auth);
   const notify = useSelector((state) => state.notifyUser);
   const dispatch = useDispatch();
+  const handleIsRead = (msg) => {
+    dispatch(isReadNotify({ msg, auth }));
+  };
+  const handleReadAdmins = (msg) => {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { notifyAdmin: msg } });
+  };
+  const handleDeleteAll = () => {
+    const newArr = notify.data.filter((item) => item.isRead === false);
+    if (newArr.length === 0) return dispatch(deleteAllNotifies(auth.token));
+
+    if (
+      window.confirm(
+        `Bạn có ${newArr.length} thông báo chưa đọc. Bạn có muốn xóa tất cả ?`
+      )
+    ) {
+      return dispatch(deleteAllNotifies(auth.token));
+    }
+  };
 
   return (
     <>
@@ -27,7 +47,7 @@ const NotifyModal = () => {
                 to={`${msg.url}`}
                 className="d-flex text-dark align-items-center"
                 style={{ textDecoration: "none" }}
-                //  onClick={() => handleIsRead(msg)}
+                onClick={() => handleIsRead(msg)}
               >
                 <Avatar src={msg.user.avatar} size="big-avatar" />
                 <div className="mx-1 flex-fill">
@@ -42,7 +62,7 @@ const NotifyModal = () => {
                 {msg.url === "" && (
                   <button
                     className="btn btn-danger"
-                    // onClick={() => handleReadAdmins(msg)}
+                    onClick={() => handleReadAdmins(msg)}
                   >
                     Xem
                   </button>
@@ -68,7 +88,7 @@ const NotifyModal = () => {
         <div
           className="text-danger text-center"
           style={{ cursor: "pointer", paddingLeft: "10px" }}
-          // onClick={handleDeleteAll}
+          onClick={handleDeleteAll}
         >
           Xóa tất cả
         </div>

@@ -2,6 +2,7 @@ import { GLOBALTYPES } from "./globalTypes";
 import { POSTTYPES } from "./postAction";
 import { postDataAPI, putDataAPI, deleteDataAPI } from "../../utils/fetchData";
 import { EditData, DeleteData } from "./globalTypes";
+import { createNotify, removeNotify } from "./notifyAction";
 
 export const createComment =
   ({ post, newComment, auth, socket }) =>
@@ -27,6 +28,20 @@ export const createComment =
       const newPost = { ...post, comments: [...post.comments, newData] };
       dispatch({ type: POSTTYPES.UPDATE_POST, payload: newPost });
       socket.emit("createComment", newPost);
+
+      //Notify
+      const msg = {
+        id: res.data.newComment._id,
+        text: newComment.reply
+          ? "Đã nhắc đến bạn trong một bình luận !"
+          : "Đã bình luận bài viết của bạn !",
+        recipients: newComment.reply ? [newComment.tag._id] : [post.user._id],
+        url: `post/${post._id}`,
+        content: post.content,
+        image: post.img.length > 0 ? post.img[0].url : "",
+      };
+
+      dispatch(createNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -123,7 +138,7 @@ export const deleteComment =
           recipients: comment.reply ? [comment.tag._id] : [post.user._id],
           url: `post/${post._id}`,
         };
-        return msg;
+        dispatch(removeNotify({ msg, auth, socket }));
       });
     } catch (err) {
       dispatch({

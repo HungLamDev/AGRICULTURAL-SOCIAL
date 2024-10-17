@@ -1,6 +1,7 @@
 import { GLOBALTYPES, DeleteData } from "./globalTypes";
 import { getDataAPI, patchDataAPI } from "../../utils/fetchData";
 import { imageUpload } from "../../utils/imageUpload";
+import { removeNotify, createNotify } from "./notifyAction";
 export const PROFILE_TYPES = {
   LOADING: "LOADING_USER",
   GET_USER: "GET_USER",
@@ -156,9 +157,16 @@ export const follow =
 
     try {
       const res = await patchDataAPI(`user/${user._id}/follow`, {}, auth.token);
-      console.log("follow", res);
-      console.log("follow", res.data.newUser);
       socket.emit("follow", res.data.newUser);
+      //Notify
+      const msg = {
+        id: auth.user._id,
+        text: "Bắt đầu theo dõi bạn !",
+        recipients: [newUser._id],
+        url: `user/${auth.user._id}`,
+      };
+
+      dispatch(createNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -213,10 +221,17 @@ export const unfollow =
         {},
         auth.token
       );
-      console.log("unfolow", res);
-      console.log("unfolow", res.data.newUser);
 
       socket.emit("unfollow", res.data.newUser);
+      //Notify
+      const msg = {
+        id: auth.user._id,
+        text: "bỏ theo dõi bạn !",
+        recipients: [newUser._id],
+        url: `user/${auth.user._id}`,
+      };
+
+      dispatch(removeNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,

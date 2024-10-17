@@ -9,9 +9,9 @@ const Home = () => {
 
   return (
     <div className="home row mx-0">
-      <div>
+      <div className="col-md-8">
         <Status />
-        <RightSideBar />
+
         {postHome.loading ? (
           <img src={LoadIcon} alt="loading" className="d-block mx-auto" />
         ) : postHome.result === 0 && postHome.posts.length === 0 ? (
@@ -19,6 +19,9 @@ const Home = () => {
         ) : (
           <Posts />
         )}
+      </div>
+      <div className="col-md-4">
+        <RightSideBar />
       </div>
     </div>
   );

@@ -11,14 +11,12 @@ const SocketServer = (socket) => {
     if (existingUser) {
       existingUser.socketId = socket.id;
       existingUser.followers = user.followers || [];
-      console.log("User updated:", existingUser);
     } else {
       users.push({
         id: user._id,
         socketId: socket.id,
         followers: user.followers || [],
       });
-      console.log("New user added:", user);
     }
     console.log("Current users:", users);
   });
@@ -70,8 +68,12 @@ const SocketServer = (socket) => {
   });
   // Comments
   socket.on("createComment", (newPost) => {
+    console.log("newPost", newPost);
     const ids = [...newPost.user.followers, newPost.user._id];
+    console.log("ids", ids);
+
     const clients = users.filter((user) => ids.includes(user.id));
+    console.log("clients", clients);
 
     if (clients.length > 0) {
       clients.forEach((client) => {

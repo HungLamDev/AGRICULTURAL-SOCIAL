@@ -124,13 +124,12 @@ export const getPost =
     if (detailPost.every((post) => post._id !== id)) {
       try {
         const res = await getDataAPI(`post/${id}`, auth.token);
+        console.log(res);
         dispatch({ type: POSTTYPES.GET_POST, payload: res.data.post });
       } catch (err) {
         dispatch({
           type: GLOBALTYPES.ALERT,
-          payload: {
-            err: err.response ? err.response.data.msg : "Lỗi khi lấy bài viết",
-          },
+          payload: { err: err.response.data.msg },
         });
       }
     }
