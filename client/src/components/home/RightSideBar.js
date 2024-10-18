@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import FollowBtn from "../profile/FollowBtn";
 import { getSuggestions } from "../../redux/actions/suggestionAction";
 import UserCardVertical from "../UserCardVertical";
-
+import UserCard from "../UserCard";
 const RightSideBar = () => {
   const auth = useSelector((state) => state.auth);
   const suggestions = useSelector((state) => state.suggestions);
   const dispatch = useDispatch();
 
   return (
-    <div>
-      <div className="d-flex justify-content-between align-items-center p-2 mt-4">
+    <div className="mt-2">
+      <UserCard user={auth.user} />
+      <div className="d-flex justify-content-between align-items-center  p-2">
         <h5 className="text-secondary">Đề cử cho bạn</h5>
         <i
           className="fas fa-redo"
@@ -23,7 +24,7 @@ const RightSideBar = () => {
         <p>Đang tải dữ liệu ...</p>
       ) : (
         <div
-          className="suggestions d-flex justify-content-start"
+          className="suggestions"
           style={{ overflow: "auto" }}
         >
           {suggestions.users.slice(0, 5).map((user) => (
