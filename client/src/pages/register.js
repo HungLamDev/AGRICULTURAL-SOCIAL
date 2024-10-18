@@ -13,13 +13,14 @@ const Register = () => {
   const navigate = useNavigate();
 
   const initialState = {
+    username: "",
     email: "",
     password: "",
     cf_password: "",
     gender: "Nam",
   };
   const [userData, setUserData] = useState(initialState);
-  const { email, password, cf_password } = userData;
+  const { username, email, password, cf_password } = userData;
 
   const [typePass, setTypePass] = useState(false);
   const [typeCfPass, setTypeCfPass] = useState(false);
@@ -42,6 +43,21 @@ const Register = () => {
       <form onSubmit={handleSubmit}>
         <img src={Logo} alt="logo" className="logo_login" />
         <div className="form-group">
+          <label htmlFor="username">Full Name</label>
+          <input
+            type="text"
+            className="form-control"
+            id="username"
+            name="username"
+            onChange={handleChangeInput}
+            value={username}
+            style={{ background: `${alert.username ? "#DDDDDD" : ""}` }}
+          />
+          <small className=" text-danger">
+            {alert.username ? alert.username : ""}
+          </small>
+        </div>
+        <div className="form-group">
           <label htmlFor="exampleInputEmail1">Tài Khoản</label>
           <input
             type="email"
@@ -57,7 +73,6 @@ const Register = () => {
             {alert.email ? alert.email : ""}
           </small>
         </div>
-
         <div className="form-group">
           <label htmlFor="exampleInputPassword1">Mật Khẩu</label>
           <div className="pass">

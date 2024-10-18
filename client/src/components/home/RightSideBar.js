@@ -14,19 +14,18 @@ const RightSideBar = () => {
       <UserCard user={auth.user} />
       <div className="d-flex justify-content-between align-items-center  p-2">
         <h5 className="text-secondary">Đề cử cho bạn</h5>
-        <i
-          className="fas fa-redo"
-          onClick={() => dispatch(getSuggestions(auth.token))}
-          style={{ cursor: "pointer" }}
-        />
+        {!suggestions.loading && (
+          <i
+            className="fas fa-redo"
+            style={{ cursor: "pointer" }}
+            onClick={() => dispatch(getSuggestions(auth.token))}
+          />
+        )}
       </div>
       {suggestions.loading ? (
         <p>Đang tải dữ liệu ...</p>
       ) : (
-        <div
-          className="suggestions"
-          style={{ overflow: "auto" }}
-        >
+        <div className="suggestions" style={{ overflow: "auto" }}>
           {suggestions.users.slice(0, 5).map((user) => (
             <UserCardVertical key={user._id} user={user}>
               <FollowBtn user={user} />

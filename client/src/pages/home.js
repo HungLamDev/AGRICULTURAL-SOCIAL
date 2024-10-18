@@ -9,14 +9,14 @@ const Home = () => {
 
   return (
     <div
-      className="home d-flex justify-content-center mx-auto"
+      className="home row d-flex justify-content-center mx-auto"
       style={{
-        maxWidth: '1000px', 
-        width: '100%',     
-        margin: '0 auto',   
+        maxWidth: "1300px",
+        width: "100%",
+        margin: "0 auto",
       }}
     >
-      <div className="row" style={{ width: '100%' }}>
+      <div className="row" style={{ width: "100%" }}>
         <div className="col-12 col-md-8 mb-3">
           <Status />
           {postHome.loading ? (
@@ -33,8 +33,6 @@ const Home = () => {
       </div>
     </div>
   );
-  
-
 };
 
 export default Home;

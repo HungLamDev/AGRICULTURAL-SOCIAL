@@ -5,8 +5,10 @@ const jwt = require("jsonwebtoken");
 const authCtrl = {
   register: async (req, res) => {
     try {
-      const { email, password } = req.body;
-
+      const { username, email, password } = req.body;
+      const name = await User.findOne({ username: username });
+      if (name)
+        return res.status(400).json({ msg: "Tên đăng nhập đã được đăng ký !" });
       const user_email = await User.findOne({ email: email });
       if (user_email)
         return res.status(409).json({ msg: "Email này đã tồn tại!" });
@@ -18,6 +20,7 @@ const authCtrl = {
       const passwordHash = await bcrypt.hash(password, 12);
 
       const newUser = new User({
+        username: username,
         email: email,
         password: passwordHash,
         roles: req.body.roles,
@@ -38,6 +41,7 @@ const authCtrl = {
         access_token,
         user: {
           id: newUser._id,
+          username: username,
           email: newUser.email,
           roles: newUser.roles,
         },

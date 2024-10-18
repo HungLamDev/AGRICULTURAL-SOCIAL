@@ -50,12 +50,12 @@ export const updateUserProfile =
       });
     }
     // Kiểm tra dữ liệu đầu vào
-    if (!userData.fullname)
+    if (!userData.username)
       return dispatch({
         type: GLOBALTYPES.ALERT,
         payload: { error: "Nhập tên đăng nhập!" },
       });
-    if (userData.fullname.length > 25)
+    if (userData.username.length > 25)
       return dispatch({
         type: GLOBALTYPES.ALERT,
         payload: { error: "Tên đăng nhập quá dài!" },

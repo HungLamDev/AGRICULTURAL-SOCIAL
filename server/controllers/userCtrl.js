@@ -44,7 +44,7 @@ const userCtrl = {
 
       const {
         avatar,
-        fullname,
+        username,
         mobile,
         address,
         password,
@@ -53,7 +53,7 @@ const userCtrl = {
         gender,
       } = req.body;
       let hashed;
-      if (!fullname) {
+      if (!username) {
         return res.status(400).json({ msg: "Please add your full name." });
       }
       if (req.body.password) {
@@ -62,7 +62,7 @@ const userCtrl = {
       }
       const updateData = {
         avatar,
-        fullname,
+        username,
         mobile,
         address,
         story,
