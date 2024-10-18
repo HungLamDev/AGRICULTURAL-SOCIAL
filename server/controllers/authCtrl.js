@@ -5,16 +5,11 @@ const jwt = require("jsonwebtoken");
 const authCtrl = {
   register: async (req, res) => {
     try {
-      const { fullname, username, email, password, gender } = req.body;
-      let newUserName = username.toLowerCase().replace(/ /g, "");
+      const { email, password } = req.body;
 
-      const user_name = await User.findOne({ username: newUserName });
-      if (user_name)
-        return res.status(404).json({ msg: "Tên người dùng đã tồn tại!" });
-
-      const user_email = await User.findOne({ user_email: newUserName });
+      const user_email = await User.findOne({ email: email });
       if (user_email)
-        return res.status(404).json({ msg: "Email này đã tồn tại!" });
+        return res.status(409).json({ msg: "Email này đã tồn tại!" });
 
       if (password.length < 6)
         return res
@@ -23,11 +18,9 @@ const authCtrl = {
       const passwordHash = await bcrypt.hash(password, 12);
 
       const newUser = new User({
-        fullname,
-        username: newUserName,
-        email,
+        email: email,
         password: passwordHash,
-        gender,
+        roles: req.body.roles,
       });
 
       const access_token = createAccessToken({ id: newUser._id });
@@ -44,8 +37,9 @@ const authCtrl = {
         msg: "Đăng Ký Thành Công!",
         access_token,
         user: {
-          ...newUser._doc,
-          password: "",
+          id: newUser._id,
+          email: newUser.email,
+          roles: newUser.roles,
         },
       });
     } catch (err) {

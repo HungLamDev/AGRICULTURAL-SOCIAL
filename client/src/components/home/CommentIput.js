@@ -24,6 +24,7 @@ const CommentIput = ({ children, post, onReply, setOnReply }) => {
     };
     console.log({ newComment });
     dispatch(createComment({ post, newComment, auth, socket }));
+    if (setOnReply) return setOnReply(false);
   };
   const dispatch = useDispatch();
 

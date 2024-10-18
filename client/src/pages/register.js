@@ -6,20 +6,20 @@ import { register } from "../redux/actions/authAction";
 import Logo from "../images/logo_ngang.png";
 
 const Register = () => {
-  const { auth, alert } = useSelector((state) => state);
+  const auth = useSelector((state) => state.auth);
+  const alert = useSelector((state) => state.alert);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const initialState = {
-    fullname: "",
-    username: "",
     email: "",
     password: "",
     cf_password: "",
     gender: "Nam",
   };
   const [userData, setUserData] = useState(initialState);
-  const { fullname, username, email, password, cf_password } = userData;
+  const { email, password, cf_password } = userData;
 
   const [typePass, setTypePass] = useState(false);
   const [typeCfPass, setTypeCfPass] = useState(false);
@@ -41,39 +41,6 @@ const Register = () => {
     <div className="auth_page">
       <form onSubmit={handleSubmit}>
         <img src={Logo} alt="logo" className="logo_login" />
-
-        <div className="form-group">
-          <label htmlFor="fullname">Full name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="fullname"
-            name="fullname"
-            onChange={handleChangeInput}
-            value={fullname}
-            style={{ background: `${alert.fullname ? "#DDDDDD" : ""}` }}
-          />
-          <small className=" text-danger">
-            {alert.fullname ? alert.fullname : ""}
-          </small>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="username">User Name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="username"
-            name="username"
-            onChange={handleChangeInput}
-            value={username.toLowerCase().replace(/ /g, "")}
-            style={{ background: `${alert.username ? "#DDDDDD" : ""}` }}
-          />
-          <small className=" text-danger">
-            {alert.username ? alert.username : ""}
-          </small>
-        </div>
-
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Tài Khoản</label>
           <input
@@ -128,49 +95,9 @@ const Register = () => {
               {typeCfPass ? <FaRegEyeSlash /> : <FaRegEye />}
             </small>
           </div>
-          <small className="form-text text-bg-danger text-100">
+          <small className="text-danger">
             {alert.cf_password ? alert.cf_password : ""}
           </small>
-        </div>
-
-        <div className="row justify-content-between mx-0 mb-1">
-          <div className="col-auto">
-            <label htmlFor="nam">
-              Nam:{" "}
-              <input
-                type="radio"
-                id="nam"
-                name="gender"
-                value="nam"
-                defaultChecked
-                onChange={handleChangeInput}
-              />
-            </label>
-          </div>
-          <div className="col-auto">
-            <label htmlFor="nu">
-              Nữ:{" "}
-              <input
-                type="radio"
-                id="nu"
-                name="gender"
-                value="nu"
-                onChange={handleChangeInput}
-              />
-            </label>
-          </div>
-          <div className="col-auto">
-            <label htmlFor="khac">
-              Khác:{" "}
-              <input
-                type="radio"
-                id="khac"
-                name="gender"
-                value="khac"
-                onChange={handleChangeInput}
-              />
-            </label>
-          </div>
         </div>
 
         <button

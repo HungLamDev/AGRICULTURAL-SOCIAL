@@ -11,7 +11,7 @@ import {
   likeComment,
   unlikeComment,
 } from "../../../redux/actions/commentAction";
-import Icons from "../../Icons";
+
 const CommentCard = ({ comment, post, commentId, children }) => {
   const auth = useSelector((state) => state.auth);
   const theme = useSelector((state) => state.theme);
@@ -27,6 +27,8 @@ const CommentCard = ({ comment, post, commentId, children }) => {
 
   useEffect(() => {
     setContent(comment.content);
+    setIsLike(false);
+    setOnReply(false);
     if (comment.likes.find((like) => like._id === auth.user._id)) {
       setIsLike(true);
     }
@@ -160,12 +162,16 @@ const CommentCard = ({ comment, post, commentId, children }) => {
       {onReply && (
         <CommentInput post={post} onReply={onReply} setOnReply={setOnReply}>
           <Link to={`user/${onReply.user._id}`} className="mr-1">
-            @{onReply.user.username}:
+            <Avatar
+              src={onReply.user.avatar}
+              size="small-avatar"
+              theme={theme}
+            />
           </Link>
         </CommentInput>
       )}
 
-      <div style={{ marginLeft: "30px" }}>{children}</div>
+      <div>{children}</div>
     </div>
   );
 };
