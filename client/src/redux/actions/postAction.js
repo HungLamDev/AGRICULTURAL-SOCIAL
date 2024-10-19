@@ -111,9 +111,10 @@ export const updatePost =
         payload: { ...res.data.newPost },
       });
       dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.data.msg } });
+
       dispatch({
         type: GLOBALTYPES.STATUS,
-        payload: { onEdit: false },
+        payload: false,
       });
     } catch (err) {
       dispatch({

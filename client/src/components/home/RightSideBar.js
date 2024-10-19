@@ -10,7 +10,15 @@ const RightSideBar = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="mt-2">
+    <div
+      className="mt-2"
+      style={{
+        position: "-webkit-sticky",
+        position: "sticky",
+        top: "15%",
+        height: "fit-content",
+      }}
+    >
       <UserCard user={auth.user} />
       <div className="d-flex justify-content-between align-items-center  p-2">
         <h5 className="text-secondary">Đề cử cho bạn</h5>

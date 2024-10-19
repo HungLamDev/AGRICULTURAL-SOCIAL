@@ -98,7 +98,7 @@ export const updateUserProfile =
           user: {
             ...auth.user,
             ...userData,
-            profilePicture: profilePicture,
+            avatar: profilePicture,
           },
         },
       });
@@ -118,8 +118,6 @@ export const updateUserProfile =
             "An error occurred while updating the profile.",
         },
       });
-    } finally {
-      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     }
   };
 export const follow =

@@ -33,13 +33,7 @@ const Info = () => {
       setUserData(newData);
     }
   }, [auth, dispatch, id, profile.users]);
-  useEffect(() => {
-    if (showFollowers || showFollowing || onEdit) {
-      dispatch({ type: GLOBALTYPES.MODAl, payload: true });
-    } else {
-      dispatch({ type: GLOBALTYPES.MODAl, payload: false });
-    }
-  }, [showFollowers, showFollowing, onEdit, dispatch]);
+
   return (
     <div className="info">
       {userData.map((user) => (
@@ -77,7 +71,7 @@ const Info = () => {
             </a>
             <p>{user.story}</p>
           </div>
-          {onEdit && <EditProfile setOnEdit={setOnEdit} />}
+          {onEdit && <EditProfile user={user} setOnEdit={setOnEdit} />}
           {showFollowers && (
             <Followers
               users={user.followers}

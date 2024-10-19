@@ -48,3 +48,11 @@
     color: white;
     margin: 0 10px;
 }
+.container img {
+    max-height: 100%;
+    object-fit: contain; /* Makes sure the image fills the container */ }
+  
+.carousel-item img {
+    max-height: 400px; /* Adjust as per modal size */
+    object-fit: contain;
+  } 

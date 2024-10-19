@@ -1,11 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Status from "../components/home/Status";
 import Posts from "../components/home/Posts";
 import { useSelector } from "react-redux";
 import LoadIcon from "../images/loading.gif";
 import RightSideBar from "../components/home/RightSideBar";
+let scroll = 0;
 const Home = () => {
   const postHome = useSelector((state) => state.Homepost);
+  window.addEventListener("scroll", () => {
+    if (window.location.pathname === "/") {
+      scroll = window.pageYOffset;
+      return scroll;
+    }
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({ top: scroll, behavior: "smooth" });
+    }, 100);
+  }, []);
 
   return (
     <div
@@ -16,8 +29,8 @@ const Home = () => {
         margin: "0 auto",
       }}
     >
-      <div className="row" style={{ width: "100%" }}>
-        <div className="col-12 col-md-8 mb-3">
+      <div className="home row" style={{ width: "100%" }}>
+        <div className=" col-md-8 mb-3">
           <Status />
           {postHome.loading ? (
             <img src={LoadIcon} alt="loading" className="d-block mx-auto" />
@@ -27,7 +40,7 @@ const Home = () => {
             <Posts />
           )}
         </div>
-        <div className="col-12 col-md-4">
+        <div className=" col-md-4">
           <RightSideBar />
         </div>
       </div>

@@ -40,7 +40,7 @@ const postCtrl = {
   getPosts: async (req, res) => {
     try {
       const posts = await Post.find({
-        user: [...req.user.followers, req.user._id],
+        user: [...req.user.following, req.user._id],
       })
         .sort("-createdAt")
         .populate("user like", "-password")
