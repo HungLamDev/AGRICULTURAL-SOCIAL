@@ -160,9 +160,7 @@ video.dark-theme {
     margin: 10px;
 }
 
-.card_footer .shareModal {
-    background: var(--bg-color);
-}
+
 
 .switch_post {
     text-align: center;
