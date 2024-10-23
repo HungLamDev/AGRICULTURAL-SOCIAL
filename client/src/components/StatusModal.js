@@ -65,7 +65,7 @@ const StatusModal = () => {
     <div className="status_modal">
       <form onSubmit={handleSubmit}>
         <div className="status_title">
-          <h5 className="m-0">Create Post</h5>
+          <h5 className="m-0 ">Tạo bài viết</h5>
           <span
             onClick={() =>
               dispatch({
@@ -141,7 +141,7 @@ const StatusModal = () => {
         </div>
         <div className="status_footer">
           <button className="btn btn-secondary w-100" type="submit">
-            Post
+            Đăng bài
           </button>
         </div>
       </form>

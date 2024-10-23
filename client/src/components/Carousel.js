@@ -47,7 +47,7 @@ const Carousel = ({ images, id }) => {
                 onClick={() => handleShowModal(index)}
                 style={{
                   cursor: "pointer",
-                  height: displayedImages.length === 1 ? "400px" : "200px", // Change based on number of images
+                  height: displayedImages.length === 1 ? "500px" : "200px", // Change based on number of images
                   width: "100%",
                   overflow: "hidden",
                   paddingRight: "1px",
@@ -128,7 +128,7 @@ const Carousel = ({ images, id }) => {
                       className="d-block w-100"
                       alt={img.url}
                       style={{
-                        maxHeight: "600px", // Đặt chiều cao tối đa cho video trong modal
+                        maxHeight: "1200px",
                         objectFit: "contain",
                         filter: theme ? "invert(1)" : "invert(0)",
                       }}
@@ -139,7 +139,7 @@ const Carousel = ({ images, id }) => {
                       className="d-block w-100"
                       alt={img.url}
                       style={{
-                        maxHeight: "600px", // Đặt chiều cao tối đa cho ảnh trong modal
+                        maxHeight: "1200px", // Đặt chiều cao tối đa cho ảnh trong modal
                         objectFit: "contain",
                         filter: theme ? "invert(1)" : "invert(0)",
                       }}
