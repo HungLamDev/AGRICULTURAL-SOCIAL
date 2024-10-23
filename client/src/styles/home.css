@@ -126,12 +126,12 @@
 }
 
 .carousel-inner {
-    height: 400px;
+    height: 600px;
 }
 
 .carousel-inner video,
 .carousel-inner img{
-    height: 400px;
+    height: 600px;
     object-fit: contain;
 }
 img, video {
