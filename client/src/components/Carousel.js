@@ -32,7 +32,7 @@ const Carousel = ({ images, id }) => {
     <div>
       {/* Lưới hiển thị ảnh */}
       <div className="container">
-        <div className="row g-3">
+        <div className="row">
           {displayedImages.map((image, index) => (
             <div
               key={index}
@@ -48,10 +48,10 @@ const Carousel = ({ images, id }) => {
                 style={{
                   cursor: "pointer",
                   height: displayedImages.length === 1 ? "500px" : "200px", // Change based on number of images
-
                   width: "100%",
-                  borderRadius: "10px",
                   overflow: "hidden",
+                  paddingRight: "1px",
+                  paddingBottom: "1px"
                 }}
               >
                 <img
@@ -60,12 +60,12 @@ const Carousel = ({ images, id }) => {
                   alt={`grid-${index}`}
                   style={{
                     width: "100%",
-                    maxHeight: "100%", // Giới hạn chiều cao tối đa của ảnh
-                    objectFit: "contain", // Đảm bảo ảnh lấp đầy không gian mà không bị biến dạng
+                    height: "100%",
+                    objectFit: "cover", // Ensure the image covers the area without distortion
                   }}
                 />
               </div>
-
+  
               {/* Hiển thị số ảnh còn lại nếu có */}
               {index === 4 && remainingImagesCount > 0 && (
                 <div
@@ -80,7 +80,6 @@ const Carousel = ({ images, id }) => {
                     color: "white",
                     fontSize: "2rem",
                     cursor: "pointer",
-                    borderRadius: "10px",
                   }}
                   onClick={() => handleShowModal(5)}
                 >
@@ -91,7 +90,7 @@ const Carousel = ({ images, id }) => {
           ))}
         </div>
       </div>
-
+  
       {/* Bootstrap Carousel Modal */}
       <Modal show={showModal} onHide={handleHideModal} size="lg" centered>
         <Modal.Body>
@@ -113,7 +112,7 @@ const Carousel = ({ images, id }) => {
                 />
               ))}
             </div>
-
+  
             <div className="carousel-inner">
               {images.map((img, index) => (
                 <div
@@ -129,7 +128,6 @@ const Carousel = ({ images, id }) => {
                       className="d-block w-100"
                       alt={img.url}
                       style={{
-
                         maxHeight: "1200px",
                         objectFit: "contain",
                         filter: theme ? "invert(1)" : "invert(0)",
@@ -150,7 +148,7 @@ const Carousel = ({ images, id }) => {
                 </div>
               ))}
             </div>
-
+  
             {/* Điều khiển chuyển ảnh */}
             {images.length > 1 && (
               <>
@@ -166,7 +164,7 @@ const Carousel = ({ images, id }) => {
                   ></span>
                   <span className="visually-hidden">Previous</span>
                 </button>
-
+  
                 <button
                   className="carousel-control-next"
                   type="button"
@@ -186,6 +184,7 @@ const Carousel = ({ images, id }) => {
       </Modal>
     </div>
   );
+  
 };
 
 export default Carousel;
