@@ -8,13 +8,7 @@ import Comments from "./home/Comments";
 
 const PostCard = ({ post }) => {
   return (
-    <div className="card my-3 d-flex justify-content-center mx-auto" 
-    style={{
-      maxWidth: "800px",
-      width: "100%",
-      margin: "0 auto",
-    }}> 
-    
+    <div className="card my-3 ">
       <CardHeader post={post} />
       <CardBody post={post} />
       <CardFooter post={post} />
