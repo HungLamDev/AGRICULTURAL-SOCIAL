@@ -1,24 +1,40 @@
-.loading{
+.loading {
       display: flex;
       justify-content: center;
       align-items: center;
-}
-.loading svg{
-      font-size: 5px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      animation: text 1s ease-in-out infinite;
-}
-@keyframes text{
-      50%{opacity: 0.1;}
-}
-.loading polygon{
-      stroke-dasharray: 22;
-      stroke-dashoffset: 1;
-      animation: dash 4s cubic-bezier(0.455, 0.03, 0.515, 0.955) 
-      infinite alternate-reverse;
-}
-@keyframes dash {
-      to{stroke-dashoffset: 234;}
-}
+      height: 100vh;
+    }
+    
+    .spinner {
+      display: flex;
+      justify-content: space-around;
+      width: 50px;
+    }
+    
+    .dot {
+      width: 10px;
+      height: 10px;
+      background-color: #77e07c; /* White dots for visibility */
+      border-radius: 50%;
+      animation: bounce 1.2s infinite ease-in-out;
+    }
+    
+    .dot:nth-child(2) {
+      animation-delay: -1.1s;
+    }
+    .dot:nth-child(3) {
+      animation-delay: -1.0s;
+    }
+    .dot:nth-child(4) {
+      animation-delay: -0.9s;
+    }
+    
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+    
