@@ -14,25 +14,21 @@ import {
 
 const ShareModal = ({ url }) => {
   return (
-    <div className="d-flex justify-content-between p-4 share-modal">
-      <FacebookShareButton url={url} aria-label="Share on Facebook">
-        <FacebookIcon round={true} size={40} />
+    <div className="d-flex justify-content-between p-4 shareModal">
+      <FacebookShareButton url={url}>
+        <FacebookIcon round={true} size={32} />
       </FacebookShareButton>
-
-      <EmailShareButton url={url} aria-label="Share via Email">
-        <EmailIcon round={true} size={40} />
+      <EmailShareButton url={url}>
+        <EmailIcon round={true} size={32} />
       </EmailShareButton>
-
-      <LinkedinShareButton url={url} aria-label="Share on LinkedIn">
-        <LinkedinIcon round={true} size={40} />
+      <LinkedinShareButton url={url}>
+        <LinkedinIcon round={true} size={32} />
       </LinkedinShareButton>
-
-      <TelegramShareButton url={url} aria-label="Share on Telegram">
-        <TelegramIcon round={true} size={40} />
+      <TelegramShareButton url={url}>
+        <TelegramIcon round={true} size={32} />
       </TelegramShareButton>
-
-      <TwitterShareButton url={url} aria-label="Share on Twitter">
-        <TwitterIcon round={true} size={40} />
+      <TwitterShareButton url={url}>
+        <TwitterIcon round={true} size={32} />
       </TwitterShareButton>
     </div>
   );

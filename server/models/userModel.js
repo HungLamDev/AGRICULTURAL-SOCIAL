@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
+    admin: {
+      type: Boolean,
+      default: false,
+    },
     gender: {
       type: String,
       default: "Nam",
