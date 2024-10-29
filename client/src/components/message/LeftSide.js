@@ -52,6 +52,7 @@ const LeftSide = () => {
         setSearch('');
         setSearchUsers([]);
         dispatch(addUser({ user, message })); 
+        return navigate(`/message/${user._id}`)
     };
 
     return (
@@ -67,12 +68,26 @@ const LeftSide = () => {
                     Tìm
                 </button>
             </form>
-            <div className='message_chat_list'>
-                {searchUsers.length > 0 && searchUsers.map(user => (
+            <div className='message_list'>
+                {searchUsers.length != 0 ? 
+                searchUsers.map(user => (
                     <div key={user._id} className='message_user' onClick={() => handleAddUser(user)}>
                         <UserCard user={user} />
                     </div>
-                ))}
+                ))
+                : <>
+                {
+                    message.users.map(user => (
+                        <div key={user._id} className='message_user' onClick={() => handleAddUser(user)}>
+                            <UserCard user={user} >
+                                <i className="fa-solid fa-user-group text-success active" style={{ marginLeft: "auto", paddingRight: "10px", opacity: "0.5" }}></i>
+                            </UserCard>
+                        </div>
+                    ))
+                    
+                }
+                </>
+            }
             </div>
         </>
     );

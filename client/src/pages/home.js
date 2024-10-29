@@ -30,7 +30,7 @@ const Home = () => {
       }}
     >
       <div className="home row" style={{ width: "100%" }}>
-        <div className=" col-md-8 mb-3">
+        <div className=" col-md-7 mb-3">
           <Status />
           {postHome.loading ? (
             <img src={LoadIcon} alt="loading" className="d-block mx-auto" />

@@ -18,7 +18,7 @@ const UserCard = ({
   };
   return (
     <div
-      className={`d-flex p-2 align-items-center justify-content-between ${border}`}
+      className={`d-flex p-2 align-items-center justify-content-between w-100 ${border}`}
     >
       <div>
         <Link
@@ -27,8 +27,8 @@ const UserCard = ({
           className="d-flex align-items-center"
           style={{ textDecoration: "none", color: "#000" }}
         >
-          <Avatar src={user.avatar} size="big-avatar" theme={theme} />
-          <div className="ml-1" style={{ transform: "translateY(-6px)" }}>
+          <Avatar src={user.avatar} size="medium-avatar" theme={theme} />
+          <div className="ml-1" style={{ transform: "translateY(-6px)", paddingTop: '10px'}}>
             <span className="d-block">{user.username}</span>
             <small style={{ opacity: 0.7 }}>{user.fullname}</small>
           </div>
