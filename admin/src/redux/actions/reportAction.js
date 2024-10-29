@@ -13,7 +13,7 @@ export const getReports =
     try {
       dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
 
-      const res = await getDataAPI("/report", auth.token);
+      const res = await getDataAPI("report", auth.token);
 
       dispatch({
         type: REPORTS_LOADING.GET_REPORTS,
@@ -34,7 +34,7 @@ export const updateReports =
     try {
       dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
       await putDataAPI(
-        `/report/${reportData.id}`,
+        `report/${reportData.id}`,
         {
           act: reportData.desc,
         },
@@ -53,7 +53,7 @@ export const deleteReport =
   async (dispatch) => {
     try {
       dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
-      await deleteDataAPI(`/report/${reportData.id}`, auth.token);
+      await deleteDataAPI(`report/${reportData.id}`, auth.token);
       dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
     } catch (err) {
       dispatch({

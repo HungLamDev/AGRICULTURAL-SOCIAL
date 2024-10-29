@@ -31,3 +31,15 @@
     cursor: pointer;
     transform: translateY(-7px);
 }
+.image-container {
+    max-width: 150px; /* Đặt chiều rộng tối đa */
+    max-height: 150px; /* Đặt chiều cao tối đa */
+    margin: 5px; /* Khoảng cách giữa các ảnh */
+  }
+  
+  .image-container img,
+  .image-container video {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Đảm bảo ảnh không bị tràn */
+  }

@@ -62,8 +62,8 @@ export const updatePost =
         id: postData.id,
         text: "Thông báo từ ADMIN !",
         recipients: postData.userId,
-        url: "",
-        content: postData.desc + "Đường dẫn: " + `/post/${postData.id}`,
+        url: `post/${postData.id}`,
+        content: postData.desc + " Đường dẫn: " + `post/${postData.id}`,
         image: "",
       };
       await postDataAPI("/notify", msg, auth.token);
@@ -80,18 +80,17 @@ export const deletePost =
   async (dispatch) => {
     try {
       const res = await deleteDataAPI(`/post/${post._id}`, auth.token);
-      console.err(res);
-      //Notify to post
-      // const msg = {
-      //     id: post._id,
-      //     text: "Thông báo !",
-      //     recipients: post._id,
-      //     url: "",
-      //     content: "Bài viết của bạn đã bị xoá do vi phạm quy tắc cộng đồng !",
-      //     image: "",
-      // };
 
-      // await postDataAPI("/notify", msg, auth.token);
+      const msg = {
+        id: post._id,
+        text: "Thông báo !",
+        recipients: post._id,
+        url: `post/${post._id}`,
+        content: "Bài viết của bạn đã bị xoá do vi phạm quy tắc cộng đồng !",
+        image: "",
+      };
+
+      await postDataAPI("/notify", msg, auth.token);
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.NOTIFY,

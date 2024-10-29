@@ -19,6 +19,7 @@ const reportController = {
   getReport: async (req, res) => {
     try {
       const report = await Report.find().populate("user");
+      console.log(report);
       return res.status(200).json({ report });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
