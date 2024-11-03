@@ -35,6 +35,16 @@ const userCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  getAllUsers: async (req, res) => {
+    try {
+      const user = await Users.find()
+        .populate("following followers", "-password")
+        .select("-password");
+      return res.status(200).json(user);
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  },
   updateUser: async (req, res) => {
     try {
       console.log("Request Headers:", req.headers);

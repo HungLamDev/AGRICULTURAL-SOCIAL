@@ -12,6 +12,8 @@ import suggestions from "./suggestionReducer";
 import socket from "./socketRenducer";
 import notifyUser from "./notifyUserReducer";
 import message from "./messageReducer";
+import market from "./productReducer";
+
 export default combineReducers({
   auth,
   alert,
@@ -26,4 +28,5 @@ export default combineReducers({
   socket,
   notifyUser,
   message,
+  market,
 });

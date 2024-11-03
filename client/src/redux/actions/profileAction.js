@@ -2,6 +2,7 @@ import { GLOBALTYPES, DeleteData } from "./globalTypes";
 import { getDataAPI, patchDataAPI } from "../../utils/fetchData";
 import { imageUpload } from "../../utils/imageUpload";
 import { removeNotify, createNotify } from "./notifyAction";
+import { PRODUCTTYPE } from "./productAction";
 export const PROFILE_TYPES = {
   LOADING: "LOADING_USER",
   GET_USER: "GET_USER",
@@ -20,7 +21,15 @@ export const getProfileUsers =
       dispatch({ type: PROFILE_TYPES.LOADING, payload: true });
       const res = await getDataAPI(`user/${id}`, auth.token);
       const resPosts = await getDataAPI(`post/user_posts/${id}`, auth.token);
-      console.log({ res, resPosts });
+      const resProducts = await getDataAPI(
+        `/market/user_products/${id}`,
+        auth.token
+      );
+      console.log({ resProducts, resPosts });
+      dispatch({
+        type: PRODUCTTYPE.GET_USER_PRODUCTS,
+        payload: resProducts.data.userProduct,
+      });
 
       dispatch({
         type: PROFILE_TYPES.GET_USER,

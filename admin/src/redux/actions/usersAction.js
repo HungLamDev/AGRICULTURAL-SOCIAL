@@ -18,7 +18,7 @@ export const getUsers =
     try {
       dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
 
-      const res = await getDataAPI("/user", auth.token);
+      const res = await getDataAPI("user", auth.token);
       dispatch({
         type: USERS_LOADING.GET_USERS,
         payload: res.data,

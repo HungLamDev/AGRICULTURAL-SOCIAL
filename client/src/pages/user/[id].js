@@ -61,29 +61,30 @@ const Profile = () => {
           className={postTab ? "active" : ""}
           onClick={() => handleButtonPostClick()}
         >
-          <i className="fas fa-table"></i>
+          <i className="fas fa-table"></i> <span>Bài viết</span>
         </button>
         <button
           className={diaryTab ? "active" : ""}
           onClick={() => handleButtonDiaryClick()}
         >
-          <i className="fas fa-book"></i>
+          <i className="fas fa-book"></i> <span>Nhật ký</span>
         </button>
         <button
           className={productTab ? "active" : ""}
           onClick={() => handleButtonProductsClick()}
         >
-          <i className="fas fa-shopping-bag"></i>
+          <i className="fas fa-shopping-bag"></i> <span>Sản phẩm</span>
         </button>
         {auth.user._id === id && (
           <button
             className={saveTab ? "active" : ""}
             onClick={() => handleButtonSaveClick()}
           >
-            <i className="fas fa-bookmark"></i>
+            <i className="fas fa-bookmark"></i> <span>Đã lưu</span>
           </button>
         )}
       </div>
+
       {/* <Posts auth={auth} profile={profile} dispatch={dispatch} id={id} /> */}
       {profile.loading ? (
         <i>Đang tải dữ liệu ...</i>

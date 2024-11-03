@@ -5,7 +5,8 @@ import { imageShow, videoShow } from "../utils/mediaShow";
 import { createPost, updatePost } from "../redux/actions/postAction";
 import Icons from "./Icons";
 import category from "../data/category.json";
-// import Icons from "./Icons";
+import { createProduct, updateProduct } from "../redux/actions/productAction";
+
 const StatusModal = () => {
   const auth = useSelector((state) => state.auth);
   const theme = useSelector((state) => state.theme);
@@ -14,6 +15,7 @@ const StatusModal = () => {
 
   const dispatch = useDispatch();
   const [content, setContent] = useState("");
+  const [price, setPrice] = useState("");
   const [images, setImages] = useState([]);
   const [hashtag, setHashtag] = useState("");
   const [address, setAddress] = useState("");
@@ -50,6 +52,33 @@ const StatusModal = () => {
       });
     if (status.onEdit) {
       dispatch(updatePost({ content, hashtag, images, auth, status, socket }));
+    } else if (status.onMarket) {
+      dispatch(
+        createProduct({
+          content,
+          price,
+          address,
+          typeProduct,
+          hashtag,
+          images,
+          productName,
+          auth,
+        })
+      );
+    } else if (status.onEditProduct) {
+      dispatch(
+        updateProduct({
+          content,
+          price,
+          address,
+          typeProduct,
+          hashtag,
+          images,
+          productName,
+          auth,
+          status,
+        })
+      );
     } else {
       dispatch(createPost({ content, hashtag, images, auth, socket }));
     }
@@ -60,12 +89,29 @@ const StatusModal = () => {
       setImages(status.img);
       setHashtag(status.hashtag);
     }
+    if (status.onEditProduct) {
+      setContent(status.desc);
+      setPrice(status.price);
+      setAddress(status.address);
+      setTypeProduct(status.typeProduct);
+      setHashtag(status.hashtag);
+      setImages(status.img);
+      setProductName(status.productName);
+    }
   }, [status]);
   return (
     <div className="status_modal">
       <form onSubmit={handleSubmit}>
         <div className="status_title">
-          <h5 className="m-0 ">Tạo bài viết</h5>
+          <h5 className="m-0 ">
+            {status.onEdit
+              ? "Cập nhật bài viết"
+              : status.onMarket
+              ? "Tạo sản phẩm mới"
+              : status.onEditProduct
+              ? "Cập nhật sản phẩm"
+              : "Tạo bài viết mới"}
+          </h5>
           <span
             onClick={() =>
               dispatch({
@@ -81,9 +127,71 @@ const StatusModal = () => {
           <textarea
             name="content"
             value={content}
-            placeholder={`${auth.user.username} ơi, bạn đang nghĩ gì?`}
+            placeholder={
+              status.onMarket
+                ? "Giới thiệu sản phẩm của bạn !"
+                : `${auth.user.username}, Bạn đang nghĩ gì ?`
+            }
             onChange={(e) => setContent(e.target.value)}
           />
+          {(status.onMarket || status.onEditProduct) && (
+            <>
+              <div className="pb-2">
+                <small>Tên SP: </small>
+                <input
+                  className="hastag_box"
+                  type="text"
+                  name="price"
+                  value={productName}
+                  onChange={(e) => setProductName(e.target.value)}
+                  placeholder="Nhập tên sản phẩm ..."
+                />
+              </div>
+              <div className="pb-2">
+                <small>Giá (VNĐ): </small>
+                <input
+                  className="hastag_box"
+                  type="text"
+                  name="price"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  placeholder="Nhập giá bán ..."
+                />
+              </div>
+              <div className="pb-2">
+                <small>Phân loại: </small>
+                <select
+                  className="hastag_box"
+                  name="address"
+                  value={typeProduct}
+                  onChange={(e) => setTypeProduct(e.target.value)}
+                >
+                  <option value="">Chọn một phân loại</option>
+                  {category.category.map((item, index) => (
+                    <option key={index} value={item.label}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="pb-2">
+                <small>Địa chỉ: </small>
+                <select
+                  className="hastag_box"
+                  name="address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                >
+                  <option value="">Tỉnh/Thành phố ...</option>
+                  {category.city.map((item, index) => (
+                    <option key={index} value={item.name}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </>
+          )}
           <div className="show_imgs">
             {images.map((img, index) => (
               <div
