@@ -4,7 +4,7 @@ import { GLOBALTYPES } from "../redux/actions/globalTypes";
 import { imageShow, videoShow } from "../utils/mediaShow";
 import { createPost, updatePost } from "../redux/actions/postAction";
 import Icons from "./Icons";
-// import Icons from "./Icons";
+
 const StatusModal = () => {
   const auth = useSelector((state) => state.auth);
   const theme = useSelector((state) => state.theme);
