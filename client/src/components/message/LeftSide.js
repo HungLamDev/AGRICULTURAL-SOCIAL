@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UserCard from '../UserCard';
 import { useSelector, useDispatch } from 'react-redux';
 import { getDataAPI } from '../../utils/fetchData';
 import { GLOBALTYPES } from '../../redux/actions/globalTypes';
 import { useNavigate } from 'react-router-dom';
-import { addUser } from '../../redux/actions/messageAction';
+import { addUser, getConversations} from '../../redux/actions/messageAction';
+
 
 const LeftSide = () => {
     const { auth, message } = useSelector(state => state);
@@ -55,6 +56,11 @@ const LeftSide = () => {
         return navigate(`/message/${user._id}`)
     };
 
+    useEffect(() => {
+        if(message.firstLoad) return;
+        dispatch(getConversations({auth}))
+    }, [dispatch, auth, message.firstLoad])
+    
     return (
         <>
             <form className="message_header_search" onSubmit={handleSearch}>
@@ -79,7 +85,7 @@ const LeftSide = () => {
                 {
                     message.users.map(user => (
                         <div key={user._id} className='message_user' onClick={() => handleAddUser(user)}>
-                            <UserCard user={user} >
+                            <UserCard user={user} msg={true}>
                                 <i className="fa-solid fa-user-group text-success active" style={{ marginLeft: "auto", paddingRight: "10px", opacity: "0.5" }}></i>
                             </UserCard>
                         </div>

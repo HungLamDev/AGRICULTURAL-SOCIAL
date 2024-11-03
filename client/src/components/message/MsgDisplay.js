@@ -1,23 +1,32 @@
 import React from 'react'
 import Avatar from '../Avatar'
-const MsgDisplay = ({user}) => {
+import { videoShow, imageShow } from '../../utils/mediaShow'
+const MsgDisplay = ({user,msg,theme}) => {
   return (
     <>
-      <div className='chat_title'>
+      <div className='chat_title pt-2'>
             <Avatar src={user.avatar} size="medium-avatar"  />
-
-            <span>
+            <span className='pl-1'>
                   {user.username}
             </span>
       </div>
-      <div className='chat_text'>
-            Nhóm thanh niên chạy xe bóc đầu phóng nhanh (cầm đầu HOÀNG CÔNG TRƯỜNG) đoạn đường 3/2 hẻm 51 hướng về cầu Đầu Sấu.
-            Mong các em hoặc phụ huynh nhìn thấy và thay đổi tư duy con em mình. 
-            Không có gì hay ho mà còn gây nguy hiểm cho người khác và bản thân mình. 
-            Hi vọng admin duyệt bài. Cám ơn ạ.
-      </div>
+      {
+            msg.text && <div className='chat_text' style={{filter: theme ? 'invert(1)' : 'invert(0)'}}> {msg.text} </div>
+      }
+      {
+            msg.media.map((item,index) => (
+                  <div key={index} style={{width: '40%', filter: theme ? 'invert(1)' : 'invert(0)'}}>
+                        {
+                              item.url.match(/video/i)
+                              ? videoShow(item.url, theme)
+                              : imageShow(item.url, theme)
+                        }
+                  </div>
+            ))
+      }
+      
       <div className='chat_time p-2'>
-            April 2021
+            {new Date(msg.createdAt).toLocaleString()}
       </div>
     </>
   )

@@ -24,11 +24,11 @@ function App() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("useEffect triggered 1");
+    // console.log("useEffect triggered 1");
     dispatch(refrechToken());
   }, [dispatch]);
   useEffect(() => {
-    console.log("useEffect triggered 2");
+    // console.log("useEffect triggered 2");
 
     const socket = io("http://localhost:5000");
     dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
@@ -36,7 +36,7 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("useEffect 3 triggered");
+    // console.log("useEffect 3 triggered");
     if (auth.token) {
       dispatch(getPosts(auth.token));
       dispatch(getSuggestions(auth.token));

@@ -4,7 +4,6 @@ import { GLOBALTYPES } from "../redux/actions/globalTypes";
 import { imageShow, videoShow } from "../utils/mediaShow";
 import { createPost, updatePost } from "../redux/actions/postAction";
 import Icons from "./Icons";
-import category from "../data/category.json";
 // import Icons from "./Icons";
 const StatusModal = () => {
   const auth = useSelector((state) => state.auth);
@@ -24,18 +23,27 @@ const StatusModal = () => {
     const files = [...e.target.files];
     let err = "";
     let newImgs = [];
-
+  
     files.forEach((file) => {
-      if (!file) return (err = "File không tồn tại !");
-      if (file.size > 1024 * 1024 * 5) {
-        return (err = "Dung lượng file quá lớn !");
+      if (!file) {
+        err = "File không tồn tại!";
+        return;
       }
-
-      return newImgs.push(file);
+      if (file.size > 1024 * 1024 * 5) { // 5MB size limit
+        err = "Dung lượng file quá lớn!";
+        return;
+      }
+      newImgs.push(file);
     });
-    if (err) dispatch({ type: GLOBALTYPES.ALERT, payload: { err: err } });
+    console.log(newImgs);
+    
+    if (err) {
+      return dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err } });
+    }
+  
     setImages([...images, ...newImgs]);
   };
+  
   const delImage = (index) => {
     const newArr = [...images];
     newArr.splice(index, 1);
@@ -61,6 +69,7 @@ const StatusModal = () => {
       setHashtag(status.hashtag);
     }
   }, [status]);
+
   return (
     <div className="status_modal">
       <form onSubmit={handleSubmit}>

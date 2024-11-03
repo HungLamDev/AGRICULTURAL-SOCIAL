@@ -3,12 +3,11 @@ import { useSelector } from "react-redux";
 import PostCard from "../PostCard";
 
 const Posts = () => {
-  const postHome = useSelector((state) => state.Homepost);
-
+  const {Homepost,theme} = useSelector((state) => state);
   return (
     <div className="posts">
-      {postHome.posts.map((post, index) => (
-        <PostCard key={post._id} post={post} />
+      {Homepost.posts.map((post, index) => (
+        <PostCard key={post._id} post={post} theme={theme}/>
       ))}
     </div>
   );

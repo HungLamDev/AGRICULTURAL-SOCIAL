@@ -59,7 +59,11 @@ const Search = () => {
   };
 
   return (
-    <form className="search_box" onSubmit={handleSearch}>
+    <form className="search_box" onSubmit={handleSearch} 
+    style={{
+      filter: theme ? 'invert(1)' : 'none', 
+    }}
+    >
       <input
         type="text"
         name="search"
@@ -86,7 +90,7 @@ const Search = () => {
         </div>
       )}
 
-      <button type="submit" style={{ display: "none" }}>
+      <button type="submit" style={{ display: "none"}}> 
         Tìm Kiếm
       </button>
       <div className="search_result">

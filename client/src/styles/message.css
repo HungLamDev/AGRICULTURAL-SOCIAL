@@ -116,7 +116,7 @@
       grid-gap: 10px;
       background: var(--bg-color);
       border-radius: 5px;
-      padding: 0 5px;
+      padding: 0 7px;
 }
 
 .show_media #file_media {
@@ -142,6 +142,7 @@
       padding: 0 5px;
       font-weight: bold;
       cursor: pointer;
+      color: red;
 }
 
 /* chat container */

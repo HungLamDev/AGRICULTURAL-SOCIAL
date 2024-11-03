@@ -38,6 +38,7 @@ app.use("/api", require("./routes/commentRoute"));
 app.use("/api", require("./routes/diaryRoute"));
 app.use("/api", require("./routes/notifyRoute"));
 app.use("/api", require("./routes/reportRoute"));
+app.use("/api", require("./routes/messageRouter"));
 
 mongoose.set("strictQuery", false);
 const mongoOptions = {
