@@ -94,8 +94,8 @@
             if(id) {
                   const getMessagesData = async () => {
                         dispatch({type: MESS_TYPES.GET_MESSAGES, payload: { messages: []}})
-                        setPage(0)
                         await dispatch(getMessages({auth, id}))
+                        setPage(0)
                         if(refDisplay.current){
                               refDisplay.current.scrollIntoView({behavior: 'smooth', block: 'end'})
                         }
@@ -118,10 +118,11 @@
         
       
       useEffect(() => {
-            if(message.resultData >= (page - 1 ) * 9 && page > 1){
-                  dispatch(getMessages({auth, id, page}))
-            }
-      }, [message.resultData, page, id, auth, dispatch])
+      if (page > 0 && message.resultData >= (page - 1) * 9) {
+            dispatch(getMessages({ auth, id, page }));
+      }
+      }, [message.resultData, page, id, auth, dispatch]);
+        
       
       useEffect(() => {
             if(refDisplay.current){
