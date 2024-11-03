@@ -80,7 +80,12 @@ const CommentCard = ({ comment, post, commentId, children }) => {
         <h6 className="mx-1 mb-0">{comment.user.username}</h6>
       </Link>
       <div className="comment_content">
-        <div className="flex-fill">
+        <div className="flex-fill"
+          style={{
+            filter: theme ? "invert(1)" : "invert(0)",
+            color: theme ? "white" : "black",
+          }}
+        >
           {onEdit ? (
             <textarea
               rows="4"

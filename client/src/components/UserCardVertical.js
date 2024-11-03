@@ -28,7 +28,7 @@ const UserCardVertical = ({
           className="d-flex align-items-center"
           style={{ textDecoration: "none", color: "#000" }}
         >
-          <Avatar src={user.avatar} size="big-avatar" />
+          <Avatar src={user.avatar} size="big-avatar"/>
           <div className="ml-1" style={{ transform: "translateY(-2px)" }}>
             <small className="d-block">{user.username}</small>
             {user.roles === "expert" && (

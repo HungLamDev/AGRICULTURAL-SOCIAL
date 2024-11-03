@@ -20,17 +20,17 @@ const Carousel = ({ images, id }) => {
 
   const getColClass = (totalImages, index) => {
     if (totalImages === 5) {
-      return index < 3 ? "col-4" : "col-6"; // 3 ảnh ở hàng đầu (3x1), 2 ảnh ở hàng dưới (2x1)
+      return index < 3 ? "col-4" : "col-6";
     } else if (totalImages === 4) {
-      return "col-6"; // 2 hàng, mỗi hàng 2 ảnh
+      return "col-6";
     } else {
-      return "col-6 col-md-4"; // Mặc định cho các ảnh khác
+      return "col-6 col-md-4";
     }
   };
 
   return (
     <div>
-      {/* Lưới hiển thị ảnh */}
+      {/* Grid Display */}
       <div className="container">
         <div className="row">
           {displayedImages.map((image, index) => (
@@ -47,11 +47,11 @@ const Carousel = ({ images, id }) => {
                 onClick={() => handleShowModal(index)}
                 style={{
                   cursor: "pointer",
-                  height: displayedImages.length === 1 ? "500px" : "100%", // Change based on number of images
+                  height: displayedImages.length === 1 ? "500px" : "100%",
                   width: "100%",
                   overflow: "hidden",
                   paddingRight: "1px",
-                  paddingBottom: "1px"
+                  paddingBottom: "1px",
                 }}
               >
                 <img
@@ -61,12 +61,12 @@ const Carousel = ({ images, id }) => {
                   style={{
                     width: "100%",
                     height: "100%",
-                    objectFit: "cover", // Ensure the image covers the area without distortion
+                    objectFit: "cover",
+                    filter: theme ? "invert(1)" : "invert(0)",
                   }}
                 />
               </div>
-  
-              {/* Hiển thị số ảnh còn lại nếu có */}
+
               {index === 4 && remainingImagesCount > 0 && (
                 <div
                   className="remaining-images d-flex justify-content-center align-items-center"
@@ -90,101 +90,83 @@ const Carousel = ({ images, id }) => {
           ))}
         </div>
       </div>
-  
-      {/* Bootstrap Carousel Modal */}
+
+      {/* Modal Carousel */}
       <Modal show={showModal} onHide={handleHideModal} size="lg" centered>
-        <Modal.Body>
+      <Modal.Body>
+        <div
+          id={`carouselExample${id}`}
+          className="carousel slide"
+          data-bs-ride="carousel"
+        >
           <div
-            id={`carouselExample${id}`}
-            className="carousel slide"
-            data-bs-ride="carousel"
+            className="carousel-inner"
+            style={{
+              filter: theme ? "invert(1)" : "invert(0)",
+            }}
           >
-            <div className="carousel-indicators">
-              {images.map((img, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  data-bs-target={`#carouselExample${id}`}
-                  data-bs-slide-to={index}
-                  className={index === activeIndex ? "active" : ""}
-                  aria-current={index === activeIndex ? "true" : "false"}
-                  aria-label={`Slide ${index + 1}`}
-                />
-              ))}
-            </div>
-  
-            <div className="carousel-inner">
-              {images.map((img, index) => (
-                <div
-                  key={index}
-                  className={`carousel-item ${
-                    index === activeIndex ? "active" : ""
-                  }`}
-                >
-                  {img.url.match(/video/i) ? (
-                    <video
-                      controls
-                      src={img.url}
-                      className="d-block w-100"
-                      alt={img.url}
-                      style={{
-                        maxHeight: "1200px",
-                        objectFit: "contain",
-                        filter: theme ? "invert(1)" : "invert(0)",
-                      }}
-                    />
-                  ) : (
-                    <img
-                      src={img.url}
-                      className="d-block w-100"
-                      alt={img.url}
-                      style={{
-                        maxHeight: "1200px", // Đặt chiều cao tối đa cho ảnh trong modal
-                        objectFit: "contain",
-                        filter: theme ? "invert(1)" : "invert(0)",
-                      }}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-  
-            {/* Điều khiển chuyển ảnh */}
-            {images.length > 1 && (
-              <>
-                <button
-                  className="carousel-control-prev"
-                  type="button"
-                  data-bs-target={`#carouselExample${id}`}
-                  data-bs-slide="prev"
-                >
-                  <span
-                    className="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="visually-hidden">Previous</span>
-                </button>
-  
-                <button
-                  className="carousel-control-next"
-                  type="button"
-                  data-bs-target={`#carouselExample${id}`}
-                  data-bs-slide="next"
-                >
-                  <span
-                    className="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="visually-hidden">Next</span>
-                </button>
-              </>
-            )}
+            {images.map((img, index) => (
+              <div
+                key={index}
+                className={`carousel-item ${index === activeIndex ? "active" : ""}`}
+              >
+                {img.url.match(/video/i) ? (
+                  <video
+                    controls
+                    src={img.url}
+                    className="d-block w-100"
+                    alt={img.url}
+                    style={{
+                      maxHeight: "1200px",
+                      objectFit: "contain",
+                      filter: theme ? "invert(1)" : "invert(0)",
+                    }}
+                  />
+                ) : (
+                  <img
+                    src={img.url}
+                    className="d-block w-100"
+                    alt={img.url}
+                    style={{
+                      maxHeight: "1200px",
+                      objectFit: "contain",
+                      filter: theme ? "invert(1)" : "invert(0)",
+                    }}
+                  />
+                )}
+              </div>
+            ))}
           </div>
-        </Modal.Body>
+
+          {images.length > 1 && (
+            <>
+              <button
+                className="carousel-control-prev"
+                type="button"
+                data-bs-target={`#carouselExample${id}`}
+                data-bs-slide="prev"
+              >
+                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Previous</span>
+              </button>
+
+              <button
+                className="carousel-control-next"
+                type="button"
+                data-bs-target={`#carouselExample${id}`}
+                data-bs-slide="next"
+              >
+                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Next</span>
+              </button>
+            </>
+          )}
+        </div>
+      </Modal.Body>
+
       </Modal>
     </div>
   );
-  
 };
 
 export default Carousel;

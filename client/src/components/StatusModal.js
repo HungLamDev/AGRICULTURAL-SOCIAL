@@ -28,16 +28,26 @@ const StatusModal = () => {
     let newImgs = [];
 
     files.forEach((file) => {
-      if (!file) return (err = "File không tồn tại !");
-      if (file.size > 1024 * 1024 * 5) {
-        return (err = "Dung lượng file quá lớn !");
+      if (!file) {
+        err = "File không tồn tại!";
+        return;
       }
-
-      return newImgs.push(file);
+      if (file.size > 1024 * 1024 * 5) {
+        // 5MB size limit
+        err = "Dung lượng file quá lớn!";
+        return;
+      }
+      newImgs.push(file);
     });
-    if (err) dispatch({ type: GLOBALTYPES.ALERT, payload: { err: err } });
+    console.log(newImgs);
+
+    if (err) {
+      return dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err } });
+    }
+
     setImages([...images, ...newImgs]);
   };
+
   const delImage = (index) => {
     const newArr = [...images];
     newArr.splice(index, 1);
@@ -99,6 +109,7 @@ const StatusModal = () => {
       setProductName(status.productName);
     }
   }, [status]);
+
   return (
     <div className="status_modal">
       <form onSubmit={handleSubmit}>

@@ -38,8 +38,8 @@ app.use("/api", require("./routes/commentRoute"));
 app.use("/api", require("./routes/diaryRoute"));
 app.use("/api", require("./routes/notifyRoute"));
 app.use("/api", require("./routes/reportRoute"));
+app.use("/api", require("./routes/messageRouter"));
 app.use("/api", require("./routes/productRoute"));
-
 mongoose.set("strictQuery", false);
 const mongoOptions = {
   useNewUrlParser: true,

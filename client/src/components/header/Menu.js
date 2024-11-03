@@ -26,7 +26,7 @@ const Menu = () => {
   };
   return (
     <div className="menu">
-      <ul className="navbar-nav flex-row">
+      <ul className="navbar-nav flex-row" style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}>
         {navLink.map((link, index) => (
           <li className={`nav-item px-2  ${isActive(link.path)}`} key={index}>
             <Link className="nav-link" to={link.path}>

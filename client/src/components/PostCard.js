@@ -6,7 +6,7 @@ import CardHeader from "./home/postCard/CardHeader";
 import CommentInput from "./home/CommentIput";
 import Comments from "./home/Comments";
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, theme }) => {
   return (
     <div className="card my-3 d-flex justify-content-center mx-auto" 
     style={{
@@ -16,7 +16,7 @@ const PostCard = ({ post }) => {
     }}> 
     
       <CardHeader post={post} />
-      <CardBody post={post} />
+      <CardBody post={post}  theme={theme}/>
       <CardFooter post={post} />
 
       <Comments post={post} />
