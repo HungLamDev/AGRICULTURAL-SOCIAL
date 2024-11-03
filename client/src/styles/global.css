@@ -74,3 +74,8 @@
   @import url("./ShareModal.css");
     /*------------notificationsStyle---------------*/
   @import url("./message.css");
+     /*------------productStyle---------------*/
+     @import url("./productStyle.css");
+      /*------------diaryThumbStyle---------------*/
+      @import url("./diaryThumbStyle.css");
+

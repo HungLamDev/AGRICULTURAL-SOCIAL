@@ -188,3 +188,8 @@
     border-bottom: 1px solid #000;
     opacity: 0.8;
 }
+.profile_tab button {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Khoảng cách giữa icon và chữ */
+  }
