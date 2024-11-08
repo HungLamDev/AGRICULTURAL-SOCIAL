@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const socketIO = require("socket.io");
 const SocketServer = require("./socketSever");
+const {PeerServer} = require('peer')
 
 const app = express();
 app.use(cors());
@@ -29,6 +30,13 @@ io.on("connection", (socket) => {
     console.log(`${socket.id} Disconnected`);
   });
 });
+// create peer server
+PeerServer({
+  port: 3001,
+  path: '/',
+});
+
+
 // Routes
 app.use("/api", require("./routes/postRouter"));
 app.use("/api", require("./routes/authRouter"));

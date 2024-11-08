@@ -1,24 +1,33 @@
 import { MESS_TYPES } from '../actions/messageAction';
+import { EditData, DeleteData } from '../actions/globalTypes';
 
 const initialState = {
     users: [],
     resultUsers: 0,
     data: [],
-    resultData: 0,
     firstLoad: false,
 };
 
 const messageReducer = (state = initialState, action) => {
     switch (action.type) {
         case MESS_TYPES.ADD_USER:
-            return {
-                ...state,
-                users: [action.payload, ...state.users]
-            };
+            if (state.users.every((item) => item._id !== action.payload._id)) {
+                return {
+                    ...state,
+                    users: [action.payload, ...state.users]
+                };
+            }
+            return state;
         case MESS_TYPES.ADD_MESSAGE:
             return {
                 ...state,
-                data: [...state.data, action.payload],
+                data: state.data.map(item => 
+                    item._id === action.payload.recipient || item._id === action.payload.sender
+                    ? {...item, 
+                    messages: [...item.messages, action.payload],
+                    result :  item.result + 1}
+                    : item
+                ),
                 users: state.users.map( user =>
                     user._id === action.payload.recipient || user._id === action.payload.sender 
                     ? {
@@ -37,9 +46,37 @@ const messageReducer = (state = initialState, action) => {
         case MESS_TYPES.GET_MESSAGES:
             return {
                 ...state,
-                data: action.payload.messages.reverse(),
-                resultData: action.payload.result
+                data: [...state.data, action.payload],
             };
+        case MESS_TYPES.UPDATE_MESSAGES:
+            return {
+                ...state,
+                data: EditData(state.data, action.payload._id, action.payload)
+            };
+        case MESS_TYPES.DELETE_MESSAGES:
+            return {
+                ...state,
+                data: state.data.map(item => 
+                    item._id === action.payload._id
+                    ? {...item, messages: action.payload.newData}
+                    : item
+                )
+            };
+            case MESS_TYPES.DELETE_CONVERSATION:
+                return {
+                  ...state,
+                  users: DeleteData(state.users, action.payload),
+                  data: DeleteData(state.data, action.payload),
+                };
+            case MESS_TYPES.CHECK_ONLINE:
+                return {
+                    ...state,
+                    users: state.users.map((user) =>
+                    action.payload.includes(user._id)
+                        ? { ...user, online: true }
+                        : { ...user, online: false }
+                    ),
+                };
         default:
             return state;
     }

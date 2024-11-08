@@ -14,6 +14,9 @@ import notifyUser from "./notifyUserReducer";
 import message from "./messageReducer";
 import market from "./productReducer";
 import diary from "./diaryReducer";
+import online from "./onlineReducer";
+import call from "./callReducer";
+import peer from "./peerReducer";
 
 export default combineReducers({
   auth,
@@ -31,4 +34,7 @@ export default combineReducers({
   message,
   market,
   diary,
+  online,
+  call,
+  peer,
 });

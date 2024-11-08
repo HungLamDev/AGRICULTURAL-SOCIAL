@@ -1,14 +1,13 @@
 import React from "react";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+
 const UserCard = ({children, user, border, handleClose, setshowFollowers, setshowFollowing, msg}) => {
   const handleCloseALL = async () => {
     if (handleClose) handleClose();
     if (setshowFollowers) setshowFollowers(false);
     if (setshowFollowing) setshowFollowing(false);
   };
-  const theme = useSelector(state => state)
   return (
     <div
       className={`d-flex p-2 align-items-center justify-content-between w-100 ${border}`}
