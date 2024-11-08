@@ -13,7 +13,9 @@ import socket from "./socketRenducer";
 import notifyUser from "./notifyUserReducer";
 import message from "./messageReducer";
 import market from "./productReducer";
-
+import online from "./onlineReducer";
+import call from "./callReducer";
+import peer from "./peerReducer";
 export default combineReducers({
   auth,
   alert,
@@ -29,4 +31,7 @@ export default combineReducers({
   notifyUser,
   message,
   market,
+  online,
+  call,
+  peer
 });

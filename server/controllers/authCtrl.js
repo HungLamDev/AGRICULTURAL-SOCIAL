@@ -71,10 +71,7 @@ const authCtrl = {
   login: async (req, res) => {
     try {
       const { email, password } = req.body;
-      const user = await User.findOne({ email }).populate(
-        "followers following",
-        "-password"
-      );
+      const user = await User.findOne({ email: req.body.email }).populate("followers following");
       if (!user)
         return res.status(400).json({ msg: "Email này không tồn tại!" });
       const isMatch = await bcrypt.compare(password, user.password);

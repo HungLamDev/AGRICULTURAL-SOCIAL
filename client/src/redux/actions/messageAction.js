@@ -1,5 +1,5 @@
 import { GLOBALTYPES, DeleteData } from "./globalTypes";
-import { postDataAPI, getDataAPI } from "../../utils/fetchData";
+import { postDataAPI, getDataAPI, deleteDataAPI } from "../../utils/fetchData";
 export const MESS_TYPES = {
   ADD_USER: "ADD_USER",
   ADD_MESSAGE: "ADD_MESSAGE",
@@ -11,24 +11,21 @@ export const MESS_TYPES = {
   CHECK_ONLINE: "CHECK_ONLINE",
 };
 
-export const addUser =
-  ({ user, message }) =>
-  (dispatch) => {
-    if (message.users.every((item) => item._id !== user._id)) {
-      dispatch({
-        type: MESS_TYPES.ADD_USER,
-        payload: { ...user, text: "", media: [] },
-      });
-    }
-  };
+// export const addUser = ({ user, message }) => (dispatch) => {
+//     if (message.users.every((item) => item._id !== user._id)) {
+//       dispatch({
+//         type: MESS_TYPES.ADD_USER,
+//         payload: { ...user, text: "", media: [] },
+//       });
+//     }
+//   };
 
-export const addMessage =
-  ({ msg, auth, socket }) =>
+export const addMessage = ({ msg, auth, socket }) =>
   async (dispatch) => {
     dispatch({ type: MESS_TYPES.ADD_MESSAGE, payload: msg });
-    // const { _id, avatar, fullname, username } = auth.user
+    const { _id, avatar, fullname, username } = auth.user
     // socket.emit('addMessage', {...msg, user: { _id, avatar, fullname, username } })
-    socket.emit("addMessage", msg);
+    socket.emit("addMessage", {...msg, user: { _id, avatar, fullname, username } });
     try {
       await postDataAPI("message", msg, auth.token);
     } catch (err) {
@@ -38,11 +35,11 @@ export const addMessage =
       });
     }
   };
-export const getConversations =
-  ({ auth }) =>
+
+export const getConversations = ({ auth,page = 1 }) =>
   async (dispatch) => {
     try {
-      const res = await getDataAPI("conversations", auth.token);
+      const res = await getDataAPI(`conversations?limit=${page * 9}`, auth.token);
       let newArr = [];
       res.data.conversations.forEach((item) => {
         item.recipients.forEach((cv) => {
@@ -62,15 +59,13 @@ export const getConversations =
       });
     }
   };
-export const getMessages =
-  ({ auth, id, page = 1 }) =>
-  async (dispatch) => {
+
+export const getMessages = ({ auth, id, page = 1 }) => async (dispatch) => {
     try {
-      const res = await getDataAPI(
-        `message/${id}?limit=${page * 9}`,
-        auth.token
-      );
-      dispatch({ type: MESS_TYPES.GET_MESSAGES, payload: res.data });
+      const res = await getDataAPI(`message/${id}?limit=${page * 9}`,auth.token)
+      const newData = {...res.data, messages: res.data.messages.reverse()}
+      
+      dispatch({ type: MESS_TYPES.GET_MESSAGES, payload: {...newData, _id: id, page} });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -78,3 +73,37 @@ export const getMessages =
       });
     }
   };
+
+export const loadMoreMessages = ({ auth, id, page = 1 }) => async (dispatch) => {
+    try {
+      const res = await getDataAPI(`message/${id}?limit=${page * 9}`,auth.token)
+      const newData = {...res.data, messages: res.data.messages.reverse()}
+      
+      dispatch({ type: MESS_TYPES.UPDATE_MESSAGES, payload: {...newData, _id: id, page} });
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { err: err.response.data.msg },
+      });
+    }
+  };
+
+export const deleteMessages = ({msg, data, auth}) => async (dispatch) => {
+    const newData = DeleteData(data, msg._id)
+    dispatch({type: MESS_TYPES.DELETE_MESSAGES, payload: {newData, _id: msg.recipient}})
+    try {
+        await deleteDataAPI(`message/${msg._id}`, auth.token)
+    } catch (err) {
+        dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
+    }
+  };
+
+export const deleteConversation = ({auth, id}) => async (dispatch) => {
+  dispatch({type: MESS_TYPES.DELETE_CONVERSATION, payload: id})
+  try {
+    await deleteDataAPI(`conversation/${id}`, auth.token)
+  } catch (err) {
+      dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
+  }
+  };
+  
