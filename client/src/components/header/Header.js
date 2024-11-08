@@ -9,8 +9,8 @@ const Header = () => {
   const theme = useSelector((state) => state.theme);
 
   return (
-    <div className="header bg-light p-2">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between align-middle">
+    <div className="header  p-2">
+      <nav className="navbar navbar-expand-lg navbar-light  justify-content-between align-middle">
         <Link
           className="logo"
           to="/"

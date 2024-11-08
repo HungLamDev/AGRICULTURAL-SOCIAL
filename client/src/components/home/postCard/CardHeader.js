@@ -30,8 +30,8 @@ const CardHeader = ({ post }) => {
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openReportModal, setOpenReportModal] = useState(false);
-  const [reportReason, setReportReason] = useState(""); // Chứa lý do báo cáo
-  const [customReportReason, setCustomReportReason] = useState(""); // Lý do tùy chỉnh
+  const [reportReason, setReportReason] = useState("");
+  const [customReportReason, setCustomReportReason] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
@@ -47,7 +47,8 @@ const CardHeader = ({ post }) => {
   const handleReport = () => setOpenReportModal(true);
 
   const confirmReport = () => {
-    let finalReason = reportReason === "Lý do khác" ? customReportReason : reportReason;
+    let finalReason =
+      reportReason === "Lý do khác" ? customReportReason : reportReason;
 
     if (!finalReason.trim()) {
       setSnackbarMessage("Vui lòng chọn hoặc nhập lý do báo cáo!");
@@ -107,28 +108,44 @@ const CardHeader = ({ post }) => {
         <div className="dropdown-menu">
           {auth?.user?._id === post?.user?._id && (
             <>
-              <div className="dropdown-item" onClick={() => {
-                  dispatch({ type: GLOBALTYPES.STATUS, payload: { ...post, onEdit: true } });
-              }}>
-                <span className="material-symbols-outlined">edit</span> Chỉnh sửa bài viết
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  dispatch({
+                    type: GLOBALTYPES.STATUS,
+                    payload: { ...post, onEdit: true },
+                  });
+                }}
+              >
+                <span className="material-symbols-outlined">edit</span> Chỉnh
+                sửa bài viết
               </div>
-              <div className="dropdown-item" onClick={() => setOpenDeleteModal(true)}>
-                <span className="material-symbols-outlined">delete</span> Xóa bài viết
+              <div
+                className="dropdown-item"
+                onClick={() => setOpenDeleteModal(true)}
+              >
+                <span className="material-symbols-outlined">delete</span> Xóa
+                bài viết
               </div>
             </>
           )}
-          <div className="dropdown-item" onClick={() => {
-            navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`)
-              .then(() => {
-                setSnackbarMessage("Đã sao chép liên kết thành công");
-                setOpenSnackbar(true);
-              })
-              .catch((error) => {
-                setSnackbarMessage("Lỗi khi sao chép: " + error);
-                setOpenSnackbar(true);
-              });
-          }}>
-            <span className="material-symbols-outlined">share</span> Sao chép liên kết
+          <div
+            className="dropdown-item"
+            onClick={() => {
+              navigator.clipboard
+                .writeText(`${BASE_URL}/post/${post._id}`)
+                .then(() => {
+                  setSnackbarMessage("Đã sao chép liên kết thành công");
+                  setOpenSnackbar(true);
+                })
+                .catch((error) => {
+                  setSnackbarMessage("Lỗi khi sao chép: " + error);
+                  setOpenSnackbar(true);
+                });
+            }}
+          >
+            <span className="material-symbols-outlined">share</span> Sao chép
+            liên kết
           </div>
           <div className="dropdown-item" onClick={handleReport}>
             <span className="material-symbols-outlined">report</span> Báo cáo
@@ -148,11 +165,14 @@ const CardHeader = ({ post }) => {
           <Button onClick={() => setOpenDeleteModal(false)} color="primary">
             Hủy
           </Button>
-          <Button onClick={() => {
-            dispatch(deletePost({ post, auth, socket }));
-            navigate("/");
-            setOpenDeleteModal(false);
-          }} color="primary">
+          <Button
+            onClick={() => {
+              dispatch(deletePost({ post, auth, socket }));
+              navigate("/");
+              setOpenDeleteModal(false);
+            }}
+            color="primary"
+          >
             Xóa
           </Button>
         </DialogActions>

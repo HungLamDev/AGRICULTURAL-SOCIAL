@@ -13,6 +13,7 @@ import socket from "./socketRenducer";
 import notifyUser from "./notifyUserReducer";
 import message from "./messageReducer";
 import market from "./productReducer";
+import diary from "./diaryReducer";
 
 export default combineReducers({
   auth,
@@ -29,4 +30,5 @@ export default combineReducers({
   notifyUser,
   message,
   market,
+  diary,
 });

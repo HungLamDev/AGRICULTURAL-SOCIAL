@@ -34,7 +34,7 @@
       flex: 2;
   }
   .info_container .follow_btn{
-      color: teal;
+    color: #0D6EFD;
       cursor: pointer;
   }
   .info_container .follow_btn span:hover{
@@ -193,3 +193,12 @@
     align-items: center;
     gap: 5px; /* Khoảng cách giữa icon và chữ */
   }
+  .follow-button {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid red;
+    color: red;
+    text-align: center;
+    writing-mode: horizontal-tb; /* Đảm bảo chữ hiển thị ngang */
+  }
+  

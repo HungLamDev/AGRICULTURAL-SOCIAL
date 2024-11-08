@@ -23,6 +23,7 @@
     "react-router-dom": "^6.26.0",
     "react-scripts": "5.0.1",
     "react-share": "^4.4.1",
+    "react-vertical-timeline-component": "^3.6.0",
     "redux": "^5.0.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-immutable-state-invariant": "^2.1.0",

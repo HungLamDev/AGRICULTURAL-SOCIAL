@@ -36,7 +36,7 @@ const FollowBtn = ({ user }) => {
   return (
     <>
       {followed ? (
-        <button className="btn btn-outline-danger" onClick={handleUnFollow}>
+        <button className="btn btn-outline-danger  " onClick={handleUnFollow}>
           Bỏ theo dõi
         </button>
       ) : (

@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-import { imageShow, videoShow } from "../../utils/mediaShow";
-import { createDiary } from "../../redux/actions/diaryAction";
+import { GLOBALTYPES } from "../redux/actions/globalTypes";
+import { imageShow, videoShow } from "../utils/mediaShow";
+import { useEffect } from "react";
+import { updateDiary } from "../redux/actions/diaryAction";
+import { getDataAPI } from "../utils/fetchData";
 
-const Diary = ({ id, profile, setOnDiary }) => {
+const DiaryModal = ({ diary, setOnEdit }) => {
   const auth = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
   const [posts, setPosts] = useState([]);
-  const [arrId, setArrId] = useState([]);
+  const [arrIdPost, setArrIdPost] = useState([]);
 
-  const handleChangePost = () => {
-    const foundData = profile.posts.find((data) => data._id === id);
-
-    if (foundData) {
-      setPosts(foundData.posts);
+  const handleChangePost = async () => {
+    const resPosts = await getDataAPI(
+      `/post/user_posts/${auth.user._id}`,
+      auth.token
+    );
+    if (resPosts) {
+      setPosts(resPosts.data.posts);
     }
   };
 
@@ -34,15 +38,15 @@ const Diary = ({ id, profile, setOnDiary }) => {
 
       return newImgs.push(file);
     });
-    if (err) dispatch({ type: GLOBALTYPES.ALERT, payload: { err: err } });
+    if (err) dispatch({ type: GLOBALTYPES.NOTIFY, payload: { err: err } });
     setImages([...newImgs]);
   };
 
   const handleCheckPost = (postId) => {
-    if (arrId.includes(postId)) {
-      setArrId(arrId.filter((id) => id !== postId));
+    if (arrIdPost.includes(postId)) {
+      setArrIdPost(arrIdPost.filter((id) => id !== postId));
     } else {
-      setArrId([...arrId, postId]);
+      setArrIdPost([...arrIdPost, postId]);
     }
   };
 
@@ -54,18 +58,25 @@ const Diary = ({ id, profile, setOnDiary }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ content, images, arrId, auth });
-    dispatch(createDiary({ content, images, arrId, auth }));
-    setOnDiary(false);
+    dispatch(updateDiary({ content, images, arrIdPost, auth, diary }));
+
+    setOnEdit(false);
   };
+
+  useEffect(() => {
+    setContent(diary.text);
+    setImages(diary.media);
+    const recipientIds = diary.recipients.map((recipient) => recipient._id);
+    setArrIdPost(recipientIds);
+  }, [diary.media, diary.recipients, diary.text]);
 
   return (
     <div className="d-flex justify-content-center">
       <div className="status_modal">
         <form onSubmit={handleSubmit}>
           <div className="status_title">
-            <h5 className="m-0">Thêm nhật ký mới</h5>
-            <span onClick={() => setOnDiary(false)}>&times;</span>
+            <h5 className="m-0">Cập nhật nhật ký</h5>
+            <span onClick={() => setOnEdit(false)}>&times;</span>
           </div>
           <div className="status_container">
             <textarea
@@ -98,12 +109,12 @@ const Diary = ({ id, profile, setOnDiary }) => {
               {posts.map((post, index) => (
                 <div key={post._id} className="d-flex justify-content-between">
                   <div>{post.desc.slice(0, 30)}</div>
-                  {arrId.includes(post._id) && (
-                    <span>Giai đoạn: {arrId.indexOf(post._id) + 1}</span>
+                  {arrIdPost.includes(post._id) && (
+                    <span>Giai đoạn: {arrIdPost.indexOf(post._id) + 1}</span>
                   )}
                   <input
                     type="checkbox"
-                    checked={arrId.includes(post._id)}
+                    checked={arrIdPost.includes(post._id)}
                     onChange={() => {
                       handleCheckPost(post._id);
                     }}
@@ -129,9 +140,8 @@ const Diary = ({ id, profile, setOnDiary }) => {
           </div>
         </form>
       </div>
-      <div></div>
     </div>
   );
 };
 
-export default Diary;
+export default DiaryModal;
