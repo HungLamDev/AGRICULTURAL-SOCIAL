@@ -19,9 +19,6 @@
 }
 
 /*--------------header menu-----------*/
-.header .menu li{
-      opacity: 0.8;
-}
 .header .menu li .active{
       opacity: 1;
 }

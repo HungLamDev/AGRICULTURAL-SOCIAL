@@ -112,13 +112,12 @@ const Info = () => {
 
             <p className="m-0">{user.address}</p>
 
-            {/* Đặt các nút trong một div với class d-flex để căn ngang */}
+            {}
             {user._id === auth.user._id ? (
               <div className="d-flex mt-3">
                 {" "}
-                {/* Thêm d-flex để căn ngang */}
                 <button
-                  className="btn btn-outline-info mx-2" // dùng mx-2 để căn lề ngang
+                  className="btn btn-outline-info mx-2"
                   style={{
                     padding: "5px 10px",
                     display: "flex",
@@ -146,7 +145,7 @@ const Info = () => {
                 </button>
               </div>
             ) : (
-              <div className="d-flex">
+              <div className="d-flex info-buttons ">
                 <FollowBtn user={user} />
                 <MessageBtn user={user} />
                 <button

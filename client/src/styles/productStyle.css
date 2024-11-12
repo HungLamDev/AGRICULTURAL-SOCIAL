@@ -116,6 +116,12 @@
   margin-top: 10px;
   font-size: 12px;
 }
+.form-control{
+  height: 50px;
+}
+.btn_post_product{
+   height: 50px;
+}
 
 @media (max-width: 768px) {
   .card_detail {
