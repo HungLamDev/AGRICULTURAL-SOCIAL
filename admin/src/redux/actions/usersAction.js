@@ -2,7 +2,7 @@ import {
   deleteDataAPI,
   getDataAPI,
   postDataAPI,
-  putDataAPI,
+  patchDataAPI,
 } from "../../unitils/fetchData";
 import { GLOBALTYPES } from "./globalTyle";
 
@@ -37,38 +37,67 @@ export const updateUser =
     try {
       dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
 
-      await putDataAPI(
-        `/user/${userData.id}`,
-        { roles: userData.roles },
-        auth.token
-      );
+      // Kiểm tra và cập nhật quyền của user
+      if (userData.role) {
+        await patchDataAPI(
+          `user/${userData.id}`,
+          { role: userData.role },
+          auth.token
+        );
 
-      //Notify to user
-      const msg = {
-        id: userData.id,
-        text: "Thông báo !",
-        recipients: userData.id,
-        url: "",
-        content: userData.desc,
-        image: "",
-      };
+        const msgRole = {
+          id: userData.id,
+          text: "Thông báo từ ADMIN!",
+          recipients: userData.id,
+          url: "",
+          content: "Quyền truy cập của bạn đã được cập nhật!",
+          image: "",
+        };
 
-      await postDataAPI("/notify", msg, auth.token);
+        await postDataAPI("notify", msgRole, auth.token);
+      }
+
+      // Kiểm tra và cập nhật story của user
+      if (userData.story) {
+        await patchDataAPI(
+          `user/${userData.id}`,
+          { story: userData.story },
+          auth.token
+        );
+
+        const msgStoryChange = {
+          id: userData.id,
+          text: "Cảnh báo từ ADMIN!",
+          recipients: userData.id,
+          url: "",
+          content: `Cảnh báo mới: ${userData.story}`,
+          image: "",
+        };
+
+        await postDataAPI("notify", msgStoryChange, auth.token);
+      }
 
       dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.NOTIFY,
-        payload: { err: err.response.data.msg },
+        payload: { err: err.response?.data?.msg || "Có lỗi xảy ra" },
       });
+     
+      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
     }
   };
+
 export const deleteUser =
   ({ user, auth }) =>
   async (dispatch) => {
     try {
-      await deleteDataAPI(`/user/${user._id}`, auth.token);
-      //Notify to user
+      const response = await deleteDataAPI(`user/${user._id}`, auth.token);
+      dispatch({
+        type: USERS_LOADING.DELETE_USER,
+        payload: user._id,
+      });
+
       const msg = {
         id: user._id,
         text: "Thông báo !",
@@ -78,11 +107,11 @@ export const deleteUser =
         image: "",
       };
 
-      await postDataAPI("/notify", msg, auth.token);
+      await postDataAPI("notify", msg, auth.token);
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.NOTIFY,
-        payload: { err: err.response.data.msg },
+        payload: { err: err.response?.data?.msg || "Có lỗi xảy ra." },
       });
     }
   };

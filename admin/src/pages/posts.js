@@ -17,16 +17,20 @@ const PostsPage = () => {
   };
 
   const handleFilter = (event) => {
-    const filterValue = event.target.value.toLowerCase();
+    const filterValue = event.target.value.toLowerCase(); // lấy giá trị tìm kiếm và chuyển thành chữ thường
     const filteredPosts = posts.filter((post) => {
+      // Duyệt qua danh sách bài viết
       return (
-        post._id.toLowerCase().includes(filterValue) ||
-        post.user.username.toLowerCase().includes(filterValue) ||
-        post.desc.toLowerCase().includes(filterValue) ||
-        post.hashtag.toLowerCase().includes(filterValue)
+        // Kiểm tra từng thuộc tính có tồn tại và thực hiện lọc
+        (post._id && post._id.toLowerCase().includes(filterValue)) || // Kiểm tra _id có tồn tại không
+        (post.user &&
+          post.user.username &&
+          post.user.username.toLowerCase().includes(filterValue)) || // Kiểm tra username có tồn tại không
+        (post.desc && post.desc.toLowerCase().includes(filterValue)) || // Kiểm tra desc có tồn tại không
+        (post.hashtag && post.hashtag.toLowerCase().includes(filterValue)) // Kiểm tra hashtag có tồn tại không
       );
     });
-    setFilteredPosts(filteredPosts);
+    setFilteredPosts(filteredPosts); // Cập nhật danh sách bài viết đã lọc
   };
 
   useEffect(() => {

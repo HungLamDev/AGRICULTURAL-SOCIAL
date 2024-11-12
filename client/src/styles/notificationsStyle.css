@@ -1,5 +1,7 @@
 .notifications {
     width: 350px;
+    background: var(--light-color);
+   
 }
 .notifications .title {
     font-weight: bold;

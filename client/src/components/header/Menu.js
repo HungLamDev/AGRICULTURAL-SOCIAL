@@ -26,7 +26,10 @@ const Menu = () => {
   };
   return (
     <div className="menu">
-      <ul className="navbar-nav flex-row" style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}>
+      <ul
+        className="navbar-nav flex-row"
+        style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}
+      >
         {navLink.map((link, index) => (
           <li className={`nav-item px-2  ${isActive(link.path)}`} key={index}>
             <Link className="nav-link" to={link.path}>
@@ -64,7 +67,7 @@ const Menu = () => {
           <div
             className="dropdown-menu position-absolute dropdown-menu-end"
             aria-labelledby="navbarDropdown"
-            style={{ transform: "translateX(60px)" }}
+            style={{ transform: "translateX(60px)", zIndex: 10 }}
           >
             <NotifyModal />
           </div>

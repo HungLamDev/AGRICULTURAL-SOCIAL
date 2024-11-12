@@ -144,11 +144,11 @@ const EditProfile = ({ setOnEdit }) => {
         </div>
         <div className="form-group my-2">
           <div className="position-relative">
-            <label htmlFor="story">Thông tin</label>
+            <label htmlFor="address">Thông tin</label>
             <textarea
               type="text"
-              name="story"
-              value={story}
+              name="address"
+              value={address}
               cols={30}
               rows={4}
               className="form-control"
@@ -162,7 +162,7 @@ const EditProfile = ({ setOnEdit }) => {
                 transform: "translateY(-50%)",
               }}
             >
-              {story.length}/200
+              {address.length}/200
             </small>
           </div>
         </div>
@@ -171,7 +171,7 @@ const EditProfile = ({ setOnEdit }) => {
           <select
             name="gender"
             id="gender"
-            value={gender.value}
+            value={gender}
             className="custom-select text-capitalize"
             onChange={handleInput}
           >

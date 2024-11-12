@@ -5,6 +5,7 @@ import {
   deleteReport,
 } from "../../redux/actions/reportAction";
 import { useDispatch, useSelector } from "react-redux";
+import ConfirmDeleteModal from "../ConfirmDeleteModal";
 
 const ReportInfor = () => {
   const report = useSelector((state) => state.reports.report);
@@ -18,7 +19,7 @@ const ReportInfor = () => {
   };
 
   const [reportData, setReportData] = useState(initialState);
-
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const handleChangeValue = (e) => {
     const { name, value } = e.target;
     setReportData({ ...reportData, [name]: value });
@@ -33,8 +34,14 @@ const ReportInfor = () => {
     dispatch(updateReports({ reportData, auth }));
   };
 
-  const handleDelete = () => {
+  const handleOpenDeleteModal = () => setOpenDeleteModal(true);
+  const handleCloseDeleteModal = () => setOpenDeleteModal(false);
+
+  // Hàm xác nhận xóa
+  const handleConfirmDelete = () => {
     dispatch(deleteReport({ reportData, auth }));
+    setOpenDeleteModal(false);
+    window.location.reload();
   };
   return (
     <div className="post_infor">
@@ -92,10 +99,20 @@ const ReportInfor = () => {
           <button className="btn btn-success w-100 mt-2" type="submit">
             Cập nhật
           </button>
+          <button
+            className="btn btn-danger w-100 mt-2"
+            onClick={handleOpenDeleteModal}
+          >
+            Xoá
+          </button>
         </form>
-        <button className="btn btn-danger w-100 mt-2" onClick={handleDelete}>
-          Xoá
-        </button>
+        <ConfirmDeleteModal
+          open={openDeleteModal}
+          onClose={handleCloseDeleteModal}
+          onConfirm={handleConfirmDelete}
+          title="Xóa người dùng"
+          content="Bạn có chắc chắn muốn xóa người dùng này?"
+        />
       </div>
     </div>
   );

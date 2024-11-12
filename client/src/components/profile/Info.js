@@ -100,41 +100,6 @@ const Info = () => {
                   ></i>
                 )}
               </h2>
-
-              {user._id === auth.user._id ? (
-                <>
-                  <button
-                    className="btn btn-outline-info"
-                    onClick={() => setOnEdit(true)}
-                  >
-                    Chỉnh sửa thông tin
-                  </button>
-                  <div style={{ fontSize: "20px", paddingLeft: "10px" }}>
-                    {" "}
-                    <button
-                      className="btn btn-success"
-                      onClick={() => setOnDiary(true)}
-                    >
-                      <i className="fas fa-book"></i>
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <div className="d-flex">
-                  <div>
-                    {" "}
-                    <FollowBtn user={user} />{" "}
-                  </div>
-                  <MessageBtn user={user} />
-                  <button
-                    className="btn btn-warning"
-                    style={{ marginLeft: "5px" }}
-                    onClick={handleReport}
-                  >
-                    !
-                  </button>
-                </div>
-              )}
             </div>
             <div className="sub_follower">
               <span className="mr-4" onClick={() => setshowFollowers(true)}>
@@ -144,15 +109,55 @@ const Info = () => {
                 {user.following.length} Đang theo dõi
               </span>
             </div>
-            <h6>
-              {user.fullname} {user.mobile}
-            </h6>
+
             <p className="m-0">{user.address}</p>
-            <h6>{user.email}</h6>
-            <a href={user.website} target="_blank" rel="noreferrer">
-              {user.website}
-            </a>
-            <p>{user.story}</p>
+
+            {/* Đặt các nút trong một div với class d-flex để căn ngang */}
+            {user._id === auth.user._id ? (
+              <div className="d-flex mt-3">
+                {" "}
+                {/* Thêm d-flex để căn ngang */}
+                <button
+                  className="btn btn-outline-info mx-2" // dùng mx-2 để căn lề ngang
+                  style={{
+                    padding: "5px 10px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  onClick={() => setOnEdit(true)}
+                >
+                  <i
+                    className="fas fa-user-edit"
+                    style={{ marginRight: "5px" }}
+                  ></i>
+                  Chỉnh sửa thông tin
+                </button>
+                <button
+                  className="btn btn-success mx-2"
+                  style={{
+                    padding: "5px 10px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  onClick={() => setOnDiary(true)}
+                >
+                  <i className="fas fa-book" style={{ marginRight: "5px" }}></i>
+                  Diary
+                </button>
+              </div>
+            ) : (
+              <div className="d-flex">
+                <FollowBtn user={user} />
+                <MessageBtn user={user} />
+                <button
+                  className="btn btn-warning"
+                  style={{ marginLeft: "5px" }}
+                  onClick={handleReport}
+                >
+                  !
+                </button>
+              </div>
+            )}
           </div>
 
           {onEdit && <EditProfile user={user} setOnEdit={setOnEdit} />}

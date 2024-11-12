@@ -9,11 +9,12 @@ import LoginPage from "./pages/login";
 import HomePage from "./pages/home";
 
 import Header from "./component/header/Header";
-import Load from "./component/Load";
+import Load from "./component/Loading";
 
 function App() {
   const auth = useSelector((state) => state.auth.token);
   const loading = useSelector((state) => state.notify?.loading);
+
   const dispatch = useDispatch();
 
   useEffect(() => {

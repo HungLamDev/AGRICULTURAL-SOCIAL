@@ -9,10 +9,10 @@ const Header = () => {
   const theme = useSelector((state) => state.theme);
 
   return (
-    <div className="header  p-2">
-      <nav className="navbar navbar-expand-lg navbar-light  justify-content-between align-middle">
+    <div className="header p-2">
+      <nav className="navbar navbar-expand-lg px-4 navbar-light  justify-content-between align-middle">
         <Link
-          className="logo"
+          className="logo navbar-brand"
           to="/"
           onClick={() => window.scrollTo({ top: 0 })}
         >

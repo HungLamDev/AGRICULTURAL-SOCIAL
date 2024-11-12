@@ -1,4 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import UserCard from "../UserCard";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
@@ -33,7 +41,7 @@ const RightSide = () => {
   const [text, setText] = useState("");
   const [media, setMedia] = useState([]);
   const [loadMedia, setLoadMedia] = useState(false);
-
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const navigation = useNavigate();
 
   const [data, setData] = useState([]);
@@ -164,11 +172,17 @@ const RightSide = () => {
     // eslint-disable-next-line
   }, [isLoadMore]);
 
-  const handleDeleteConversation = () => {
-    if (window.confirm("Bạn chắc chắn muốn xóa người này ?")) {
-      dispatch(deleteConversation({ auth, id }));
-      return navigation("/message");
-    }
+  const handleOpenDeleteDialog = () => {
+    setOpenDeleteModal(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteModal(false);
+  };
+  const handleConfirmDeleteConversation = () => {
+    dispatch(deleteConversation({ auth, id }));
+    setOpenDeleteModal(false);
+    navigation("/message");
   };
   // call
   const caller = ({ video }) => {
@@ -222,14 +236,29 @@ const RightSide = () => {
               />
               <i
                 className="fas fa-trash text-danger delete_message"
-                onClick={handleDeleteConversation}
+                onClick={handleOpenDeleteDialog}
                 title="Xóa đoạn hội thoại"
               />
             </div>
           </UserCard>
         )}
       </div>
-
+      <Dialog open={openDeleteModal} onClose={handleCloseDeleteDialog}>
+        <DialogTitle>Xóa đoạn hội thoại</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Bạn có chắc chắn muốn xóa đoạn hội thoại này?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog} color="primary">
+            Hủy
+          </Button>
+          <Button onClick={handleConfirmDeleteConversation} color="primary">
+            Xóa
+          </Button>
+        </DialogActions>
+      </Dialog>
       <div
         className="chat_container"
         style={{ height: media.length > 0 ? "calc(100% - 180px)" : "" }}

@@ -33,6 +33,9 @@
   .info_content_title button{
       flex: 2;
   }
+  .info_content .sub_follower {
+    color: #0D6EFD
+}
   .info_container .follow_btn{
     color: #0D6EFD;
       cursor: pointer;

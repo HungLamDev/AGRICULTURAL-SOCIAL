@@ -16,12 +16,14 @@ const UsersPage = () => {
     const filterValue = event.target.value.toLowerCase();
     const filteredUsers = users.filter((user) => {
       return (
-        user._id.toLowerCase().includes(filterValue) ||
-        user.username.toLowerCase().includes(filterValue) ||
-        user.phoneNumber.toLowerCase().includes(filterValue) ||
-        user.roles.toLowerCase().includes(filterValue)
+        (user._id && user._id.toLowerCase().includes(filterValue)) ||
+        (user.username && user.username.toLowerCase().includes(filterValue)) ||
+        (user.phoneNumber &&
+          user.phoneNumber.toLowerCase().includes(filterValue)) ||
+        (user.roles && user.role.toLowerCase().includes(filterValue))
       );
     });
+
     setFilteredUsers(filteredUsers);
   };
 
@@ -71,11 +73,11 @@ const UsersPage = () => {
               <tr key={user._id}>
                 <td>{user._id}</td>
                 <td>{user.username}</td>
-                <td>{user.phoneNumber}</td>
+                <td>{user.mobile}</td>
                 <td>{user.followers.length}</td>
                 <td>{user.following.length}</td>
                 <td>{user.saved.length}</td>
-                <td>{user.roles}</td>
+                <td>{user.role}</td>
                 <td>{new Date(user.createdAt).toLocaleString()}</td>
                 <td>{new Date(user.updatedAt).toLocaleString()}</td>
                 <td onClick={() => handleGetUser(user)}>Xem</td>

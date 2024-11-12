@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     margin: 20px;
+   
 }
 .comment_input input {
     background: var(--bg-color);

@@ -16,12 +16,15 @@ const Report = () => {
     const filterValue = event.target.value.toLowerCase();
     const filteredReports = reports.filter((report) => {
       return (
-        report._id.toLowerCase().includes(filterValue) ||
-        report.user.username.toLowerCase().includes(filterValue) ||
-        report.type.toLowerCase().includes(filterValue) ||
-        report.text.toLowerCase().includes(filterValue)
+        (report._id && report._id.toLowerCase().includes(filterValue)) ||
+        (report.user &&
+          report.user.username &&
+          report.user.username.toLowerCase().includes(filterValue)) ||
+        (report.type && report.type.toLowerCase().includes(filterValue)) ||
+        (report.text && report.text.toLowerCase().includes(filterValue))
       );
     });
+
     setFilteredReports(filteredReports);
   };
 

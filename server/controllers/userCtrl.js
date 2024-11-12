@@ -61,11 +61,10 @@ const userCtrl = {
         story,
         website,
         gender,
+        role,
       } = req.body;
       let hashed;
-      if (!username) {
-        return res.status(400).json({ msg: "Please add your full name." });
-      }
+
       if (req.body.password) {
         const salt = await bcrypt.genSalt(10);
         hashed = await bcrypt.hash(req.body.password, salt);
@@ -78,6 +77,7 @@ const userCtrl = {
         story,
         website,
         gender,
+        role,
       };
 
       if (hashed) {
@@ -99,6 +99,15 @@ const userCtrl = {
     } catch (err) {
       console.error("Error in updateUser:", err); // Log lỗi chi tiết
       return res.status(500).json({ msg: err.message });
+    }
+  },
+  deleteUser: async (req, res) => {
+    try {
+      //finbyidanddelete
+      const user = await Users.findByIdAndDelete(req.params.id);
+      return res.status(200).json("Delete user successfully !");
+    } catch (err) {
+      return res.status(500).json(err);
     }
   },
   follow: async (req, res) => {
@@ -187,6 +196,22 @@ const userCtrl = {
       });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
+    }
+  },
+  searchUser: async (req, res) => {
+    try {
+      const searchQuery = req.query.username;
+
+      const regex = new RegExp(searchQuery, "i");
+
+      const users = await Users.find({
+        username: { $regex: regex },
+      })
+        .limit(5)
+        .select("username avatar role");
+      return res.json({ users });
+    } catch (err) {
+      return res.status(500).json(err);
     }
   },
 };

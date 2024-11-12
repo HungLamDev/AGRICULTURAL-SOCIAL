@@ -40,7 +40,7 @@ const Market = () => {
           </div>
         </form>
         <button
-          className="btn_post_product"
+          className="btn_post_product form-group"
           onClick={() =>
             dispatch({ type: GLOBALTYPES.STATUS, payload: { onMarket: true } })
           }
