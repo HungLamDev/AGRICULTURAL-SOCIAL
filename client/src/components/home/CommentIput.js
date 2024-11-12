@@ -4,9 +4,9 @@ import { createComment } from "../../redux/actions/commentAction";
 import Icons from "../Icons";
 const CommentIput = ({ children, post, onReply, setOnReply }) => {
   const [content, setContent] = useState("");
-  const {auth} = useSelector((state) => state.auth);
-  const {theme} = useSelector((state) => state.theme);
-  const socket = useSelector((state) => state.socket);
+  const auth = useSelector(state => state.auth);
+  const theme = useSelector(state => state.theme);
+  const socket = useSelector(state => state.socket);
 
   const handleSubmit = (e) => {
     e.preventDefault();

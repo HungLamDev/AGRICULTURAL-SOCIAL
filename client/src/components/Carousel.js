@@ -106,23 +106,24 @@ const Carousel = ({ images, id }) => {
             }}
           >
             {images.map((img, index) => (
-              <div
-                key={index}
-                className={`carousel-item ${index === activeIndex ? "active" : ""}`}
-              >
-                {img.url.match(/video/i) ? (
-                  <video
-                    controls
-                    src={img.url}
-                    className="d-block w-100"
-                    alt={img.url}
-                    style={{
-                      maxHeight: "1200px",
-                      objectFit: "contain",
-                      filter: theme ? "invert(1)" : "invert(0)",
-                    }}
-                  />
-                ) : (
+            <div
+              key={index}
+              className={`carousel-item ${index === activeIndex ? "active" : ""}`}
+            >
+              {img.url && img.url.match(/video/i) ? (
+                <video
+                  controls
+                  src={img.url}
+                  className="d-block w-100"
+                  alt={img.url}
+                  style={{
+                    maxHeight: "1200px",
+                    objectFit: "contain",
+                    filter: theme ? "invert(1)" : "invert(0)",
+                  }}
+                />
+              ) : (
+                img.url && (
                   <img
                     src={img.url}
                     className="d-block w-100"
@@ -133,9 +134,11 @@ const Carousel = ({ images, id }) => {
                       filter: theme ? "invert(1)" : "invert(0)",
                     }}
                   />
-                )}
-              </div>
-            ))}
+                )
+              )}
+            </div>
+          ))}
+
           </div>
 
           {images.length > 1 && (
