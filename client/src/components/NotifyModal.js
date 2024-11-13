@@ -11,6 +11,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const NotifyModal = () => {
   const auth = useSelector((state) => state.auth);
@@ -26,7 +27,6 @@ const NotifyModal = () => {
 
   const handleReadAdmins = (msg) => {
     if (msg.url === "") {
-      // Nếu thông báo là cảnh báo, mở modal để hiển thị chi tiết
       setSelectedNotification(msg);
       setOpenDetailsDialog(true);
     } else {
@@ -49,7 +49,6 @@ const NotifyModal = () => {
 
   return (
     <>
-      {/* Modal hiển thị chi tiết thông báo */}
       <Dialog
         open={openDetailsDialog}
         onClose={() => setOpenDetailsDialog(false)}
@@ -88,7 +87,8 @@ const NotifyModal = () => {
         <div style={{ maxHeight: "calc(100vh - 200px)", overflow: "auto" }}>
           {notify.data.map((msg, index) => (
             <div key={index} className="px-2 mb-3">
-              <div
+              <Link
+                to={`${msg.url}`}
                 className="d-flex text-dark align-items-center"
                 style={{ textDecoration: "none" }}
                 onClick={() => handleIsRead(msg)}
@@ -120,7 +120,8 @@ const NotifyModal = () => {
                     )}
                   </div>
                 )}
-              </div>
+              </Link>
+
               <small className="text-muted d-flex justify-content-between align-items-center px-2">
                 {moment(msg.createdAt).fromNow()}
                 {!msg.isRead && <i className="fas fa-circle text-primary" />}

@@ -82,6 +82,10 @@ export const isReadNotify =
     });
     try {
       await putDataAPI(`notify/isReadNotify/${msg._id}`, null, auth.token);
+      dispatch({
+        type: NOTIFY_TYPES.UPDATE_NOTIFY,
+        payload: { ...msg, isRead: true },
+      });
     } catch (err) {
       dispatch({
         type: NOTIFY_TYPES.ALERT,

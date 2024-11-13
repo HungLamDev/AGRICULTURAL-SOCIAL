@@ -4,7 +4,12 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "npm run build && node ./build/src/server.js",
+    "build": "babel ./src -d ./build/src",
+    "production": "cross-env BUILD_MODE=production node ./build/src/server.js",
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel ./src -d ./build/src"
   },
   "keywords": [],
   "author": "",
