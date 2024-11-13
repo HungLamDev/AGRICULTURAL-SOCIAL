@@ -5,11 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "npm run build && node ./build/src/server.js",
-    "build": "babel ./src -d ./build/src",
-    "production": "cross-env BUILD_MODE=production node ./build/src/server.js",
-    "clean": "rm -rf build && mkdir build",
-    "build-babel": "babel ./src -d ./build/src"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
