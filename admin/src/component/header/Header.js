@@ -18,13 +18,13 @@ const Header = () => {
       </div>
       <Menu />
       <div
-        className="d-flex align-items-center p-2"
+        className="d-flex align-items-center p-2 rounded-2"
         style={{ background: "#ccc" }}
       >
         <img src={auth.user.avatar} height={50} width={50} alt="user_header" />
         <span style={{ marginLeft: "10px" }}>{auth.user.username}</span>
       </div>
-      <button className="btn btn-secondary w-100 mt-2" onClick={handleLogOut}>
+      <button className="btn btn-secondary w-100 mt-2" onClick={handleLogOut} >
         Đăng xuất
       </button>
     </div>

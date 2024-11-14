@@ -26,10 +26,7 @@ const Menu = () => {
   };
   return (
     <div className="menu">
-      <ul
-        className="navbar-nav flex-row"
-        style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}
-      >
+      <ul className="navbar-nav flex-row" style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}>
         {navLink.map((link, index) => (
           <li className={`nav-item px-2  ${isActive(link.path)}`} key={index}>
             <Link className="nav-link" to={link.path}>
@@ -67,7 +64,7 @@ const Menu = () => {
           <div
             className="dropdown-menu position-absolute dropdown-menu-end"
             aria-labelledby="navbarDropdown"
-            style={{ transform: "translateX(60px)", zIndex: 10 }}
+            style={{ transform: "translateX(60px)" }}
           >
             <NotifyModal />
           </div>
@@ -81,7 +78,7 @@ const Menu = () => {
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <Avatar src={auth.user.avatar} theme={theme} size="medium-avatar" />
+            <Avatar src={auth.user.avatar} size="medium-avatar"  />
           </span>
           <div className="dropdown-menu" aria-labelledby="navbarDropdown">
             <Link className="dropdown-item" to={`/user/${auth.user._id}`}>

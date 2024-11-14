@@ -55,7 +55,6 @@ function App() {
       port: 3001,
     });
     dispatch({ type: GLOBALTYPES.PEER, payload: newPeer });
-    // eslint-disable-next-line
   }, [dispatch]);
 
   return (

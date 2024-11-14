@@ -48,6 +48,7 @@ const RightSide = () => {
   const [result, setResult] = useState(9);
   const [page, setPage] = useState(0);
   const [isLoadMore, setIsLoadMore] = useState(0);
+  const [answer, setAnswer] = useState(false)
 
   useEffect(() => {
     const newData = message.data.find((item) => item._id === id);
@@ -186,7 +187,7 @@ const RightSide = () => {
   };
   // call
   const caller = ({ video }) => {
-    const { _id, avatar, username } = user;
+    const { _id, avatar, username} = user;
 
     const msg = {
       sender: auth.user._id,
@@ -206,7 +207,7 @@ const RightSide = () => {
       username,
       video,
     };
-    if (peer._open) msg.peerid = peer._id;
+    if (peer.open) msg.peerId = peer._id;
     socket.emit("callUser", msg);
   };
   const handleAudiocall = () => {

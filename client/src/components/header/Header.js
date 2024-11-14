@@ -9,7 +9,7 @@ const Header = () => {
   const theme = useSelector((state) => state.theme);
 
   return (
-    <div className="header p-2">
+    <div className="header">
       <nav className="navbar navbar-expand-lg px-4 navbar-light  justify-content-between align-middle">
         <Link
           className="logo navbar-brand"

@@ -3,7 +3,7 @@ import Avatar from '../Avatar';
 import { videoShow, imageShow } from '../../utils/mediaShow';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteMessages } from '../../redux/actions/messageAction';
-
+import Times from './Times';
 const MsgDisplay = ({ user, msg, theme, data }) => {
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
@@ -21,19 +21,51 @@ const MsgDisplay = ({ user, msg, theme, data }) => {
         <span className='pl-1'>{user.username}</span>
       </div>
       <div className='you_content'>
-        {user._id === auth.user._id && (
-          <i className='fas fa-trash text-danger' onClick={handleDeleteMessages} />
-        )}
-        {msg.text && (
-          <div className='chat_text' style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>
-            {msg.text}
-          </div>
-        )}
-        {msg.media.map((item, index) => (
-          <div key={index} style={{ width: '100%', filter: theme ? 'invert(1)' : 'invert(0)' }}>
-            {item.url.match(/video/i) ? videoShow(item.url, theme) : imageShow(item.url, theme)}
-          </div>
-        ))}
+        {
+          user._id === auth.user._id && (<i className='fas fa-trash text-danger' onClick={handleDeleteMessages} />)
+        }
+        {
+          msg.text && (
+            <div className='chat_text' style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>
+              {msg.text}
+            </div>)
+        }
+        {
+          msg.media.map((item, index) => (
+            <div key={index} style={{ width: '100%', filter: theme ? 'invert(1)' : 'invert(0)' }}>
+              {item.url.match(/video/i) ? videoShow(item.url, theme) : imageShow(item.url, theme)}
+            </div>
+          ))
+        }
+        {
+          msg.call && 
+          <button className='btn d-flex align-align-items-center py-3'
+          style={{background: '#eee', borderRadius: '10px'}}
+          >
+            <span className='material-icons font-weight-bold mr-1'
+            style={{
+              fontSize: '2.5rem', color: msg.call.times === 0 ? 'crimson' : 'green',
+              filter: theme ? 'invert(1)' : 'invert(0)'
+            }}
+            >
+              {
+                msg.call.times === 0 
+                ? msg.call.video ? 'videocam_off' : 'phone_disabled '
+                : msg.call.video ? 'video_camera_front' : 'call'
+              }
+            </span>
+            <div className='text_left'>
+              <h6>{msg.call.video ? 'Video call' : 'Audio call'} </h6>
+              <small>
+                {
+                  msg.call.times > 0 
+                  ? <Times total={msg.call.times}/>
+                  : 'Cuộc gọi đã bị huỷ'
+                }
+              </small>
+            </div>
+          </button>
+        }
       </div>
       <div className='chat_time p-2'>{new Date(msg.createdAt).toLocaleString()}</div>
     </>

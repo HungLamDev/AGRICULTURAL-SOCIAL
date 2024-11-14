@@ -131,7 +131,6 @@ const SocketClient = () => {
   //call ưser
   useEffect(() => {
     socket.on('callUserToClient', data =>{
-      console.log("Call received:", data);
       dispatch({type: GLOBALTYPES.CALL, payload: data})
     })
     return () => socket.off('callUserToClient')
@@ -143,6 +142,7 @@ const SocketClient = () => {
     })
     return () => socket.off('userBusy')
   },[socket, dispatch, call])
+  
 };
   
 

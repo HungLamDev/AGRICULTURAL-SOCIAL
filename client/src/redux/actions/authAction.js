@@ -61,7 +61,6 @@ export const register = (data) => async (dispatch) => {
     return dispatch({ type: GLOBALTYPES.ALERT, payload: check.errMsg });
   try {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
-
     const res = await postDataAPI("register", data);
     dispatch({
       type: GLOBALTYPES.AUTH,

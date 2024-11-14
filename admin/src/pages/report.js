@@ -11,21 +11,19 @@ const Report = () => {
   const loadingReport = useSelector((state) => state.reports.loadingReport);
 
   const [filteredReports, setFilteredReports] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const handleFilter = (event) => {
     const filterValue = event.target.value.toLowerCase();
-    const filteredReports = reports.filter((report) => {
-      return (
-        (report._id && report._id.toLowerCase().includes(filterValue)) ||
-        (report.user &&
-          report.user.username &&
-          report.user.username.toLowerCase().includes(filterValue)) ||
-        (report.type && report.type.toLowerCase().includes(filterValue)) ||
-        (report.text && report.text.toLowerCase().includes(filterValue))
-      );
-    });
-
-    setFilteredReports(filteredReports);
+    const filtered = reports.filter((report) =>
+      (report._id && report._id.toLowerCase().includes(filterValue)) ||
+      (report.user?.username && report.user.username.toLowerCase().includes(filterValue)) ||
+      (report.type && report.type.toLowerCase().includes(filterValue)) ||
+      (report.text && report.text.toLowerCase().includes(filterValue))
+    );
+    setFilteredReports(filtered);
+    setCurrentPage(1); // Reset to first page after filtering
   };
 
   const handleGetReport = (item) => {
@@ -41,8 +39,14 @@ const Report = () => {
     setFilteredReports(reports);
   }, [reports]);
 
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentReports = filteredReports.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredReports.length / itemsPerPage);
+
   return (
-    <div>
+    <div className="report">
       {loadingReport && <ReportInfor />}
       <div className="mb-3">
         <input
@@ -52,7 +56,7 @@ const Report = () => {
           onChange={handleFilter}
         />
       </div>
-      <table>
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>UserReport</th>
@@ -65,21 +69,36 @@ const Report = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredReports
-            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-            .map((item) => (
-              <tr key={item._id}>
-                <td>{item.user.username}</td>
-                <td>{item.type}</td>
-                <td>{item.related}</td>
-                <td>{item.text}</td>
-                <td>{new Date(item.createdAt).toLocaleString()}</td>
-                <td>{item.act}</td>
-                <td onClick={() => handleGetReport(item)}>Xem</td>
-              </tr>
-            ))}
+          {currentReports.map((item) => (
+            <tr key={item._id}>
+              <td>{item.user.username}</td>
+              <td>{item.type}</td>
+              <td>{item.related}</td>
+              <td>{item.text}</td>
+              <td>{new Date(item.createdAt).toLocaleString()}</td>
+              <td>{new Date(item.updatedAt).toLocaleString()}</td>
+              <td onClick={() => handleGetReport(item)}>Xem</td>
+            </tr>
+          ))}
         </tbody>
       </table>
+      <div className="pagination">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

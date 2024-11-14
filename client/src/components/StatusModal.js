@@ -23,6 +23,11 @@ const StatusModal = () => {
   const [typeProduct, setTypeProduct] = useState("");
   const [productName, setProductName] = useState("");
 
+  const [stream, setStream] = useState(false)
+  const videoRef = useRef()
+  const refCanvas = useRef()
+  const [tracks, setTracks] = useState('')
+
   const handlleChangeImages = (e) => {
     const files = [...e.target.files];
     let err = "";
@@ -54,6 +59,41 @@ const StatusModal = () => {
     newArr.splice(index, 1);
     setImages(newArr);
   };
+  //camera
+  const handleStream =  () => {
+    setStream(true)
+        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+            navigator.mediaDevices.getUserMedia({video: true})
+            .then(mediaStream => {
+                videoRef.current.srcObject = mediaStream
+                videoRef.current.play()
+
+                const track = mediaStream.getTracks()
+                setTracks(track[0])
+            }).catch(err => console.log(err))
+    }
+  }
+  const handleCapture = () => {
+    const width = videoRef.current.clientWidth;
+    const height = videoRef.current.clientHeight;
+  
+    refCanvas.current.width = width;
+    refCanvas.current.height = height;
+  
+    const ctx = refCanvas.current.getContext("2d");
+    ctx.drawImage(videoRef.current, 0, 0, width, height);
+    const URL = refCanvas.current.toDataURL();
+    
+    setImages([...images, {camera: URL}])
+  };
+  
+  const handleStopStream = () => {
+    if (tracks) {
+      tracks.stop();
+      setStream(false);
+    }
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (images.length === 0)
@@ -206,29 +246,30 @@ const StatusModal = () => {
           )}
           <div className="show_imgs">
             {images.map((img, index) => (
-              <div
-                key={index}
-                style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}
-                id="file_img"
-              >
-                {img.url ? (
-                  <>
-                    {img.url.match(/video/i)
-                      ? videoShow(img.url)
-                      : imageShow(img.url)}
-                  </>
-                ) : (
-                  <>
-                    {img.type.match(/video/i)
-                      ? videoShow(URL.createObjectURL(img))
-                      : imageShow(URL.createObjectURL(img))}
-                  </>
-                )}
-
-                <span onClick={() => delImage(index)}>&times;</span>
-              </div>
+              <div key={index} id="file_img">
+              {
+                  img.camera ? imageShow(img.camera, theme)
+                  : img.url
+                      ?<>
+                          {
+                              img.url.match(/video/i)
+                              ? videoShow(img.url, theme) 
+                              : imageShow(img.url, theme)
+                          }
+                      </>
+                      :<>
+                          {
+                              img.type.match(/video/i)
+                              ? videoShow(URL.createObjectURL(img), theme) 
+                              : imageShow(URL.createObjectURL(img), theme)
+                          }
+                      </>
+              }
+              <span onClick={() => delImage(index)}>&times;</span>
+            </div>
             ))}
           </div>
+
           <div>
             <small>Từ khóa: </small>
             <input
@@ -244,19 +285,41 @@ const StatusModal = () => {
             <div className="flex-fill"></div>
             <Icons setContent={setContent} content={content} />
           </div>
+          {
+            stream && 
+              <div className="stream">
+                <video autoPlay muted ref={videoRef} width='100%' height='100%'
+                style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}/>
+                <span>
+                  &times;
+                </span>
+                <canvas ref={refCanvas} />
+              </div>
+          }
           <div className="input_images">
-            <i className="fas fa-camera" />
-            <div className="file_upload">
-              <i className="fas fa-image" />
-              <input
-                type="file"
-                name="file"
-                id="file"
-                multiple
-                accept="image/*,video/*"
-                onChange={handlleChangeImages}
-              />
-            </div>
+          {stream ? (
+                      <>
+                        <i className="fas fa-camera" onClick={handleCapture} />
+                        <span className="material-symbols-outlined" style={{fontSize:'40px', color: 'red'}} onClick={handleStopStream}>
+                          cancel_presentation
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <i className="fas fa-camera" onClick={handleStream} />
+                        <div className="file_upload">
+                          <i className="fas fa-image" />
+                          <input
+                            type="file"
+                            name="file"
+                            id="file"
+                            multiple
+                            accept="image/*,video/*"
+                            onChange={handlleChangeImages}
+                          />
+                        </div>
+                      </>
+                    )}
           </div>
         </div>
         <div className="status_footer">

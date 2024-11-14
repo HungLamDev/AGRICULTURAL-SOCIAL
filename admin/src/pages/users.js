@@ -5,26 +5,25 @@ import UserInfor from "../component/users/UserInfor";
 
 const UsersPage = () => {
   const dispatch = useDispatch();
-
   const users = useSelector((state) => state.users.users);
   const auth = useSelector((state) => state.auth);
   const loadingUser = useSelector((state) => state.users.loadingUser);
 
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const handleFilter = (event) => {
     const filterValue = event.target.value.toLowerCase();
-    const filteredUsers = users.filter((user) => {
-      return (
-        (user._id && user._id.toLowerCase().includes(filterValue)) ||
-        (user.username && user.username.toLowerCase().includes(filterValue)) ||
-        (user.phoneNumber &&
-          user.phoneNumber.toLowerCase().includes(filterValue)) ||
-        (user.roles && user.role.toLowerCase().includes(filterValue))
-      );
-    });
-
+    const filteredUsers = users.filter((user) =>
+      ["_id", "username", "phoneNumber", "role"].some(
+        (key) =>
+          user[key] &&
+          user[key].toString().toLowerCase().includes(filterValue)
+      )
+    );
     setFilteredUsers(filteredUsers);
+    setCurrentPage(1); 
   };
 
   const handleGetUser = (user) => {
@@ -40,6 +39,16 @@ const UsersPage = () => {
     setFilteredUsers(users);
   }, [users]);
 
+  const sortedUsers = filteredUsers.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentUsers = sortedUsers.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+
   return (
     <div className="users">
       {loadingUser && <UserInfor />}
@@ -51,7 +60,7 @@ const UsersPage = () => {
           onChange={handleFilter}
         />
       </div>
-      <table>
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>ID</th>
@@ -67,24 +76,41 @@ const UsersPage = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredUsers
-            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-            .map((user) => (
-              <tr key={user._id}>
-                <td>{user._id}</td>
-                <td>{user.username}</td>
-                <td>{user.mobile}</td>
-                <td>{user.followers.length}</td>
-                <td>{user.following.length}</td>
-                <td>{user.saved.length}</td>
-                <td>{user.role}</td>
-                <td>{new Date(user.createdAt).toLocaleString()}</td>
-                <td>{new Date(user.updatedAt).toLocaleString()}</td>
-                <td onClick={() => handleGetUser(user)}>Xem</td>
-              </tr>
-            ))}
+          {currentUsers.map((user) => (
+            <tr key={user._id}>
+              <td>{user._id}</td>
+              <td>{user.username}</td>
+              <td>{user.mobile}</td>
+              <td>{user.followers.length}</td>
+              <td>{user.following.length}</td>
+              <td>{user.saved.length}</td>
+              <td>{user.role}</td>
+              <td>{new Date(user.createdAt).toLocaleString()}</td>
+              <td>{new Date(user.updatedAt).toLocaleString()}</td>
+              <td onClick={() => handleGetUser(user)}>Xem</td>
+            </tr>
+          ))}
         </tbody>
       </table>
+      <div className="pagination">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

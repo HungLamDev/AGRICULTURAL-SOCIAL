@@ -52,3 +52,94 @@ tr:nth-child(even) {
 .follower_sub {
     overflow-y: auto;
 }
+/* page user */
+/* Container for the Users Page */
+.users {
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  /* Search Box Styling */
+  .users .form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  /* Table Styling */
+  .users .table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  .users .table thead th {
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 12px;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+    text-align: left;
+  }
+  
+  .users .table tbody tr {
+    transition: background-color 0.2s ease;
+  }
+  
+  .users .table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .users .table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Pagination Styling */
+  .users .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  
+  .pagination button {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .pagination button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .pagination span {
+    font-size: 14px;
+  }
+  
+  /* Action Button Styling in the Table */
+  .users .table td:last-child {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .users .table td:last-child:hover {
+    color: #0056b3;
+  }
+  
+  /* Optional: Highlight the row when clicking 'Xem' */
+  .users .table td:last-child:active {
+    background-color: #f0f0f0;
+  }
+  
