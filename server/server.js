@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const socketIO = require("socket.io");
 const SocketServer = require("./socketSever");
-const {PeerServer} = require('peer')
+const { PeerServer } = require("peer");
 
 const app = express();
 app.use(cors());
@@ -33,9 +33,8 @@ io.on("connection", (socket) => {
 // create peer server
 PeerServer({
   port: 3001,
-  path: '/',
+  path: "/",
 });
-
 
 // Routes
 app.use("/api", require("./routes/postRouter"));
@@ -60,6 +59,7 @@ mongoose
   .catch((err) => console.error("Failed to connect to MongoDB", err));
 
 const port = process.env.PORT || 5000;
+
 server.listen(port, () => {
   console.log("Server is running on port", port);
 });
