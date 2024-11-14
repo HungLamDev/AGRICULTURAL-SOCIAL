@@ -37,6 +37,14 @@ function App() {
 
     const socket = io(process.env.REACT_APP_SOCKET_URL, {
       transports: ["websocket", "polling"],
+      reconnectionAttempts: 5,
+      timeout: 20000,
+    });
+    socket.on("connect", () => {
+      console.log("Connected to WebSocket server");
+    });
+    socket.on("disconnect", () => {
+      console.log("Disconnected from WebSocket server");
     });
     dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
     return () => socket.close();
