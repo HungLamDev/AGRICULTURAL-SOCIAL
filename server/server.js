@@ -31,7 +31,7 @@ const server = require("http").createServer(app);
 // Cấu hình Socket.IO
 const io = socketIO(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://agricultural-social-1.onrender.com",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     credentials: true,
   },
