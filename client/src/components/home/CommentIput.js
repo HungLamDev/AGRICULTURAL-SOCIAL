@@ -4,9 +4,9 @@ import { createComment } from "../../redux/actions/commentAction";
 import Icons from "../Icons";
 const CommentIput = ({ children, post, onReply, setOnReply }) => {
   const [content, setContent] = useState("");
-  const auth = useSelector(state => state.auth);
-  const theme = useSelector(state => state.theme);
-  const socket = useSelector(state => state.socket);
+  const auth = useSelector((state) => state.auth);
+  const theme = useSelector((state) => state.theme);
+  const socket = useSelector((state) => state.socket);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,7 +30,7 @@ const CommentIput = ({ children, post, onReply, setOnReply }) => {
   const dispatch = useDispatch();
 
   return (
-    <form className="card_footer comment_input" onSubmit={handleSubmit} >
+    <form className="card_footer comment_input" onSubmit={handleSubmit}>
       {children}
       <input
         type="text"
@@ -43,11 +43,12 @@ const CommentIput = ({ children, post, onReply, setOnReply }) => {
         }}
       />
 
-      <button type="submit" className="commentBtn" 
+      <button
+        type="submit"
+        className="commentBtn"
         style={{
           filter: theme ? "invert(1)" : "invert(0)",
           color: theme ? "black" : "black",
-          
         }}
       >
         Bình luận
@@ -55,7 +56,7 @@ const CommentIput = ({ children, post, onReply, setOnReply }) => {
       <Icons
         setContent={setContent}
         content={content}
-        theme ={theme}
+        theme={theme}
         style={{
           border: "none",
           outline: "none",

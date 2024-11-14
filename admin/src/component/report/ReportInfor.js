@@ -96,15 +96,14 @@ const ReportInfor = () => {
             onChange={handleChangeValue}
             name="desc"
           />
-          <button className="btn btn-success w-100 mt-2" type="submit">
-            Cập nhật
-          </button>
-          <button
-            className="btn btn-danger w-100 mt-2"
-            onClick={handleOpenDeleteModal}
-          >
-            Xoá
-          </button>
+          <div className="d-flex justify-content-end mt-2">
+            <button className="btn btn-success me-2" type="submit">
+              Cập nhật
+            </button>
+            <button className="btn btn-danger" onClick={handleOpenDeleteModal}>
+              Xoá
+            </button>
+          </div>
         </form>
         <ConfirmDeleteModal
           open={openDeleteModal}

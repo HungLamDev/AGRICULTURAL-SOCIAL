@@ -6,6 +6,8 @@ import { GLOBALTYPES } from "../../../redux/actions/globalTypes";
 import { deletePost } from "../../../redux/actions/postAction";
 import { BASE_URL } from "../../../utils/config";
 import moment from "moment";
+import "moment/locale/vi";
+
 import { createReport } from "../../../redux/actions/reportAction";
 import {
   Dialog,
@@ -43,7 +45,7 @@ const CardHeader = ({ post }) => {
     "Quấy rối",
     "Lý do khác", // Để người dùng nhập tùy chọn riêng
   ];
-
+  moment.locale("vi");
   const handleReport = () => setOpenReportModal(true);
 
   const confirmReport = () => {

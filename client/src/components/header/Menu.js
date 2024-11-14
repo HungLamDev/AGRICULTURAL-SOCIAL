@@ -69,7 +69,7 @@ const Menu = () => {
             <NotifyModal />
           </div>
         </li>
-        <li className="nav-item dropdown">
+        <li className="nav-item dropdown" style={{ paddingLeft: "15px" }}>
           <span
             className="nav-link dropdown-toggle pb-3"
             id="navbarDropdown"
