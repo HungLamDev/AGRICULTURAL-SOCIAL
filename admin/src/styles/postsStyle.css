@@ -1,45 +1,133 @@
-.post_infor {
+/* Container styling for PostsPage component */
+.posts {
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  /* Search Box Styling */
+  .posts .form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  /* Table Styling */
+  .posts .table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  .posts .table thead th {
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 12px;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+    text-align: left;
+  }
+  
+  .posts .table tbody tr {
+    transition: background-color 0.2s ease;
+  }
+  
+  .posts .table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .posts .table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Action Button Styling in the Table */
+  .posts .table td:last-child {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .posts .table td:last-child:hover {
+    color: #0056b3;
+  }
+  
+  /* Pagination Styling */
+  .posts .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .posts .pagination button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .posts .pagination button:disabled {
+    background-color: #cccccc;
+  }
+  
+  .posts .pagination span {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  /* Modal Styling for Post Information */
+  .post_infor {
     position: fixed;
     top: 0;
     left: 0;
-    background: #0008;
+    background: rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 100vh;
     z-index: 4;
     overflow: auto;
-}
-
-.post_infor .post_infor_container {
+  }
+  
+  .post_infor .post_infor_container {
     max-width: 1000px;
     width: 100%;
     background: #fff;
     margin: 30px auto;
     padding: 20px;
     border-radius: 5px;
-}
-
-.infor_title_post {
+  }
+  
+  .infor_title_post {
     display: flex;
     justify-content: space-between;
     align-items: center;
     transform: translateY(-15px);
-}
-
-.infor_title_post span {
+  }
+  
+  .infor_title_post span {
     font-size: 2rem;
     font-weight: 900;
     cursor: pointer;
     transform: translateY(-7px);
-}
-.image-container {
-    max-width: 150px; /* Đặt chiều rộng tối đa */
-    max-height: 150px; /* Đặt chiều cao tối đa */
-    margin: 5px; /* Khoảng cách giữa các ảnh */
+  }
+  
+  /* Image Container Styling */
+  .image-container {
+    max-width: 150px;
+    max-height: 150px;
+    margin: 5px;
   }
   
   .image-container img,
   .image-container video {
     width: 100%;
     height: auto;
-    object-fit: cover; /* Đảm bảo ảnh không bị tràn */
+    object-fit: cover;
   }
+  

@@ -1,0 +1,34 @@
+.menu {
+      background-color: #f8f9fa;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    
+    .navbar-nav {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .nav-item {
+      margin-bottom: 8px;
+    }
+    
+    .nav-link {
+      color: #333;
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background-color: #007bff; /* Change this color to your preferred hover color */
+      color: #fff; /* Optional: Change text color on hover */
+    }
+    
+    .nav-link.active {
+      background-color: #007bff; /* Active link background color */
+      color: #fff;
+    }
+    

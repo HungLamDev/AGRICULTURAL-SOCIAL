@@ -33,6 +33,9 @@
   .info_content_title button{
       flex: 2;
   }
+  .info_content .sub_follower {
+    color: #0D6EFD
+}
   .info_container .follow_btn{
     color: #0D6EFD;
       cursor: pointer;
@@ -201,4 +204,40 @@
     text-align: center;
     writing-mode: horizontal-tb; /* Đảm bảo chữ hiển thị ngang */
   }
-  
+ /* buton profile */
+ .info-buttons {
+  display: flex;
+  gap: 8px; /* Space between buttons */
+  margin-top: 10px;
+}
+
+.info-button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.info-button.unfollow {
+  background-color: #ff6666; /* Red for "Unfollow" */
+  color: white;
+  border: none;
+}
+
+.info-button.message {
+  background-color: #4a90e2; /* Blue for "Message" */
+  color: white;
+  border: none;
+}
+
+.info-button.report {
+  background-color: #ffcc00; /* Yellow for "Report" */
+  color: white;
+  border: none;
+}
+
+.info-button:hover {
+  opacity: 0.9; /* Slight fade on hover */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}

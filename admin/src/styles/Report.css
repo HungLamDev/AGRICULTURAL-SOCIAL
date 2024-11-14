@@ -1,0 +1,84 @@
+/* Container styling for Report component */
+.report {
+      font-family: Arial, sans-serif;
+      color: #333;
+    }
+    
+    /* Search Box Styling */
+    .report .form-control {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    
+    /* Table Styling */
+    .report .table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    
+    .report .table thead th {
+      background-color: #f9f9f9;
+      color: #333;
+      padding: 12px;
+      font-weight: bold;
+      border-bottom: 2px solid #ddd;
+      text-align: left;
+    }
+    
+    .report .table tbody tr {
+      transition: background-color 0.2s ease;
+    }
+    
+    .report .table tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+    
+    .report .table td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    /* Action Button Styling in the Table */
+    .report .table td:last-child {
+      color: #007bff;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    
+    .report .table td:last-child:hover {
+      color: #0056b3;
+    }
+    
+    /* Pagination Styling */
+    .report .pagination {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+    
+    .report .pagination button {
+      padding: 5px 10px;
+      margin: 0 5px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    
+    .report .pagination button:disabled {
+      background-color: #cccccc;
+    }
+    
+    .report .pagination span {
+      font-size: 14px;
+      color: #333;
+    }
+    

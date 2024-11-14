@@ -73,7 +73,6 @@ export const register = (data) => async(dispatch) =>{
                payload: {
                     success: res.data.msg
                }})
-          
      } catch (err) {
           dispatch({
                type: GLOBALTYPES.ALERT, 

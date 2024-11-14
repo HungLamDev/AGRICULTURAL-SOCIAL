@@ -8,6 +8,32 @@ const UserCard = ({children, user, border, handleClose, setshowFollowers, setsho
     if (setshowFollowers) setshowFollowers(false);
     if (setshowFollowing) setshowFollowing(false);
   };
+
+  const showMsg =( user ) => {
+    return (
+      <>
+        <div>
+          {user.text}
+        </div>
+        {user.media && user.media.length > 0 && 
+          <div >
+            {user.media.length} <i className="fas fa-images" /> 
+          </div>
+        }
+
+        {
+          user.call && 
+          <span className="material-icons">
+            {
+              user.call.times === 0 
+              ? user.call.video ? 'videocam_off' : 'phone_disabled '
+              : user.call.video ? 'video_camera_front' : 'call'
+            }
+          </span>
+        }
+      </>
+    )
+  }
   return (
     <div
       className={`d-flex p-2 align-items-center justify-content-between w-100 ${border}`}
@@ -26,18 +52,8 @@ const UserCard = ({children, user, border, handleClose, setshowFollowers, setsho
             <small style={{ opacity: 0.7}}>
               {
                 msg
-                ? <>
-                    <div>
-                      {user.text}
-                    </div>
-                    {user.media && user.media.length > 0 && 
-                      <div >
-                        {user.media.length} <i className="fas fa-images" /> 
-                      </div>
-                    }
-                  </>
+                ? showMsg(user)
                 : user.fullname
-              
               }
               
               

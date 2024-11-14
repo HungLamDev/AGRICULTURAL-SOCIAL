@@ -5,7 +5,7 @@ import {
   deletePost,
   updatePost,
 } from "../../redux/actions/postsAction";
-
+import ConfirmDeleteModal from "../ConfirmDeleteModal";
 const PostInfor = () => {
   const post = useSelector((state) => state.posts.post);
   const auth = useSelector((state) => state.auth);
@@ -19,6 +19,7 @@ const PostInfor = () => {
   const dispatch = useDispatch();
   const [postData, setPostData] = useState(initialState);
 
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const handleClose = () => {
     dispatch({ type: POSTS_LOADING.LOADING_POST, payload: false });
   };
@@ -27,10 +28,14 @@ const PostInfor = () => {
     const { name, value } = e.target;
     setPostData({ ...postData, [name]: value });
   };
+  const handleOpenDeleteModal = () => setOpenDeleteModal(true);
+  const handleCloseDeleteModal = () => setOpenDeleteModal(false);
 
-  const handleDeletePost = () => {
-    if (window.confirm("Are you sure you want to delete ?"))
-      dispatch(deletePost({ post, auth }));
+  // Hàm xác nhận xóa
+  const handleConfirmDelete = () => {
+    dispatch(deletePost({ post, auth }));
+    setOpenDeleteModal(false);
+    window.location.reload();
   };
 
   const imageShow = (src) => {
@@ -132,10 +137,17 @@ const PostInfor = () => {
         <button
           className="btn btn-danger w-100 mt-2"
           type="submit"
-          onClick={handleDeletePost}
+          onClick={handleOpenDeleteModal}
         >
           Xoá
         </button>
+        <ConfirmDeleteModal
+          open={openDeleteModal}
+          onClose={handleCloseDeleteModal}
+          onConfirm={handleConfirmDelete}
+          title="Xóa người dùng"
+          content="Bạn có chắc chắn muốn xóa người dùng này?"
+        />
       </div>
     </div>
   );

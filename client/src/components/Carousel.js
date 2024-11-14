@@ -47,7 +47,7 @@ const Carousel = ({ images, id }) => {
                 onClick={() => handleShowModal(index)}
                 style={{
                   cursor: "pointer",
-                  height: displayedImages.length === 1 ? "500px" : "100%",
+                  height: displayedImages.length === 1 ? "auto" : "100%",
                   width: "100%",
                   overflow: "hidden",
                   paddingRight: "1px",

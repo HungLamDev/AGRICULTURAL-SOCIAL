@@ -5,6 +5,7 @@ import {
   deleteUser,
   updateUser,
 } from "../../redux/actions/usersAction";
+import ConfirmDeleteModal from "../ConfirmDeleteModal";
 
 const UserInfor = () => {
   const user = useSelector((state) => state.users.user);
@@ -12,13 +13,14 @@ const UserInfor = () => {
 
   const initState = {
     id: user._id,
-    roles: user.roles,
-    desc: user.desc,
+    role: user.role,
+    story: user.story,
   };
 
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(initState);
 
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const handleClose = () => {
     dispatch({ type: USERS_LOADING.LOADING_USER, payload: false });
   };
@@ -30,6 +32,7 @@ const UserInfor = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log({ userData, auth });
     dispatch(
       updateUser({
         userData,
@@ -38,9 +41,14 @@ const UserInfor = () => {
     );
   };
 
-  const handleDeleteUser = () => {
-    if (window.confirm("Are you sure you want to delete ?"))
-      dispatch(deleteUser({ user, auth }));
+  const handleOpenDeleteModal = () => setOpenDeleteModal(true);
+  const handleCloseDeleteModal = () => setOpenDeleteModal(false);
+
+  // Hàm xác nhận xóa
+  const handleConfirmDelete = () => {
+    dispatch(deleteUser({ user, auth }));
+    setOpenDeleteModal(false);
+    window.location.reload();
   };
 
   return (
@@ -68,20 +76,20 @@ const UserInfor = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="disabledTextInput" className="form-label heading">
-                PhoneNum
+                Điện thoại
               </label>
               <input
                 type="text"
                 id="disabledTextInput"
                 className="form-control"
-                value={user.phoneNumber}
+                value={user.mobile}
                 onChange={handleChangeValue}
               />
             </div>
           </fieldset>
           {/* follower and sub */}
           <div className="col-md-3 follower_sub">
-            <span className="heading">Folowers</span>
+            <span className="heading">Người theo dõi</span>
             {user.followers.map((item) => (
               <div key={item._id}>
                 <img src={item.avatar} alt="avatar_user" width={30} />
@@ -90,7 +98,7 @@ const UserInfor = () => {
             ))}
           </div>
           <div className="col-md-3 follower_sub">
-            <span className="heading">Subscribes</span>
+            <span className="heading">Đang theo dõi</span>
             {user.following.map((item) => (
               <div key={item._id}>
                 <img src={item.avatar} alt="avatar_user" width={30} />
@@ -110,9 +118,9 @@ const UserInfor = () => {
                 className="form-check-input"
                 id="expertRoleCheckbox"
                 value="expert"
-                checked={userData.roles === "expert"}
+                checked={userData.role === "expert"}
                 onChange={handleChangeValue}
-                name="roles"
+                name="role"
               />
               <label htmlFor="expertRoleCheckbox">Expert</label>
             </div>
@@ -122,9 +130,9 @@ const UserInfor = () => {
                 className="form-check-input"
                 id="userRoleCheckbox"
                 value="user"
-                checked={userData.roles === "user"}
+                checked={userData.role === "user"}
                 onChange={handleChangeValue}
-                name="roles"
+                name="role"
               />
               <label htmlFor="userRoleCheckbox">User</label>
             </div>
@@ -140,9 +148,9 @@ const UserInfor = () => {
               type="text"
               id="descTextInput"
               className="form-control"
-              value={userData.desc}
+              value={userData.story}
               onChange={handleChangeValue}
-              name="desc"
+              name="story"
             />
           </div>
         </div>
@@ -151,11 +159,18 @@ const UserInfor = () => {
         </button>
         <button
           className="btn btn-danger w-100 mt-2"
-          onClick={handleDeleteUser}
+          onClick={handleOpenDeleteModal}
         >
           Xoá
         </button>
       </form>
+      <ConfirmDeleteModal
+        open={openDeleteModal}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleConfirmDelete}
+        title="Xóa người dùng"
+        content="Bạn có chắc chắn muốn xóa người dùng này?"
+      />
     </div>
   );
 };
