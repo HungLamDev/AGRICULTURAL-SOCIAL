@@ -31,12 +31,12 @@ const io = socketIO(server, {
     origin: [
       "https://agricultural-social-1.onrender.com",
       "http://localhost:3000",
-    ], // Thay bằng URL của bạn trên Render
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     credentials: true,
   },
-  transports: ["websocket", "polling"], // Cho phép WebSocket và fallback sang polling
-  allowEIO3: true, // Để đảm bảo tương thích với các phiên bản EIO cũ hơn nếu cần
+  transports: ["websocket", "polling"],
+  allowEIO3: true,
 });
 
 io.on("connection", (socket) => {
@@ -49,7 +49,7 @@ io.on("connection", (socket) => {
 });
 
 const peerServer = ExpressPeerServer(server, {
-  path: "/",
+  path: "/peerjs",
 });
 app.use("/peerjs", peerServer);
 
@@ -70,5 +70,5 @@ app.get("/", (req, res) => {
 
 const port = process.env.PORT || 5000;
 server.listen(port, () => {
-  console.log("Server is running on port", port);
+  console.log(`Server is running on port ${port}`);
 });
