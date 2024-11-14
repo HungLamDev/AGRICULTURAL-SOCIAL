@@ -4,7 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const socketIO = require("socket.io");
-const { ExpressPeerServer } = require("peer"); // Sử dụng ExpressPeerServer
+const { ExpressPeerServer } = require("peer");
 
 const SocketServer = require("./socketSever");
 
@@ -14,7 +14,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-// Kết nối MongoDB
 mongoose.set("strictQuery", false);
 const mongoOptions = {
   useNewUrlParser: true,
@@ -25,16 +24,19 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Failed to connect to MongoDB", err));
 
-// Tạo server HTTP chung cho Express và Socket.IO
 const server = require("http").createServer(app);
 
-// Cấu hình Socket.IO
 const io = socketIO(server, {
   cors: {
-    origin: "https://agricultural-social-1.onrender.com",
+    origin: [
+      "https://agricultural-social-1.onrender.com",
+      "http://localhost:3000",
+    ], // Thay bằng URL của bạn trên Render
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     credentials: true,
   },
+  transports: ["websocket", "polling"], // Cho phép WebSocket và fallback sang polling
+  allowEIO3: true, // Để đảm bảo tương thích với các phiên bản EIO cũ hơn nếu cần
 });
 
 io.on("connection", (socket) => {
@@ -46,13 +48,11 @@ io.on("connection", (socket) => {
   });
 });
 
-// Tích hợp PeerJS vào cùng server với Express
 const peerServer = ExpressPeerServer(server, {
-  path: "/", // Đặt path nếu cần
+  path: "/",
 });
-app.use("/peerjs", peerServer); // Sử dụng `/peerjs` làm endpoint cho PeerJS
+app.use("/peerjs", peerServer);
 
-// Định tuyến
 app.use("/api", require("./routes/postRouter"));
 app.use("/api", require("./routes/authRouter"));
 app.use("/api", require("./routes/userRouter"));
@@ -68,7 +68,6 @@ app.get("/", (req, res) => {
   res.send("Welcome to AgricultureVN Web");
 });
 
-// Khởi động server
 const port = process.env.PORT || 5000;
 server.listen(port, () => {
   console.log("Server is running on port", port);

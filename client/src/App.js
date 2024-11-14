@@ -35,7 +35,9 @@ function App() {
   useEffect(() => {
     // console.log("useEffect triggered 2");
 
-    const socket = io("http://localhost:5000");
+    const socket = io(process.env.REACT_APP_SOCKET_URL, {
+      transports: ["websocket", "polling"],
+    });
     dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
     return () => socket.close();
   }, [dispatch]);
@@ -51,8 +53,9 @@ function App() {
 
   useEffect(() => {
     const newPeer = new Peer(undefined, {
-      host: "/",
-      port: 3001,
+      host: "https://agricultural-social-1.onrender.com", // Thay bằng tên app của bạn trên Render
+      port: 443, // Dùng port 443 cho HTTPS, Render thường chạy trên HTTPS
+      secure: true,
     });
     dispatch({ type: GLOBALTYPES.PEER, payload: newPeer });
   }, [dispatch]);
