@@ -15,13 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //socket
 const server = require("http").createServer(app);
-const io = socketIO(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    credentials: true,
-  },
-});
+const io = require("socket.io")(server);
 io.on("connection", (socket) => {
   SocketServer(socket);
   console.log(`${socket.id} Connected`);

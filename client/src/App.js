@@ -32,7 +32,7 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    const socket = io("http://localhost:8000");
+    const socket = io();
     dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
     return () => socket.close();
   }, [dispatch]);
@@ -49,7 +49,7 @@ function App() {
   useEffect(() => {
     const newPeer = new Peer(undefined, {
       host: "/",
-      port: 3001,
+      secure: true,
     });
     dispatch({ type: GLOBALTYPES.PEER, payload: newPeer });
   }, [dispatch]);
