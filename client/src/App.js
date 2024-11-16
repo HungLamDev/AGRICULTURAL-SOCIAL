@@ -28,13 +28,10 @@ function App() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    // console.log("useEffect triggered 1");
     dispatch(refrechToken());
   }, [dispatch]);
 
   useEffect(() => {
-    // console.log("useEffect triggered 2");
-
     const socket = io("http://localhost:8000");
     dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
     return () => socket.close();
