@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
 });
 // create peer server
 PeerServer({
-  port: 3001,
+  secure: true,
   path: "/",
 });
 
