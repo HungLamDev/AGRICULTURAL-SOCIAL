@@ -35,7 +35,7 @@ function App() {
   useEffect(() => {
     // console.log("useEffect triggered 2");
 
-    const socket = io("http://localhost:5000");
+    const socket = io("http://localhost:8000");
     dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
     return () => socket.close();
   }, [dispatch]);

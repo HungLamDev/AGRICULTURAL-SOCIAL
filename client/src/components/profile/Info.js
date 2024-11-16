@@ -111,7 +111,7 @@ const Info = () => {
             </div>
 
             <p className="m-0">{user.address}</p>
-
+            <p className="m-0  warning-text ">{user.story}</p>
             {}
             {user._id === auth.user._id ? (
               <div className="d-flex mt-3">

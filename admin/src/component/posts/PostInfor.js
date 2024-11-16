@@ -130,15 +130,16 @@ const PostInfor = () => {
             onChange={handleChangeValue}
             name="desc"
           />
+          <div className="d-flex justify-content-end mt-2">
+            <button className="btn btn-success me-2" type="submit">
+              Cập nhật
+            </button>
+            <button className="btn btn-danger" onClick={handleOpenDeleteModal}>
+              Xoá
+            </button>
+          </div>
         </form>
-        <div className="d-flex justify-content-end mt-2">
-          <button className="btn btn-success me-2" type="submit">
-            Cập nhật
-          </button>
-          <button className="btn btn-danger" onClick={handleOpenDeleteModal}>
-            Xoá
-          </button>
-        </div>
+
         <ConfirmDeleteModal
           open={openDeleteModal}
           onClose={handleCloseDeleteModal}
