@@ -28,21 +28,14 @@ function App() {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    // console.log("useEffect triggered 1");
     dispatch(refrechToken());
   }, [dispatch]);
 
   useEffect(() => {
-    const socket = io("https://agricultural-social-1.onrender.com", {
-      transports: ["websocket", "polling"],
-      reconnectionAttempts: 5,
-      timeout: 20000,
-    });
-    socket.on("connect", () => {
-      console.log("Connected to WebSocket server");
-    });
-    socket.on("disconnect", () => {
-      console.log("Disconnected from WebSocket server");
-    });
+    // console.log("useEffect triggered 2");
+
+    const socket = io("http://localhost:8000");
     dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
     return () => socket.close();
   }, [dispatch]);
@@ -58,10 +51,8 @@ function App() {
 
   useEffect(() => {
     const newPeer = new Peer(undefined, {
-      path: "/peerjs",
-      host: "//agricultural-social-1.onrender.com", // Thay bằng tên app của bạn trên Render
-      port: 443, // Dùng port 443 cho HTTPS, Render thường chạy trên HTTPS
-      secure: true,
+      host: "/",
+      port: 3001,
     });
     dispatch({ type: GLOBALTYPES.PEER, payload: newPeer });
   }, [dispatch]);

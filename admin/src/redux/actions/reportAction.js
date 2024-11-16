@@ -40,7 +40,10 @@ export const updateReports =
         },
         auth.token
       );
-      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
+      dispatch({
+        type: GLOBALTYPES.NOTIFY,
+        payload: { loading: false, success: "Cập nhật báo cáo thành công!" },
+      });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.NOTIFY,

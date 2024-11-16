@@ -101,7 +101,7 @@ const NotifyModal = () => {
                     </strong>
                     <span>{msg.text}</span>
                   </div>
-                  {msg.content && <small>{msg.content.slice(0, 20)}...</small>}
+                  {msg.content && <small>{msg.content.slice(0, 50)}...</small>}
                 </div>
                 {msg.url === "" && (
                   <button
