@@ -33,15 +33,12 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    // console.log("useEffect triggered 2");
-
-    const socket = io("https://agricultural-social-1.onrender.com");
+    const socket = io("http://localhost:8000");
     dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
     return () => socket.close();
   }, [dispatch]);
 
   useEffect(() => {
-    // console.log("useEffect 3 triggered");
     if (auth.token) {
       dispatch(getPosts(auth.token));
       dispatch(getSuggestions(auth.token));

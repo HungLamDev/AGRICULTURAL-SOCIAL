@@ -64,6 +64,11 @@ app.use("/api", require("./routes/reportRoute"));
 app.use("/api", require("./routes/messageRouter"));
 app.use("/api", require("./routes/productRoute"));
 
+mongoose
+  .connect(process.env.MONGODB_URL, mongoOptions)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("Failed to connect to MongoDB", err));
+
 app.get("/", (req, res) => {
   res.send("Welcome to AgricultureVN Web");
 });
