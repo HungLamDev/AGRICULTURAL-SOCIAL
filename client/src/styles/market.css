@@ -1,0 +1,174 @@
+.form_search .form-control {
+      transition: background-color 0.3s, border-color 0.3s;
+      cursor: pointer;
+}
+
+.form_search .form-control:hover {
+      background-color: #f0f0f0; 
+      border-color: gray; 
+}
+    
+.btn_post_product {
+      background-color: #d4f4cf; 
+      color: #2c5032; 
+      border: 2px solid #2c5032; 
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn_post_product:hover {
+      background-color: #5ce472; 
+      color: white; 
+}
+.categories_container h2 {
+      text-align: center; 
+      color: #2c5032; 
+      margin-bottom: 20px; 
+}
+
+.categories_map {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
+      gap: 15px; 
+      padding: 20px; 
+      justify-items: center;
+      align-items: center; 
+    }
+    
+.category-item {
+      display: inline-block; 
+      width: 120px; 
+      margin: 10px; 
+      text-align: center; 
+      cursor: pointer;
+      transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.category-item span.material-icons {
+      font-size: 3rem;
+      color: #39db34; 
+      transition: color 0.3s ease;
+}
+.category-item:hover span.material-icons {
+      color: #b7f1b2; 
+}
+
+.category-item:hover {
+      transform: scale(1.1);
+}
+
+/* css  show tt sp giỏ hàng*/
+/* .card_detail {
+      margin: 20px auto;
+      max-width: 1200px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+} */
+
+.row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+}
+
+.col-md-8,
+.col-md-4 {
+      flex: 1;
+      padding: 10px;
+}
+
+.carousel_detail_product {
+      text-align: center;
+      margin-bottom: 20px;
+}
+
+h3 {
+      font-size: 24px;
+      color: #333;
+}
+
+.product_card_price {
+      color: #e74c3c;
+      font-size: 22px;
+      font-weight: bold;
+}
+
+.contact_user h5 {
+      font-size: 18px;
+      color: #2c3e50;
+      margin-bottom: 10px;
+}
+
+.contact_phone,
+.contact_message {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #2c3e50;
+      padding: 10px 0;
+      justify-content: center;
+}
+
+.contact_phone i,
+.contact_message i {
+      margin-right: 10px;
+      font-size: 20px;
+      color: #27ae60;
+}
+
+.contact_message {
+      cursor: pointer;
+}
+
+.contact_message:hover {
+      color: #3498db;
+}
+
+.card_name h6 {
+      font-size: 18px;
+      margin-bottom: 5px;
+      color: #333;
+}
+
+.card_name small {
+      font-size: 14px;
+      color: #27ae60;
+}
+
+.attention_product {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #7f8c8d;
+      line-height: 1.5;
+}
+
+.attention_product i {
+      margin-right: 5px;
+      color: #2980b9;
+}
+
+/* Avatar */
+.big-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #ddd;
+}
+
+/* Buttons */
+.contact_phone span,
+.contact_message span {
+      font-size: 16px;
+      font-weight: bold;
+}
+
+.contact_phone span {
+      color: #e74c3c;
+}
+

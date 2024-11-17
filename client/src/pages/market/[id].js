@@ -56,7 +56,7 @@ const Product = () => {
               )}
             </div>
             <h3 className="py-2">{item.productName}</h3>
-            <h5 className="product_card_price">{item.price}</h5>
+            <h5 className="product_card_price">{item.price}Vnd</h5>
             <br />
             <h5>Mô tả sản phẩm</h5>
             <p>{item.desc}</p>
@@ -64,7 +64,7 @@ const Product = () => {
           {/* Right product detail */}
           <div className="col-md-4">
             <div>
-              <div className="d-flex align-items-center">
+              <div className="d-flex align-items-center justify-content-center">
                 <Avatar src={item.user.avatar} size="big-avatar" />
                 <div className="card_name m-2">
                   <h6 className="m-0">
@@ -92,8 +92,9 @@ const Product = () => {
                 <h5>Liên hệ người bán</h5>
                 <div className="contact_phone">
                   <i className="fas fa-phone-alt fa-rotate-90"></i>
-                  <span>{item.user.phoneNumber}</span>
+                  <span>{item.user.mobile}</span>
                 </div>
+
                 <div
                   className="contact_message"
                   onClick={handleMessage}

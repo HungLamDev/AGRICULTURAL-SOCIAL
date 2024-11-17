@@ -48,23 +48,21 @@ const Market = () => {
           Đăng bài
         </button>
       </div>
-      <div className="row categories_container">
-        <h5 className="py-2">Khám phá danh mục</h5>
-        {category.category.map((link, index) => (
-          <div
-            className="col text-center"
-            key={index}
-            onClick={() => handleGetCategory(link.label)}
-          >
-            <span
-              className="material-icons"
-              style={{ fontSize: "3rem", color: "#88c431" }}
+      <div className="categories_container">
+        <h2 className="py-2">Khám phá danh mục</h2>
+        <div className="categories_map">
+          {category.category.map((link, index) => (
+            <div
+              className="category-item"
+              key={index}
+              onClick={() => handleGetCategory(link.label)}
             >
-              {link.icon}
-            </span>
-            <p className="fw-bold m-0">{link.label}</p>
-          </div>
-        ))}
+              <span className="material-icons">{link.icon}</span>
+              <p className="fw-bold m-0">{link.label}</p>
+            </div>
+          ))}
+        </div>
+        
       </div>
       <h5 className="py-2 mt-2">Tin đăng mới </h5>
       <Products />

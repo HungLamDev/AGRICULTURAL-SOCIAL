@@ -64,53 +64,55 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="product_card">
-      <div className="product_card_header">
-        <img
-          src={product.img[0] ? product.img[0].url : Logo}
-          alt="product_pic"
-        />
-        <div className="btn_product px-2">
-          {product.user._id === auth.user._id ? (
-            <div>
-              <button
-                className="btn btn-info mb-2 w-50"
-                onClick={handleUpdateProduct}
-              >
-                <i className="fas fa-pencil-alt"></i>
+    <div className="product_card" style={{width: '100%', height: '100%'}}>
+      <div>
+        <div className="product_card_header" >
+          <img
+            src={product.img[0] ? product.img[0].url : Logo}
+            alt="product_pic" style={{width: '100%', height: '100%'}}
+          />
+          <div className="btn_product px-2">
+            {product.user._id === auth.user._id ? (
+              <div>
+                <button
+                  className="btn btn-info mb-2 w-50"
+                  onClick={handleUpdateProduct}
+                >
+                  <i className="fas fa-pencil-alt"></i>
+                </button>
+                <button
+                  className="btn btn-danger mb-2 w-50"
+                  onClick={handleDeleteProduct}
+                >
+                  <i className="fas fa-trash"></i>
+                </button>
+              </div>
+            ) : (
+              <button className="btn btn-info mb-2 w-100" onClick={handleMessage}>
+                Nhắn với người bán
               </button>
-              <button
-                className="btn btn-danger mb-2 w-50"
-                onClick={handleDeleteProduct}
-              >
-                <i className="fas fa-trash"></i>
-              </button>
-            </div>
-          ) : (
-            <button className="btn btn-info mb-2 w-100" onClick={handleMessage}>
-              Nhắn với người bán
+            )}
+            <button
+              className="btn btn-secondary w-100"
+              onClick={handleGetProduct}
+            >
+              Xem chi tiết
             </button>
-          )}
-          <button
-            className="btn btn-secondary w-100"
-            onClick={handleGetProduct}
-          >
-            Xem chi tiết
-          </button>
-        </div>
-      </div>
-      <div className="product_card_body">
-        <div className="product_card_title">{product.productName}</div>
-        <div className="product_card_content">
-          <div className="product_card_price">{product.price}</div>
-          <div>{product.typeProduct}</div>
-          <div>
-            <i className="fas fa-map-marker-alt"></i>
-            <small style={{ paddingLeft: "5px" }}>{product.address}</small>
           </div>
-          <span className="text-muted">
-            {moment(product.createdAt).fromNow()}
-          </span>
+        </div>
+        <div className="product_card_body">
+          <div className="product_card_title">{product.productName}</div>
+          <div className="product_card_content">
+            <div className="product_card_price">{product.price}</div>
+            <div>{product.typeProduct}</div>
+            <div>
+              <i className="fas fa-map-marker-alt"></i>
+              <small style={{ paddingLeft: "5px" }}>{product.address}</small>
+            </div>
+            <span className="text-muted">
+              {moment(product.createdAt).fromNow()}
+            </span>
+          </div>
         </div>
       </div>
 

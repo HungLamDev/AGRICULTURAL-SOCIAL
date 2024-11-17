@@ -147,36 +147,15 @@ const SocketServer = (socket) => {
   // check use online // offline
   socket.on("checkUserOnline", (data) => {
     const following = users.filter((user) =>
-      data?.following.find((item) => item._id === user.id)
+      data?.following?.find((item) => item._id === user.id)
     );
 
     socket.emit("checkUserOnlineToMe", following);
 
     const clients = users.filter((user) =>
-      data.followers.find((item) => item._id === user.id)
+      data?.followers?.find((item) => item._id === user.id)
     );
 
-    if (clients.length > 0) {
-      clients.forEach((client) => {
-        socket
-          .to(`${client.socketId}`)
-          .emit("checkUserOnlineToClient", data._id);
-      });
-    }
-  });
-
-  // check user online / offline 
-  socket.on("checkUserOnline", (data) => {
-    const following = users.filter((user) =>
-      data.following.find((item) => item._id === user.id)
-    );
-
-    socket.emit("checkUserOnlineToMe", following);
-
-    const clients = users.filter((user) =>
-      data.followers.find((item) => item._id === user.id)
-    );
-    
     if (clients.length > 0) {
       clients.forEach((client) => {
         socket

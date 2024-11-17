@@ -79,7 +79,8 @@ const Saved = ({ auth, dispatch }) => {
         <PostThumb posts={savePosts} result={result} />
       ) : (
         <div className="diary_thumb">
-          {saveDiaries.length > 0 ? (
+          {saveDiaries.length > 0 ?
+          (
             saveDiaries.map((item) => (
               <Link
                 to={`/diary/${item._id}`}

@@ -3,11 +3,11 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     justify-content: center;
-    grid-gap: 5px;
+    grid-gap: 20px;
     overflow: hidden;
-    margin: 15px 0;
+    margin: 15px;
 }
-
+ 
 .diary_thumb_display {
     min-width: 150px;
     height: 150px;

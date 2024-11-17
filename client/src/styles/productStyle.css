@@ -9,12 +9,13 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   justify-content: center;
-  grid-gap: 10px;
+  grid-gap: 30px;
   overflow: hidden;
   margin: 15px 0;
   padding: 0 10px;
 }
 .product_card {
+  border-radius: 10px;
   min-width: 150px;
   height: 350px;
   width: 100%;
@@ -68,7 +69,7 @@
 }
 .card_detail {
   padding: 20px 10px;
-  width: 70%;
+  width: 80%;
   margin: 0 auto;
 }
 .card_detail .search_product {

@@ -151,6 +151,16 @@ const StatusModal = () => {
     }
   }, [status]);
 
+  const formatPrice = (value) => {
+    if (!value) return "";
+    const numericValue = value.replace(/\D/g, ""); // Loại bỏ ký tự không phải số
+    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Thêm dấu chấm
+  };
+  const handleChange = (e) => {
+    const inputValue = e.target.value;
+    setPrice(formatPrice(inputValue)); // Gọi hàm format trước khi cập nhật state
+  };
+  
   return (
     <div className="status_modal">
       <form onSubmit={handleSubmit}>
@@ -206,9 +216,10 @@ const StatusModal = () => {
                   type="text"
                   name="price"
                   value={price}
-                  onChange={(e) => setPrice(e.target.value)}
+                  onChange={(e) => handleChange(e)}
                   placeholder="Nhập giá bán ..."
                 />
+
               </div>
               <div className="pb-2">
                 <small>Phân loại: </small>

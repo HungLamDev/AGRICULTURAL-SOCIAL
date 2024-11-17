@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const DiaryThumb = () => {
   const diary = useSelector((state) => state.diary?.diaries);
 
-  if (diary.length === 0) return <h5>Chưa có nhật ký !</h5>;
+  if (diary.length === 0) return <h5 className="p-4">Chưa có nhật ký !</h5>;
 
   return (
     <div className="diary_thumb">
