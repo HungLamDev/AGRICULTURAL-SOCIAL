@@ -15,9 +15,20 @@ app.use(express.urlencoded({ extended: true }));
 
 //socket
 const server = require("http").createServer(app);
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: process.env.CLIENT_URL || "http://localhost:3000", // URL của client
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  },
+});
 io.on("connection", (socket) => {
   SocketServer(socket);
+  socket.on("sendMessage", (data) => {
+    console.log("Message received:", data);
+    // Gửi lại message tới tất cả client
+    io.emit("receiveMessage", data);
+  });
   console.log(`${socket.id} Connected`);
 
   socket.on("disconnect", () => {
@@ -27,6 +38,7 @@ io.on("connection", (socket) => {
 // create peer server
 PeerServer({
   secure: true,
+  port: process.env.PEER_PORT || 3001,
   path: "/",
 });
 
