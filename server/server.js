@@ -35,14 +35,13 @@ io.on("connection", (socket) => {
     console.log(`${socket.id} Disconnected`);
   });
 });
-// create peer server
-PeerServer({
+const peerServer = PeerServer({
   secure: true,
   port: process.env.PEER_PORT || 3001,
   path: "/",
 });
 
-// Routes
+app.use("/peerjs", peerServer);
 app.use("/api", require("./routes/postRouter"));
 app.use("/api", require("./routes/authRouter"));
 app.use("/api", require("./routes/userRouter"));

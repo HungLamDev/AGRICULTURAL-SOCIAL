@@ -33,7 +33,7 @@ function App() {
 
   useEffect(() => {
     const socket = io(
-      process.env.REACT_APP_SOCKET_UR || "http://localhost:8000"
+      (process.env.REACT_APP_SOCKET_URL || "http://localhost:8000").trim()
     );
     socket.on("receiveMessage", (message) => {
       console.log("Received message:", message);
