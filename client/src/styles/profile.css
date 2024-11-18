@@ -1,5 +1,5 @@
 
-/*------------- Info ----------------*/
+
 .info{
       width: 100%;
       max-width: 800px;
@@ -110,7 +110,6 @@
     cursor: pointer;
 }
 
-/* Follow container  */
 .follow{
     position: fixed;
     top:0;
@@ -166,21 +165,21 @@
     font-size: 2rem;
     cursor: pointer;
 }
-/* Profile tab */
+
 @media (max-width: 768px) {
     .profile_tab {
-      flex-direction: column; /* Các nút sẽ xếp theo cột trên màn hình nhỏ */
+      flex-direction: column; 
       align-items: center;
       justify-content: space-around;
     }
   
     .profile_tab button {
-      width: 100%; /* Để nút chiếm toàn bộ chiều rộng */
+      width: 100%;
       justify-content: center;
     }
   }
 .profile_tab button.active {
-    color: #4CAF50; /* Màu sắc cho nút đang được chọn */
+    color: #4CAF50; 
   }
 .profile_tab {
     width: 100%;
@@ -217,12 +216,12 @@
     border: 1px solid red;
     color: red;
     text-align: center;
-    writing-mode: horizontal-tb; /* Đảm bảo chữ hiển thị ngang */
+    writing-mode: horizontal-tb;
   }
- /* buton profile */
+
  .info-buttons {
   display: flex;
-  gap: 8px; /* Space between buttons */
+  gap: 8px;
   margin-top: 10px;
 }
 
@@ -235,24 +234,24 @@
 }
 
 .info-button.unfollow {
-  background-color: #ff6666; /* Red for "Unfollow" */
+  background-color: #ff6666; 
   color: white;
   border: none;
 }
 
 .info-button.message {
-  background-color: #4a90e2; /* Blue for "Message" */
+  background-color: #4a90e2; 
   color: white;
   border: none;
 }
 
 .info-button.report {
-  background-color: #ffcc00; /* Yellow for "Report" */
+  background-color: #ffcc00; 
   color: white;
   border: none;
 }
 
 .info-button:hover {
-  opacity: 0.9; /* Slight fade on hover */
+  opacity: 0.9; 
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }

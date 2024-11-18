@@ -48,36 +48,36 @@
     
 
     
-    /*------------ auth---------------*/
+  
       @import url("./auth.css");
-    /*------------ loading---------------*/
+
       @import url("./loading.css");
-    /*------------ header---------------*/
+  
       @import url("./header.css");
-    /*------------ avatar---------------*/
+   
       @import url("./avatar.css");
-    /*------------ profile---------------*/
+  
       @import url("./profile.css");
-    /*------------ home---------------*/
+   
       @import url("./home.css");
-    /*------------statusModal ---------------*/
+    
       @import url("./statusModalStyle.css");
-    /*------------postThumbStyle ---------------*/
+  
       @import url("./postThumbStyle.css");
-    /*------------commentsStyle---------------*/
+
       @import url("./commentsStyle.css");
-    /*------------newsStyle---------------*/
+    
       @import url("./newsStyle.css");
-    /*------------notificationsStyle---------------*/
+ 
       @import url("./notificationsStyle.css");
-    /*------------notificationsStyle---------------*/
+ 
       @import url("./ShareModal.css");
-    /*------------notificationsStyle---------------*/
+ 
       @import url("./message.css");
-    /*------------productStyle---------------*/
+
       @import url("./productStyle.css");
-    /*------------diaryThumbStyle---------------*/
+   
       @import url("./diaryThumbStyle.css");
-    /*------------callModal---------------*/
+ 
       @import url("./callModal.css");
 

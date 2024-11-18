@@ -43,7 +43,6 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    // console.log("useEffect 3 triggered");
     if (auth.token) {
       dispatch(getPosts(auth.token));
       dispatch(getSuggestions(auth.token));
@@ -53,10 +52,10 @@ function App() {
 
   useEffect(() => {
     const newPeer = new Peer(undefined, {
-      host: process.env.REACT_APP_PEER_HOST || "localhost", // URL server Render
-      port: 443, // Sử dụng HTTPS, cổng 443
-      path: "/peerjs", // Đường dẫn tương ứng với backend
-      secure: true, //
+      host: process.env.REACT_APP_PEER_HOST || "localhost",
+      port: 443,
+      path: "/peerjs",
+      secure: true,
     });
     console.log("Socket URL:", (process.env.REACT_APP_SOCKET_URL || "").trim());
     console.log("PeerJS Host:", (process.env.REACT_APP_PEER_HOST || "").trim());
