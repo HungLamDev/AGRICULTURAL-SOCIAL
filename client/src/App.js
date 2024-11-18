@@ -53,9 +53,10 @@ function App() {
 
   useEffect(() => {
     const newPeer = new Peer(undefined, {
-      host: "/",
-      port: 3001,
-      secure: true,
+      host: process.env.REACT_APP_PEER_HOST || "localhost", // URL server Render
+      port: 443, // Sử dụng HTTPS, cổng 443
+      path: "/peerjs", // Đường dẫn tương ứng với backend
+      secure: true, //
     });
     console.log("Socket URL:", (process.env.REACT_APP_SOCKET_URL || "").trim());
     console.log("PeerJS Host:", (process.env.REACT_APP_PEER_HOST || "").trim());

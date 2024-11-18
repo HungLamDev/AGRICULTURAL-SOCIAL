@@ -30,9 +30,8 @@ io.on("connection", (socket) => {
   });
 });
 const peerServer = PeerServer({
-  secure: true,
-  port: process.env.PEER_PORT || 3001,
-  path: "/",
+  path: "/peerjs",
+  allow_discovery: true,
 });
 
 app.use("/peerjs", peerServer);
