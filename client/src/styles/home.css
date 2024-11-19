@@ -1,4 +1,3 @@
-/*--------- Status ---------- */
 .status{
     background: white;
     box-shadow: 0 0 5px #ddd;
@@ -20,11 +19,9 @@
     background: #ddd;
 }
 
-/* ------------Posts ------ */
 .posts .card{
     box-shadow: 0 0 4px #ddd;
 }
-/* --------- Post Card Header --------- */
 .posts .card_header{
     display: flex;
     justify-content: space-between;
@@ -36,7 +33,6 @@
     transform: translateY(3px);
 }
 
-/* ---------- Post Card Body ---------- */
 .posts .card_body-content{
     padding: 0 25px;
     margin-top: -10px;
@@ -47,7 +43,6 @@
     cursor: pointer;
 }
 
-/* ---------- Post Card Footer ---------- */
 .posts .card_icon_menu{
     display: flex;
     justify-content: space-between;
@@ -64,7 +59,6 @@
     transform: translate(5px, -5px);
     opacity: 0.9;
 }
-* Status style  */
 .status {
     background: #fff;
     box-shadow: 0 0 10px #ddd;
@@ -88,8 +82,6 @@
     border: 1px solid var(--light-green);
 }
 
-/* Post style  */
-/* Card header  */
 .posts .card_header {
     display: flex;
     justify-content: space-between;
@@ -106,7 +98,6 @@
     display: flex;
     margin: 5px 0;
 }
-/* Card body  */
 
 .posts .card_body .content {
     padding: 0 25px;
@@ -135,19 +126,17 @@
     object-fit: contain;
 }
 img, video {
-    filter: invert(0); /* Normal mode */
-    /* Optional border for better visibility */
+    filter: invert(0); 
     border-style: none;
 }
 
 img.dark-theme, 
 video.dark-theme {
-    filter: invert(1); /* Inverted for dark mode */
+    filter: invert(1);
 }
 .posts .card_body .content span {
     white-space: pre-line;
 }
-/* Card footer */
 .posts .card_icon_menu {
     display: flex;
     justify-content: space-between;
@@ -170,4 +159,3 @@ video.dark-theme {
     border-radius: 5px;
     background: linear-gradient(0, var(--bg-color), #fff);
 }
-/* carousel*/

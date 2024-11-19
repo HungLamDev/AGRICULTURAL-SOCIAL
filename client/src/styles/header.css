@@ -18,7 +18,7 @@
       font-size: 2rem;
 }
 
-/*--------------header menu-----------*/
+
 .header .menu li .active{
       opacity: 1;
 }
@@ -37,7 +37,7 @@
       font-size: 30px;
       color: var(--light-green);
     }
-/*--------------header search-----------*/
+
 .header .search_box{
       position: relative;
       margin: auto;
@@ -109,7 +109,7 @@
       border: none;
       outline: none;
 }
-  /*--------------responsive-----------*/
+
   @media (max-width: 768px){
       .header .menu{
             position: fixed;

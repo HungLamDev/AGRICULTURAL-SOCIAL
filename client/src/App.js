@@ -32,7 +32,9 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    const socket = io("http://localhost:8000");
+    const socket = io(
+      process.env.REACT_APP_API_BASE_URL || "http://localhost:8000"
+    );
     dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
     return () => socket.close();
   }, [dispatch]);
@@ -48,8 +50,10 @@ function App() {
 
   useEffect(() => {
     const newPeer = new Peer(undefined, {
-      host: "/",
-      port: 3001,
+      host: process.env.REACT_APP_PEER_HOST || "localhost",
+      port: 443,
+      path: "/peerjs",
+      secure: true,
     });
     dispatch({ type: GLOBALTYPES.PEER, payload: newPeer });
   }, [dispatch]);
