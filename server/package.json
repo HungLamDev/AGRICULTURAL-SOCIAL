@@ -1,5 +1,5 @@
 {
-  "proxy": "https://agricultural-social.netlify.app/",
+  "proxy": "https://agricultural-social.netlify.app",
   "name": "lvtn",
   "version": "1.0.0",
   "main": "server.js",
