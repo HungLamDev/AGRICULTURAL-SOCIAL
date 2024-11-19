@@ -29,7 +29,6 @@ const RightSide = () => {
   const theme = useSelector((state) => state.theme);
   const socket = useSelector((state) => state.socket);
   const peer = useSelector((state) => state.peer);
-  const call = useSelector((state) => state.call);
 
   const dispatch = useDispatch();
 
@@ -48,7 +47,6 @@ const RightSide = () => {
   const [result, setResult] = useState(9);
   const [page, setPage] = useState(0);
   const [isLoadMore, setIsLoadMore] = useState(0);
-  const [answer, setAnswer] = useState(false)
 
   useEffect(() => {
     const newData = message.data.find((item) => item._id === id);
@@ -187,7 +185,7 @@ const RightSide = () => {
   };
   // call
   const caller = ({ video }) => {
-    const { _id, avatar, username} = user;
+    const { _id, avatar, username } = user;
 
     const msg = {
       sender: auth.user._id,

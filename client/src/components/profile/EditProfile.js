@@ -11,13 +11,11 @@ const EditProfile = ({ setOnEdit }) => {
     address: " ",
     password: "",
     website: "",
-    story: "",
     gender: "",
   };
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(initState);
-  const { username, mobile, address, website, password, story, gender } =
-    userData;
+  const { username, mobile, address, website, password, gender } = userData;
   const [avatar, setAvatar] = useState("");
 
   const auth = useSelector((state) => state.auth);
@@ -35,7 +33,11 @@ const EditProfile = ({ setOnEdit }) => {
     setUserData({ ...userData, [name]: value });
   };
   useEffect(() => {
-    setUserData(currentUser || initState);
+    if (currentUser) {
+      setUserData(currentUser);
+    } else {
+      setUserData(initState);
+    }
   }, [currentUser]);
   useEffect(() => {
     setUserData(auth.user);

@@ -17,7 +17,7 @@ const FollowBtn = ({ user }) => {
       );
     }
     return () => setFollowed(false);
-  }, [auth.user.following, user._id]);
+  }, [auth.user, auth.user.following, user._id]);
   const handleFollow = async () => {
     if (load) return;
     setFollowed(true);

@@ -5,7 +5,6 @@ import Saved from "../../components/profile/Saved";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProfileUsers } from "../../redux/actions/profileAction";
-import LoadIcon from "../../images/loading.gif";
 import DirayThumb from "../../components/profile/DirayThumb";
 import UserProducts from "../../components/profile/UserProduct";
 const Profile = () => {

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Avatar from "./Avatar";
 import moment from "moment";
 import { isReadNotify, deleteAllNotifies } from "../redux/actions/notifyAction";
-import { GLOBALTYPES } from "../redux/actions/globalTypes";
+
 import {
   Button,
   Dialog,
