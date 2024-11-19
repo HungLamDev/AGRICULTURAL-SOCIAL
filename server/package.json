@@ -25,7 +25,7 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^6.8.1",
-    "peer": "^1.0.2",
+    "peer": "^1.4.5",
     "socket.io": "^4.7.2"
   },
   "devDependencies": {
