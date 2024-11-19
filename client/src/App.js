@@ -28,7 +28,7 @@ function App() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(refrechToken());
+    dispatch(refrechToken(auth.token));
   }, [dispatch]);
 
   useEffect(() => {
