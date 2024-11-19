@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "homepage": "https://agricultural-social.onrender.com",
+  "proxy": "https://agricultural-social.onrender.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
