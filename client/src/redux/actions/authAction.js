@@ -35,7 +35,9 @@ export const refrechToken = () => async (dispatch) => {
   if (firstLogin) {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     try {
-      const res = await postDataAPI("refresh_token");
+      const token = localStorage.getItem("access_token"); 
+      const res = await postDataAPI("refresh_token", {}, token); // G
+      localStorage.setItem("access_token", res.data.access_token);
       dispatch({
         type: GLOBALTYPES.AUTH,
         payload: {
@@ -43,18 +45,18 @@ export const refrechToken = () => async (dispatch) => {
           user: res.data.user,
         },
       });
-      dispatch({ type: GLOBALTYPES.ALERT, payload: {} });
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
         payload: {
-          loading: true,
+          error: err.response?.data?.msg || "Đã xảy ra lỗi!", // Lấy thông báo lỗi
+          loading: false,
         },
       });
     }
   }
 };
-
 export const register = (data) => async (dispatch) => {
   const check = valid(data);
   if (check.errLength > 0)
