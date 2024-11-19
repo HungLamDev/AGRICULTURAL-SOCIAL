@@ -3,7 +3,6 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-const socketIO = require("socket.io");
 const SocketServer = require("./socketSever");
 const { PeerServer } = require("peer");
 
@@ -15,9 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 
 //socket
 const server = require("http").createServer(app);
-const io = socketIO(server, {
+const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://agricultural-social.netlify.app",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     credentials: true,
   },
@@ -35,9 +34,9 @@ io.on("connection", (socket) => {
   });
 });
 // create peer server
-PeerServer({
-  port: 3001,
-  path: "/",
+const peerServer = PeerServer({
+  path: "/peerjs",
+  allow_discovery: true,
 });
 
 // Routes
