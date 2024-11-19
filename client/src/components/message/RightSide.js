@@ -22,6 +22,8 @@ import {
   deleteConversation,
 } from "../../redux/actions/messageAction";
 import loadIcon from "../../images/loading.gif";
+import ting from '../audio/happy-pop-3-185288.mp3';
+
 
 const RightSide = () => {
   const auth = useSelector((state) => state.auth);
@@ -29,7 +31,7 @@ const RightSide = () => {
   const theme = useSelector((state) => state.theme);
   const socket = useSelector((state) => state.socket);
   const peer = useSelector((state) => state.peer);
-  const call = useSelector((state) => state.call);
+
 
   const dispatch = useDispatch();
 
@@ -48,7 +50,6 @@ const RightSide = () => {
   const [result, setResult] = useState(9);
   const [page, setPage] = useState(0);
   const [isLoadMore, setIsLoadMore] = useState(0);
-  const [answer, setAnswer] = useState(false)
 
   useEffect(() => {
     const newData = message.data.find((item) => item._id === id);
@@ -106,16 +107,20 @@ const RightSide = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!text.trim() && media.length === 0) return;
-
+  
+    // Phát âm thanh khi gửi tin nhắn
+    const audio = new Audio(ting);
+    audio.play();
+  
     setText("");
     setMedia([]);
     setLoadMedia(true);
-
+  
     let newArr = [];
     if (media.length > 0) {
       newArr = await imageUpload(media);
     }
-
+  
     const msg = {
       sender: auth.user._id,
       recipient: id,
@@ -123,14 +128,42 @@ const RightSide = () => {
       media: newArr,
       createdAt: new Date().toISOString(),
     };
-
+  
     setLoadMedia(false);
+  
+    // Gửi tin nhắn qua Redux action
     await dispatch(addMessage({ msg, auth, socket }));
-
+  
+    // Gửi thông báo qua socket
+    socket.emit("sendMessage", {
+      sender: auth.user._id,
+      recipient: id,
+      text,
+      media: newArr,
+    });
+  
     if (refDisplay.current) {
       refDisplay.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   };
+  // send tiếng tb tin nhắn 
+  useEffect(() => {
+    socket.on("sendMessage", (data) => {
+      // Hiển thị thông báo khi nhận tin nhắn mới
+      if (auth.user._id !== data.sender) {
+        dispatch({
+          type: GLOBALTYPES.ALERT,
+          payload: {
+            success: `Bạn nhận được tin nhắn mới từ ${data.sender}`,
+          },
+        });
+      }
+    });
+  
+    return () => socket.off("sendMessage");
+  }, [socket, auth.user._id, dispatch]);
+  
+  
   // realtime
   useEffect(() => {
     const getMessagesData = async () => {
@@ -218,7 +251,8 @@ const RightSide = () => {
   const handleVideoCall = () => {
     caller({ video: true });
     callUser({ video: true });
-  };
+  }; 
+  
   return (
     <>
       <div className="message_header rounded-2" style={{ cursor: "pointer" }}>

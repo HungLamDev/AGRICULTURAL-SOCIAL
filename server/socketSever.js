@@ -26,7 +26,7 @@ const SocketServer = (socket) => {
       });
     }
   });
-  
+
   socket.on("disconnect", () => {
     const data = users.find((user) => user.socketId === socket.id);
     if (data) {
@@ -40,10 +40,10 @@ const SocketServer = (socket) => {
         });
       }
       if (data.call) {
-        const callUser = users.find(user => user.id === data.call);
+        const callUser = users.find((user) => user.id === data.call);
         if (callUser) {
-            users = EditData(users, callUser.id, null);
-            socket.to(`${callUser.socketId}`).emit('callerDisconnect');
+          users = EditData(users, callUser.id, null);
+          socket.to(`${callUser.socketId}`).emit("callerDisconnect");
         }
       }
     }
@@ -166,18 +166,18 @@ const SocketServer = (socket) => {
   });
 
   // call user
-  socket.on('callUser', data => {
+  socket.on("callUser", (data) => {
     users = EditData(users, data.sender, data.recipient);
-    
-    const client = users.find(user => user.id === data.recipient);
+
+    const client = users.find((user) => user.id === data.recipient);
 
     if (client) {
       if (client.call) {
-        socket.emit('userBusy', data);
+        socket.emit("userBusy", data);
         users = EditData(users, data.sender, null);
       } else {
         users = EditData(users, data.recipient, data.sender);
-        socket.to(`${client.socketId}`).emit('callUserToClient', data);
+        socket.to(`${client.socketId}`).emit("callUserToClient", data);
       }
     }
   });

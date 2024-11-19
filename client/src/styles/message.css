@@ -222,12 +222,12 @@
 
 /* --------- Responsive ------ */
 @media (max-width: 768px){
-.message{
-      height: calc(100vh - 190px);
-}
-.right_side,
-.left_side{
-      display: none;
-}
+      .message{
+        height: calc(100vh - 190px);
+      }
+      .right_side,
+      .left_side{
+        display: none;
+      }
 }
     

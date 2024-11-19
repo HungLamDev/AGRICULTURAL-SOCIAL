@@ -28,7 +28,8 @@ const MsgDisplay = ({ user, msg, theme, data }) => {
           msg.text && (
             <div className='chat_text' style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>
               {msg.text}
-            </div>)
+            </div>
+            )
         }
         {
           msg.media.map((item, index) => (
@@ -40,7 +41,7 @@ const MsgDisplay = ({ user, msg, theme, data }) => {
         {
           msg.call && 
           <button className='btn d-flex align-align-items-center py-3'
-          style={{background: '#eee', borderRadius: '10px'}}
+          style={{background: '#eee', borderRadius: '10px', color: 'black'}}
           >
             <span className='material-icons font-weight-bold mr-1'
             style={{

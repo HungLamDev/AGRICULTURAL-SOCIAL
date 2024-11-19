@@ -28,7 +28,6 @@ function App() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    // console.log("useEffect triggered 1");
     dispatch(refrechToken());
   }, [dispatch]);
 
@@ -39,6 +38,7 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
+    // console.log("useEffect 3 triggered");
     if (auth.token) {
       dispatch(getPosts(auth.token));
       dispatch(getSuggestions(auth.token));

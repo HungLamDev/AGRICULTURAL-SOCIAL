@@ -72,7 +72,7 @@ const ProductCard = ({ product }) => {
             alt="product_pic" style={{width: '100%', height: '100%'}}
           />
           <div className="btn_product px-2">
-            {product.user._id === auth.user._id ? (
+            {product?.user?._id === auth.user._id ? (
               <div>
                 <button
                   className="btn btn-info mb-2 w-50"

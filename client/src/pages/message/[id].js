@@ -5,7 +5,7 @@ import RightSide from "../../components/message/RightSide";
 const Conversation = () => {
   return (
     <div className="message row m-0">
-      <div className="col-md-4 border-right px-2 left_side">
+      <div className="col-md-3 border-right px-2 left_side">
         <LeftSide />
       </div>
       <div className="col-md-8 px-2 h-100">

@@ -9,6 +9,7 @@ export const MESS_TYPES = {
   DELETE_MESSAGES: "DELETE_MESSAGES",
   DELETE_CONVERSATION: "DELETE_CONVERSATION",
   CHECK_ONLINE: "CHECK_ONLINE",
+  MARK_MESSAGE_READ: "MARK_MESSAGE_READ",
 };
 
 // export const addUser = ({ user, message }) => (dispatch) => {
@@ -104,4 +105,5 @@ export const deleteConversation = ({auth, id}) => async (dispatch) => {
       dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
   }
   };
-  
+
+

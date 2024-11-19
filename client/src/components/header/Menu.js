@@ -13,30 +13,58 @@ const Menu = () => {
     { label: "Chợ", icon: "shopping_bag", path: "/market" },
     { label: "Tin nhắn", icon: "send", path: "/message" },
   ];
+
   const auth = useSelector((state) => state.auth);
   const theme = useSelector((state) => state.theme);
   const notify = useSelector((state) => state.notifyUser);
+  const newMessages = useSelector((state) => state.message.newMessages);
 
   const dispatch = useDispatch();
-
   const { pathname } = useLocation();
+
+  // Tính tổng số tin nhắn chưa đọc
+  const unreadCount = Object.values(newMessages).filter((isUnread) => isUnread).length;
 
   const isActive = (pn) => {
     if (pn === pathname) return "active";
   };
+
   return (
     <div className="menu">
-      <ul className="navbar-nav flex-row" style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}>
+      <ul
+        className="navbar-nav flex-row"
+        style={{ filter: `${theme ? "invert(1)" : "invert(0)"}` }}
+      >
         {navLink.map((link, index) => (
-          <li className={`nav-item px-2  ${isActive(link.path)}`} key={index}>
+          <li className={`nav-item px-2 ${isActive(link.path)}`} key={index}>
             <Link className="nav-link" to={link.path}>
               <span
-                className="material-icons"
+                className="material-icons position-relative"
                 style={
-                  isActive(link.path) ? { color: "gray" } : { color: "#66CC66" }
+                  isActive(link.path)
+                    ? { color: "gray" }
+                    : { color: "#66CC66" }
                 }
               >
                 {link.icon}
+                {/* Hiển thị số tin nhắn chưa đọc trên icon message */}
+                {link.label === "Tin nhắn" && unreadCount > 1 && (
+                  <span
+                    className="position-absolute rounded-circle text-black"
+                    style={{
+                      top: "18px",
+                      right: "-5px",
+                      fontSize: "12px",
+                      width: "18px",
+                      height: "18px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {unreadCount}
+                  </span>
+                )}
               </span>
             </Link>
           </li>
@@ -78,7 +106,7 @@ const Menu = () => {
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <Avatar src={auth.user.avatar} size="medium-avatar"  />
+            <Avatar src={auth.user.avatar} size="medium-avatar" />
           </span>
           <div className="dropdown-menu" aria-labelledby="navbarDropdown">
             <Link className="dropdown-item" to={`/user/${auth.user._id}`}>

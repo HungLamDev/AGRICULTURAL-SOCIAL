@@ -61,6 +61,10 @@ const LeftSide = () => {
     setSearch("");
     setSearchUsers([]);
     dispatch({
+      type: MESS_TYPES.MARK_MESSAGE_READ,
+      payload: user._id, // Đánh dấu đã đọc tin nhắn
+    });
+    dispatch({
       type: MESS_TYPES.ADD_USER,
       payload: { ...user, text: "", media: [] },
     });
@@ -91,14 +95,14 @@ const LeftSide = () => {
     if (message.resultUsers >= (page - 1) * 9 && page > 1) {
       dispatch(getConversations({ auth, page }));
     }
-  }, [message.resultData, page, auth, dispatch]);
+  }, [message.resultData, page, auth, dispatch, message.resultUsers]);
 
   // check user online offline
   useEffect(() => {
     if (message.firstLoad) {
       dispatch({ type: MESS_TYPES.CHECK_ONLINE, payload: online });
     }
-  }, [online, message.firstLoad]);
+  }, [online, message.firstLoad, dispatch]);
 
   return (
     <>
@@ -121,7 +125,7 @@ const LeftSide = () => {
               className="message_user"
               onClick={() => handleAddUser(user)}
             >
-              <UserCard user={user} />
+              <UserCard user={user} msg={true} />
             </div>
           ))
         ) : (
@@ -133,24 +137,9 @@ const LeftSide = () => {
                 onClick={() => handleAddUser(user)}
               >
                 <UserCard user={user} msg={true}>
-                  {user.online ? (
-                    <i
-                      className="fa-solid fa-user-group text-success"
-                      style={{
-                        marginLeft: "auto",
-                        paddingRight: "10px",
-                        opacity: "0.5",
-                      }}
-                    ></i>
-                  ) : (
-                    <i
-                      className="fa-solid fa-user-group"
-                      style={{
-                        marginLeft: "auto",
-                        paddingRight: "10px",
-                        opacity: "0.5",
-                      }}
-                    ></i>
+
+                  {message.newMessages[user._id] && (
+                    <span className="new-message-indicator">Tin nhắn mới</span>
                   )}
                 </UserCard>
               </div>

@@ -6,6 +6,7 @@ const initialState = {
     resultUsers: 0,
     data: [],
     firstLoad: false,
+    newMessages: {},
 };
 
 const messageReducer = (state = initialState, action) => {
@@ -37,7 +38,11 @@ const messageReducer = (state = initialState, action) => {
                         call: action.payload.call,
                     }
                     : user
-                )
+                ), 
+                newMessages: {
+                    ...state.newMessages,
+                    [action.payload.sender]: true, // Đánh dấu có tin nhắn mới
+                },
             };
         case MESS_TYPES.GET_CONVERSATIONS:
             return {
@@ -80,6 +85,14 @@ const messageReducer = (state = initialState, action) => {
                         : { ...user, online: false }
                     ),
                 };
+            case MESS_TYPES.MARK_MESSAGE_READ: 
+                return {
+                    ...state,
+                    newMessages: {
+                    ...state.newMessages,
+                    [action.payload]: false,
+                    },
+                }
         default:
             return state;
     }
