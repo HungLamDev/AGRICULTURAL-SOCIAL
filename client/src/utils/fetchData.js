@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getDataAPI = async (url, token) => {
   try {
-    const res = await axios.get(`/api/${url}`, {
+    const res = await axios.get(process.env.REACT_APP_API_URL + `/api/${url}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return res;
@@ -29,9 +29,13 @@ export const postDataAPI = async (url, post, token) => {
 
 export const putDataAPI = async (url, post, token) => {
   try {
-    const res = await axios.put(`/api/${url}`, post, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await axios.put(
+      process.env.REACT_APP_API_URL + `/api/${url}`,
+      post,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return res;
   } catch (error) {
     console.error("PUT Error:", error.response?.data || error.message);
@@ -41,9 +45,13 @@ export const putDataAPI = async (url, post, token) => {
 
 export const patchDataAPI = async (url, post, token) => {
   try {
-    const res = await axios.patch(`/api/${url}`, post, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await axios.patch(
+      process.env.REACT_APP_API_URL + `/api/${url}`,
+      post,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return res;
   } catch (error) {
     console.error("PATCH Error:", error.response?.data || error.message);
