@@ -17,10 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, {
   cors: {
-    origin: [
-      "https://agricultural-social.netlify.app",
-      "http://localhost:3000",
-    ],
+    origin: "https://agricultural-social.netlify.app",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     credentials: true,
   },
