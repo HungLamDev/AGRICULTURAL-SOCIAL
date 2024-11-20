@@ -91,7 +91,7 @@ const Info = () => {
           <Avatar src={user.avatar} size="supper-avatar" theme={theme} />
           <div className="info_content">
             <div className="info_content_title title-content">
-              <h2 style={{ fontWeight: "bold" }}>
+              <h2 style={{ fontWeight: "bold"}}>
                 {user.username}
                 {user.role === "expert" && (
                   <i
@@ -110,16 +110,15 @@ const Info = () => {
               </span>
             </div>
 
-            <p className="m-0">{user.address}</p>
-            <p className="m-0  warning-text ">{user.story}</p>
-            {}
+            <p className="m-0" style={{padding:'10px 0 10px'}}>{user.address}</p>
+            <p className="m-0  warning-text pt-2" >{user.story}</p>
             {user._id === auth.user._id ? (
-              <div className="d-flex mt-3">
+              <div className="d-flex mt-2" >
                 {" "}
                 <button
-                  className="btn btn-outline-info mx-2"
+                  className="btn btn-outline-info"
                   style={{
-                    padding: "5px 10px",
+                    padding: "10px 10px",
                     display: "flex",
                     alignItems: "center",
                   }}

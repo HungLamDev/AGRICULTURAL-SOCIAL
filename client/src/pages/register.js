@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { register } from "../redux/actions/authAction";
+import { register, sendOtp, verifyOtp } from "../redux/actions/authAction";
+import valid from "../utils/valid"; // Import the validation functions
 import Logo from "../images/logo_ngang.png";
 
 const Register = () => {
@@ -24,6 +25,11 @@ const Register = () => {
 
   const [typePass, setTypePass] = useState(false);
   const [typeCfPass, setTypeCfPass] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false); 
+  const [otpError, setOtpError] = useState(""); 
+  const [errors, setErrors] = useState({}); 
+  const [otpLoading, setOtpLoading] = useState(false);
 
   useEffect(() => {
     if (auth.token) navigate("/");
@@ -34,14 +40,57 @@ const Register = () => {
     setUserData({ ...userData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(register(userData));
+  const handleSendOtp = async () => {
+    if (otpLoading) return; 
+    setOtpLoading(true);
+    try {
+      await dispatch(sendOtp(email)); 
+      setOtpSent(true); 
+      setOtpError(""); 
+    } catch (error) {
+      setOtpError("Gửi OTP thất bại. Vui lòng thử lại.");
+    } finally {
+      setOtpLoading(false); 
+    }
   };
+
+  const handleVerifyOtp = async () => {
+    try {
+      await dispatch(verifyOtp(email, otp)); 
+      setOtpSent(false); 
+    } catch (error) {
+      setOtpError("Mã OTP không đúng. Vui lòng thử lại.");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { errMsg, errLength } = valid(userData);
+    setErrors(errMsg);
+    if (errLength > 0) return;
+    if (!otpSent) {
+      await handleSendOtp();
+      return;
+    }
+
+    if (otp && otp.length === 6) {
+      try {
+        await handleVerifyOtp(); 
+        dispatch(register({ ...userData, otp }));
+      } catch (error) {
+        setOtpError("Mã OTP không đúng. Vui lòng thử lại.");
+      }
+    } else {
+      setOtpError("Mã OTP phải có 6 chữ số.");
+    }
+  };
+
   return (
     <div className="auth_page">
       <form onSubmit={handleSubmit}>
         <img src={Logo} alt="logo" className="logo_login" />
+        
         <div className="form-group">
           <label htmlFor="username">Full Name</label>
           <input
@@ -51,12 +100,11 @@ const Register = () => {
             name="username"
             onChange={handleChangeInput}
             value={username}
-            style={{ background: `${alert.username ? "#DDDDDD" : ""}` }}
+            style={{ background: `${errors.username ? "#DDDDDD" : ""}` }}
           />
-          <small className=" text-danger">
-            {alert.username ? alert.username : ""}
-          </small>
+          <small className="text-danger">{errors.username}</small>
         </div>
+
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Tài Khoản</label>
           <input
@@ -64,15 +112,28 @@ const Register = () => {
             className="form-control"
             id="exampleInputEmail1"
             name="email"
-            aria-describedby="emailHelp"
             onChange={handleChangeInput}
             value={email}
-            style={{ background: `${alert.email ? "#DDDDDD" : ""}` }}
+            style={{ background: `${errors.email ? "#DDDDDD" : ""}` }}
           />
-          <small className=" text-danger">
-            {alert.email ? alert.email : ""}
-          </small>
+          <small className="text-danger">{errors.email}</small>
         </div>
+
+        {otpSent && (
+          <div className="form-group">
+            <label htmlFor="otp">Mã OTP</label>
+            <input
+              type="text"
+              className="form-control"
+              id="otp"
+              name="otp"
+              onChange={(e) => setOtp(e.target.value)}
+              value={otp}
+            />
+            <small className="text-danger">{otpError}</small>
+          </div>
+        )}
+
         <div className="form-group">
           <label htmlFor="exampleInputPassword1">Mật Khẩu</label>
           <div className="pass">
@@ -83,15 +144,13 @@ const Register = () => {
               name="password"
               onChange={handleChangeInput}
               value={password}
-              style={{ background: `${alert.password ? "#DDDDDD" : ""}` }}
+              style={{ background: `${errors.password ? "#DDDDDD" : ""}` }}
             />
             <small onClick={() => setTypePass(!typePass)}>
               {typePass ? <FaRegEyeSlash /> : <FaRegEye />}
             </small>
           </div>
-          <small className=" text-danger ">
-            {alert.password ? alert.password : ""}
-          </small>
+          <small className="text-danger">{errors.password}</small>
         </div>
 
         <div className="form-group">
@@ -104,30 +163,37 @@ const Register = () => {
               name="cf_password"
               onChange={handleChangeInput}
               value={cf_password}
-              style={{ background: `${alert.cf_password ? "#DDDDDD" : ""}` }}
+              style={{ background: `${errors.cf_password ? "#DDDDDD" : ""}` }}
             />
             <small onClick={() => setTypeCfPass(!typeCfPass)}>
               {typeCfPass ? <FaRegEyeSlash /> : <FaRegEye />}
             </small>
           </div>
-          <small className="text-danger">
-            {alert.cf_password ? alert.cf_password : ""}
-          </small>
+          <small className="text-danger">{errors.cf_password}</small>
         </div>
 
         <button
           type="submit"
           className="btn btn-dark w-100"
           style={{ backgroundColor: "red", borderColor: "red" }}
+          disabled={alert.loading || otpLoading || !otpSent}
         >
-          Đăng Ký
+          {alert.loading ? "Đang đăng ký..." : "Đăng ký"}
         </button>
 
-        <p className="my-2 text-center">
-          Bạn đã có tài khoản?{" "}
-          <Link to="/" style={{ color: "crimson", textDecoration: "none" }}>
-            Đăng nhập ngay
-          </Link>
+        <div className="form-group pt-2">
+          <button
+            type="button"
+            className="btn btn-primary w-100"
+            onClick={handleSendOtp}
+            disabled={otpSent || otpLoading} 
+          >
+            Gửi Mã OTP
+          </button>
+        </div>
+
+        <p>
+          Bạn đã có tài khoản? <Link to="/login">Đăng nhập ngay</Link>
         </p>
       </form>
     </div>

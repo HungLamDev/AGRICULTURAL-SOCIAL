@@ -70,7 +70,7 @@ const Login = () => {
           style={{ backgroundColor: "green", borderColor: "green" }}
           disabled={email && password ? false : true}
         >
-          Login
+          Đăng Nhập
         </button>
 
         <p className="my-2 text-center">

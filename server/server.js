@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const socketIO = require("socket.io");
 const SocketServer = require("./socketSever");
 const { PeerServer } = require("peer");
+const otpRoutes = require("./routes/otpRoutes");
 
 const app = express();
 app.use(cors());
@@ -51,6 +52,8 @@ app.use("/api", require("./routes/notifyRoute"));
 app.use("/api", require("./routes/reportRoute"));
 app.use("/api", require("./routes/messageRouter"));
 app.use("/api", require("./routes/productRoute"));
+app.use("/api",  require("./routes/otpRoutes"))
+
 mongoose.set("strictQuery", false);
 const mongoOptions = {
   useNewUrlParser: true,
@@ -69,3 +72,4 @@ server.listen(port, () => {
 app.get("/", (req, res) => {
   res.send("Welcome to AgricultureVN Web");
 });
+

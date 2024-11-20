@@ -22,7 +22,6 @@ const Menu = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
-  // Tính tổng số tin nhắn chưa đọc
   const unreadCount = Object.values(newMessages).filter((isUnread) => isUnread).length;
 
   const isActive = (pn) => {
@@ -47,7 +46,6 @@ const Menu = () => {
                 }
               >
                 {link.icon}
-                {/* Hiển thị số tin nhắn chưa đọc trên icon message */}
                 {link.label === "Tin nhắn" && unreadCount > 1 && (
                   <span
                     className="position-absolute rounded-circle text-black"

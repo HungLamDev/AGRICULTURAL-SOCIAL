@@ -46,7 +46,7 @@ const Product = () => {
 
   return (
     <div className="card_detail">
-      {product.map((item) => (
+      {product?.map((item) => (
         <div key={item._id} className="row">
           {/* Left product detail */}
           <div className="col-md-8">

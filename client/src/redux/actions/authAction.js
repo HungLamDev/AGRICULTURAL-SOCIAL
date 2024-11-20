@@ -55,10 +55,91 @@ export const refrechToken = () => async (dispatch) => {
   }
 };
 
+export const logout = () => async (dispatch) => {
+  try {
+    localStorage.removeItem("firstLogin");
+    await postDataAPI("logout");
+    window.location.href = "/";
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        error: err.response.data.msg,
+      },
+    });
+  }
+};
+// otp
+export const sendOtp = (email) => async (dispatch) => {
+  try {
+    const res = await fetch("/api/send-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }), // Gửi email để tạo OTP
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.msg || "Gửi OTP thất bại.");
+    }
+
+    const data = await res.json();
+
+    if (data.success) {
+      dispatch({ type: "SEND_OTP_SUCCESS", payload: data });
+    } else {
+      throw new Error(data.msg || "Gửi OTP thất bại.");
+    }
+  } catch (err) {
+    console.error("Send OTP Error:", err.message);
+    dispatch({ type: "SEND_OTP_FAIL", payload: err.message });
+  }
+};
+
+export const verifyOtp = (email, otp) => async (dispatch) => {
+  try {
+    const res = await fetch("/api/verify-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, otp }), // Gửi email và OTP để xác thực
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.msg || "Xác thực OTP thất bại.");
+    }
+
+    const data = await res.json();
+
+    if (data.success) {
+      dispatch({ type: "VERIFY_OTP_SUCCESS", payload: data });
+    } else {
+      throw new Error("Mã OTP không đúng.");
+    }
+  } catch (err) {
+    console.error("Verify OTP Error:", err.message);
+    dispatch({ type: "VERIFY_OTP_FAIL", payload: err.message });
+  }
+};
+
 export const register = (data) => async (dispatch) => {
   const check = valid(data);
   if (check.errLength > 0)
     return dispatch({ type: GLOBALTYPES.ALERT, payload: check.errMsg });
+
+  // Gọi API xác thực OTP trước khi đăng ký
+  const otpVerified = await verifyOtp(data.email, data.otp);
+  if (!otpVerified) {
+    return dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: { error: "OTP không hợp lệ hoặc đã hết hạn!" },
+    });
+  }
+
   try {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     const res = await postDataAPI("register", data);
@@ -91,17 +172,3 @@ export const register = (data) => async (dispatch) => {
   }
 };
 
-export const logout = () => async (dispatch) => {
-  try {
-    localStorage.removeItem("firstLogin");
-    await postDataAPI("logout");
-    window.location.href = "/";
-  } catch (err) {
-    dispatch({
-      type: GLOBALTYPES.ALERT,
-      payload: {
-        error: err.response.data.msg,
-      },
-    });
-  }
-};
