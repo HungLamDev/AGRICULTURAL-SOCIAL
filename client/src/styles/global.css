@@ -73,11 +73,13 @@
   
       @import url("./ShareModal.css");
    
+      @import url("./message.css");
 
       @import url("./productStyle.css");
-
+   
+      @import url("./diaryThumbStyle.css");
   
       @import url("./callModal.css");
- 
+    
       @import url("./market.css");
 

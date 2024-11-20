@@ -13,9 +13,13 @@ export const getDataAPI = async (url, token) => {
 
 export const postDataAPI = async (url, post, token) => {
   try {
-    const res = await axios.post(`/api/${url}`, post, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await axios.post(
+      process.env.REACT_APP_API_URL + `/api/${url}`,
+      post,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return res;
   } catch (error) {
     console.error("POST Error:", error.response?.data || error.message);
