@@ -17,7 +17,7 @@ export const getSuggestions = (token) => async (dispatch) => {
     dispatch({ type: SUGGES_TYPES.LOADING, payload: false });
   } catch (err) {
     dispatch({
-      type: GLOBALTYPES.NOTIFY,
+      type: GLOBALTYPES.ALERT,
       payload: { err: err.response.data.msg },
     });
   }

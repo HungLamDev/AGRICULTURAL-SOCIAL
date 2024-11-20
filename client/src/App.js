@@ -22,13 +22,20 @@ import { GLOBALTYPES } from "./redux/actions/globalTypes";
 import Peer from "peerjs";
 
 function App() {
+  const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const status = useSelector((state) => state.status);
   const call = useSelector((state) => state.call);
 
-  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(refrechToken());
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      dispatch(refrechToken(token)); // Gọi action để làm mới token nếu cần
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(refrechToken(auth.token));
   }, [dispatch]);
 
   useEffect(() => {
@@ -40,7 +47,6 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    // console.log("useEffect 3 triggered");
     if (auth.token) {
       dispatch(getPosts(auth.token));
       dispatch(getSuggestions(auth.token));

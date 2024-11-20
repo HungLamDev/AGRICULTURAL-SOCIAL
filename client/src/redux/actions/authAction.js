@@ -6,6 +6,7 @@ export const login = (data) => async (dispatch) => {
   try {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     const res = await postDataAPI("login", data);
+    localStorage.setItem("access_token", res.data.access_token);
     dispatch({
       type: GLOBALTYPES.AUTH,
       payload: {
@@ -36,6 +37,7 @@ export const refrechToken = () => async (dispatch) => {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     try {
       const res = await postDataAPI("refresh_token");
+      localStorage.setItem("access_token", res.data.access_token);
       dispatch({
         type: GLOBALTYPES.AUTH,
         payload: {
@@ -43,7 +45,7 @@ export const refrechToken = () => async (dispatch) => {
           user: res.data.user,
         },
       });
-      dispatch({ type: GLOBALTYPES.ALERT, payload: {} });
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -62,6 +64,7 @@ export const register = (data) => async (dispatch) => {
   try {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     const res = await postDataAPI("register", data);
+    localStorage.setItem("access_token", res.data.access_token);
     dispatch({
       type: GLOBALTYPES.AUTH,
       payload: {
@@ -94,6 +97,7 @@ export const register = (data) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     localStorage.removeItem("firstLogin");
+    localStorage.removeItem("access_token");
     await postDataAPI("logout");
     window.location.href = "/";
   } catch (err) {
