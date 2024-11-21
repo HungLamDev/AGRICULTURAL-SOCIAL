@@ -102,16 +102,19 @@ const Info = () => {
               </h2>
             </div>
             <div className="sub_follower">
-              <span className="mr-4" onClick={() => setshowFollowers(true)}>
+              <span className="mr-4 followers" onClick={() => setshowFollowers(true)}>
                 {user.followers.length} Người theo dõi
               </span>
-              <span className="ml-4" onClick={() => setshowFollowing(true)}>
+              <span className="ml-4 following"  onClick={() => setshowFollowing(true)}>
                 {user.following.length} Đang theo dõi
               </span>
             </div>
 
             <p className="m-0" style={{padding:'10px 0 10px'}}>{user.address}</p>
-            <p className="m-0  warning-text pt-2" >{user.story}</p>
+            {user.story && (
+              <p className="m-0 warning-text pt-2">{user.story}</p>
+            )}
+
             {user._id === auth.user._id ? (
               <div className="d-flex mt-2" >
                 {" "}
