@@ -1,5 +1,6 @@
 import React from 'react'
 import LeftSide from '../../components/message/LeftSide'
+import { FaFacebookMessenger } from "react-icons/fa";
 const message = () => {
   return (
     <div className="message row m-0">
@@ -8,7 +9,7 @@ const message = () => {
       </div>
       <div className="col-md-8 right_side">
         <div className="d-flex justify-content-center align-items-center flex-column h-100">
-          <i className="fa-regular fa-message" style={{ fontSize: "5rem" }}></i>
+          <FaFacebookMessenger style={{ fontSize: "5rem" , color: 'blue'}}/>
           <h4>Tin nhắn</h4>
         </div>
       </div>

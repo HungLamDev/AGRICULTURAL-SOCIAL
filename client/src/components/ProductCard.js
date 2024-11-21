@@ -103,7 +103,7 @@ const ProductCard = ({ product }) => {
         <div className="product_card_body">
           <div className="product_card_title">{product.productName}</div>
           <div className="product_card_content">
-            <div className="product_card_price">{product.price}</div>
+            <div className="product_card_price">{product.price} VND</div>
             <div>{product.typeProduct}</div>
             <div>
               <i className="fas fa-map-marker-alt"></i>

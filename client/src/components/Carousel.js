@@ -40,15 +40,15 @@ const Carousel = ({ images, id }) => {
                 displayedImages.length,
                 index
               )} position-relative`}
-              style={{ padding: "80px", overflow: "hidden" }}
+              style={{ padding: "0", overflow: "hidden" }}
             >
               <div
                 className="img-container"
                 onClick={() => handleShowModal(index)}
                 style={{
                   cursor: "pointer",
-                  height: displayedImages.length === 1 ? "auto" : "100%",
-                  width: "100%",
+                  height: displayedImages.length === 1 ? "auto" : "100%", 
+                  width: displayedImages.length === 1 ? "auto" : "100%", 
                   overflow: "hidden",
                   paddingRight: "1px",
                   paddingBottom: "1px",
