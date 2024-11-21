@@ -4,36 +4,28 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
 
-
-
-let otpStore = {}; 
+let otpStore = {};
 
 exports.sendOtp = async (req, res) => {
   const { email } = req.body;
 
-  // Kiểm tra email có hợp lệ không
   if (!validator.isEmail(email)) {
     return res.status(400).json({ msg: "Email không hợp lệ!" });
   }
 
   try {
-    // Kiểm tra xem email đã tồn tại trong CSDL chưa
     const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ msg: "Email chưa đăng ký!" });
+    if (user) {
+      return res.status(400).json({ msg: "Email đã tồn tại!" });
     }
-
-    // Tạo OTP và lưu vào bộ nhớ tạm thời
     const otp = crypto.randomBytes(3).toString("hex");
-    const expiryTime = Date.now() + 5 * 60 * 1000; // OTP hết hạn sau 5 phút
+    const expiryTime = Date.now() + 5 * 60 * 1000;
 
-    // Kiểm tra cấu hình email
     const { EMAIL, EMAIL_PASSWORD } = process.env;
     if (!EMAIL || !EMAIL_PASSWORD) {
       return res.status(500).json({ msg: "Thiếu thông tin cấu hình email." });
     }
 
-    // Gửi email với mã OTP
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -54,11 +46,7 @@ exports.sendOtp = async (req, res) => {
     // Lưu OTP trong bộ nhớ
     otpStore[email] = { otp, expiryTime };
     console.log(otpStore[email]);
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 4dc1ad6bb4ee2068a4ea78483bd003ec45550566
     return res.status(200).json({ msg: "OTP đã được gửi đến email của bạn" });
   } catch (error) {
     console.error("Gửi OTP thất bại:", error);
