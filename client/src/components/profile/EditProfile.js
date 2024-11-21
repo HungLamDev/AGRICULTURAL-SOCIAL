@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkImage } from "../../utils/imageUpload";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import { updateUserProfile } from "../../redux/actions/profileAction";
+import category from "../../data/category.json";
 
 const EditProfile = ({ setOnEdit }) => {
   const initState = {
@@ -122,26 +123,7 @@ const EditProfile = ({ setOnEdit }) => {
             onChange={handleInput}
           />
         </div>
-        <div className="form-group my-2">
-          <label htmlFor="website">Website</label>
-          <input
-            type="text"
-            name="website"
-            value={website}
-            className="form-control"
-            onChange={handleInput}
-          />
-        </div>
-        <div className="form-group my-2">
-          <label htmlFor="password">Mật khẩu</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            className="form-control"
-            onChange={handleInput}
-          />
-        </div>
+
         <div className="form-group my-2">
           <div className="position-relative">
             <label htmlFor="address">Thông tin</label>
@@ -184,7 +166,6 @@ const EditProfile = ({ setOnEdit }) => {
           Lưu
         </button>
       </form>
-      
     </div>
   );
 };
