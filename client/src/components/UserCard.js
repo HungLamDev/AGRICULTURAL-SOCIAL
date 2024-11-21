@@ -1,6 +1,9 @@
 import React from "react";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
+import { FaPhoneSlash,FaPhone  } from "react-icons/fa6";
+import {FaVideo } from 'react-icons/fa';
+import { IoVideocamOff } from "react-icons/io5";
 
 const UserCard = ({ children, user, border, handleClose, setshowFollowers, setshowFollowing, msg }) => {
   const handleCloseALL = async () => {
@@ -19,14 +22,14 @@ const UserCard = ({ children, user, border, handleClose, setshowFollowers, setsh
           </div>
         )}
         {user.call && (
-          <span className="material-icons">
+          <span>
             {user.call.times === 0
               ? user.call.video
-                ? "videocam_off"
-                : "phone_disabled"
+                ? <IoVideocamOff />
+                : <FaPhoneSlash />
               : user.call.video
-              ? "video_camera_front"
-              : "call"}
+              ? <FaVideo />
+              : <FaPhone />}
           </span>
         )}
       </>

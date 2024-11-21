@@ -13,7 +13,7 @@ const UserProducts = () => {
           ))}
         </div>
       ) : (
-        <h5>Chưa có sản phẩm !</h5>
+        <h5 className="p-4">Chưa có sản phẩm !</h5>
       )}
     </div>
   );

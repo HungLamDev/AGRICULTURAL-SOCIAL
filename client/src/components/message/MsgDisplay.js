@@ -4,6 +4,11 @@ import { videoShow, imageShow } from '../../utils/mediaShow';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteMessages } from '../../redux/actions/messageAction';
 import Times from './Times';
+
+import { FaPhoneSlash,FaPhone  } from "react-icons/fa6";
+import {FaVideo } from 'react-icons/fa';
+import { IoVideocamOff } from "react-icons/io5";
+
 const MsgDisplay = ({ user, msg, theme, data }) => {
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
@@ -45,14 +50,14 @@ const MsgDisplay = ({ user, msg, theme, data }) => {
           >
             <span className='material-icons font-weight-bold mr-1'
             style={{
-              fontSize: '2.5rem', color: msg.call.times === 0 ? 'crimson' : 'green',
+              fontSize: '2.0rem', color: msg.call.times === 0 ? 'crimson' : 'green',
               filter: theme ? 'invert(1)' : 'invert(0)'
             }}
             >
               {
                 msg.call.times === 0 
-                ? msg.call.video ? 'videocam_off' : 'phone_disabled '
-                : msg.call.video ? 'video_camera_front' : 'call'
+                ? msg.call.video ? <IoVideocamOff /> : <FaPhoneSlash />
+                : msg.call.video ? <FaVideo />  : <FaPhone />
               }
             </span>
             <div className='text_left'>

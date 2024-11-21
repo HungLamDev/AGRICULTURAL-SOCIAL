@@ -72,31 +72,33 @@ export const logout = () => async (dispatch) => {
 
 export const sendOtp = (email) => async (dispatch) => {
   try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+
     const res = await fetch("/api/send-otp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email }), // Gửi email để tạo OTP
+      body: JSON.stringify({ email }),
     });
-
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.msg || "Gửi OTP thất bại.");
-    }
 
     const data = await res.json();
 
-    if (data.success) {
-      dispatch({ type: "SEND_OTP_SUCCESS", payload: data });
-    } else {
+    if (!res.ok) {
       throw new Error(data.msg || "Gửi OTP thất bại.");
     }
+
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { success: data.msg } });
+    return true; // Gửi OTP thành công
   } catch (err) {
-    console.error("Send OTP Error:", err.message);
-    dispatch({ type: "SEND_OTP_FAIL", payload: err.message });
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: { error: err.message },
+    });
+    return false; // Gửi OTP thất bại
   }
 };
+
 
 export const verifyOtp = (email, otp) => async (dispatch) => {
   try {

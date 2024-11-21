@@ -40,7 +40,7 @@ const Carousel = ({ images, id }) => {
                 displayedImages.length,
                 index
               )} position-relative`}
-              style={{ padding: "0", overflow: "hidden" }}
+              style={{ padding: "80px", overflow: "hidden" }}
             >
               <div
                 className="img-container"
