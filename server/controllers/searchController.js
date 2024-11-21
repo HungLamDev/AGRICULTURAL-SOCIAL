@@ -13,17 +13,18 @@ const searchController = {
       }
 
       const regex = new RegExp(searchQuery, "i");
-      console.log("Regex:", regex); // Kiểm tra regex
+      console.log("Regex:", regex);
       const users = await User.find({
         username: { $regex: regex },
       })
         .limit(5)
         .select("username avatar roles");
-      console.log("Users found:", users); // Kiểm tra người dùng tìm thấy
+      console.log("Users found:", users);
       const posts = await Post.find({
-        desc: { $regex: regex },
+        $or: [{ desc: { $regex: regex } }, { hashtag: { $regex: regex } }],
       }).limit(5);
       console.log("Posts found:", posts);
+
       return res.json({ users, posts });
     } catch (err) {
       console.error("Search Error:", err.message);

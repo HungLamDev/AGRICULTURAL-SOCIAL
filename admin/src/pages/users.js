@@ -18,12 +18,11 @@ const UsersPage = () => {
     const filteredUsers = users.filter((user) =>
       ["_id", "username", "phoneNumber", "role"].some(
         (key) =>
-          user[key] &&
-          user[key].toString().toLowerCase().includes(filterValue)
+          user[key] && user[key].toString().toLowerCase().includes(filterValue)
       )
     );
     setFilteredUsers(filteredUsers);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const handleGetUser = (user) => {
@@ -65,7 +64,7 @@ const UsersPage = () => {
           <tr>
             <th>ID</th>
             <th>Username</th>
-            <th>Phone Number</th>
+            <th>Email</th>
             <th>Fol</th>
             <th>Sub</th>
             <th>Saved</th>
@@ -80,7 +79,7 @@ const UsersPage = () => {
             <tr key={user._id}>
               <td>{user._id}</td>
               <td>{user.username}</td>
-              <td>{user.mobile}</td>
+              <td>{user.email}</td>
               <td>{user.followers.length}</td>
               <td>{user.following.length}</td>
               <td>{user.saved.length}</td>

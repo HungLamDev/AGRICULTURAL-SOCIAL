@@ -15,8 +15,8 @@ exports.sendOtp = async (req, res) => {
     return res.status(400).json({ msg: "Email không hợp lệ!" });
   }
 
-  const otp = crypto.randomBytes(3).toString('hex'); 
-  const expiryTime = Date.now() + 5 * 60 * 1000; 
+  const otp = crypto.randomBytes(3).toString("hex");
+  const expiryTime = Date.now() + 5 * 60 * 1000;
 
   // Kiểm tra các biến môi trường an toàn hơn
   const { EMAIL, EMAIL_PASSWORD } = process.env;
@@ -43,8 +43,8 @@ exports.sendOtp = async (req, res) => {
   try {
     await transporter.sendMail(mailOptions);
     otpStore[email] = { otp, expiryTime };
-    console.log(otpStore[email] );
-    
+    console.log(otpStore[email]);
+
     return res.status(200).json({ msg: "OTP đã được gửi đến email của bạn" });
   } catch (error) {
     console.error("Gửi OTP thất bại:", error);
@@ -54,13 +54,13 @@ exports.sendOtp = async (req, res) => {
 
 exports.verifyOtp = (req, res) => {
   const { email, otp } = req.body;
-  console.log(email,'email là');
-  console.log(otp, 'otp là');
+  console.log(email, "email là");
+  console.log(otp, "otp là");
 
   const otpRecord = otpStore[email];
-  console.log('giá trị otpStore[email]', otpStore[email]);
-  console.log('giá trị otpRecord', otpRecord);
-  
+  console.log("giá trị otpStore[email]", otpStore[email]);
+  console.log("giá trị otpRecord", otpRecord);
+
   if (!otpRecord) {
     return res.status(400).json({ msg: "OTP không tồn tại hoặc đã hết hạn!" });
   }
@@ -86,14 +86,16 @@ exports.resetPassword = async (req, res) => {
   try {
     // Kiểm tra email và OTP
     const otpRecord = otpStore[email];
-    console.log('giá trị' ,otpRecord);
-    
-    console.log('Email:', email);
-    console.log('OTP:', otp);
-    console.log('New Password:', newPassword);
+    console.log("giá trị", otpRecord);
+
+    console.log("Email:", email);
+    console.log("OTP:", otp);
+    console.log("New Password:", newPassword);
 
     if (!otpRecord) {
-      return res.status(400).json({ msg: "OTP không tồn tại hoặc đã hết hạn!" });
+      return res
+        .status(400)
+        .json({ msg: "OTP không tồn tại hoặc đã hết hạn!" });
     }
 
     if (otpRecord.otp !== otp) {
@@ -122,7 +124,9 @@ exports.resetPassword = async (req, res) => {
       return res.status(404).json({ msg: "Không tìm thấy người dùng!" });
     }
 
-    return res.status(200).json({ msg: "Mật khẩu của bạn đã được cập nhật thành công!" });
+    return res
+      .status(200)
+      .json({ msg: "Mật khẩu của bạn đã được cập nhật thành công!" });
   } catch (error) {
     console.error("Lỗi trong resetPassword:", error);
     return res.status(500).json({ msg: "Có lỗi xảy ra khi đặt lại mật khẩu." });
