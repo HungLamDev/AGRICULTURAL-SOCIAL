@@ -301,7 +301,7 @@ const StatusModal = () => {
               <div className="stream">
                 <video autoPlay muted ref={videoRef} width='100%' height='100%'
                 style={{ filter: `${theme ? "invert(1)" : "invert(0)"} ` }}/>
-                <span>
+                <span className="close_stream" onClick={handleStopStream}>
                   &times;
                 </span>
                 <canvas ref={refCanvas} />
@@ -311,9 +311,6 @@ const StatusModal = () => {
           {stream ? (
                       <>
                         <i className="fas fa-camera" onClick={handleCapture} />
-                        <span className="material-symbols-outlined" style={{fontSize:'40px', color: 'red'}} onClick={handleStopStream}>
-                          cancel_presentation
-                        </span>
                       </>
                     ) : (
                       <>
