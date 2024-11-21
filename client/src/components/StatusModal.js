@@ -175,6 +175,7 @@ const StatusModal = () => {
               : "Tạo bài viết mới"}
           </h5>
           <span
+            className="close_end"
             onClick={() =>
               dispatch({
                 type: GLOBALTYPES.STATUS,
