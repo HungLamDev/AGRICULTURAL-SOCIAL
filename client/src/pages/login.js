@@ -81,6 +81,7 @@ const Login = () => {
           >
             Đăng ký
           </Link>
+          <Link className="p-1" to="/newpassword" style={{ textDecoration: "none" , color: 'blue'}}>Quên mật khẩu!</Link>
         </p>
       </form>
     </div>

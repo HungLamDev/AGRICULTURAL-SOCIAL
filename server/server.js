@@ -54,6 +54,9 @@ app.use("/api", require("./routes/messageRouter"));
 app.use("/api", require("./routes/productRoute"));
 app.use("/api",  require("./routes/otpRoutes"))
 
+
+
+
 mongoose.set("strictQuery", false);
 const mongoOptions = {
   useNewUrlParser: true,

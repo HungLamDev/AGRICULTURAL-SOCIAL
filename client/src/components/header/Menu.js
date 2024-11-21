@@ -42,7 +42,7 @@ const Menu = () => {
                 style={
                   isActive(link.path)
                     ? { color: "gray" }
-                    : { color: "#66CC66" }
+                    : { color: "#80EE98" }
                 }
               >
                 {link.icon}

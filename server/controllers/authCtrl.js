@@ -26,7 +26,6 @@ const createRefreshToken = (user) => {
   );
 };
 
-
 const authCtrl = {
   register: async (req, res) => {
     try {

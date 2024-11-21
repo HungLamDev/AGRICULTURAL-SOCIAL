@@ -5,6 +5,7 @@ import PrivateRouter from "./customRouter/PrivateRouter";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import NewPassword from "./pages/newpassword";
 import Alert from "./components/alert/Alert";
 import Header from "./components/header/Header";
 import StatusModal from "./components/StatusModal";
@@ -67,6 +68,7 @@ function App() {
           <Routes>
             <Route path="/" element={auth.token ? <Home /> : <Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/newpassword" element={<NewPassword />} />
             <Route element={<PrivateRouter />}>
               <Route path="/:page" element={<PageRender />} />
               <Route path="/:page/:id" element={<PageRender />} />

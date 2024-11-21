@@ -69,7 +69,7 @@ export const logout = () => async (dispatch) => {
     });
   }
 };
-// otp
+
 export const sendOtp = (email) => async (dispatch) => {
   try {
     const res = await fetch("/api/send-otp", {
@@ -115,14 +115,16 @@ export const verifyOtp = (email, otp) => async (dispatch) => {
 
     const data = await res.json();
 
-    if (data.success) {
+    if (data.msg === "Xác thực OTP thành công!") {
       dispatch({ type: "VERIFY_OTP_SUCCESS", payload: data });
+      return true; // Trả về true nếu OTP xác thực thành công
     } else {
-      throw new Error("Mã OTP không đúng.");
+      throw new Error(data.msg || "Mã OTP không đúng.");
     }
   } catch (err) {
     console.error("Verify OTP Error:", err.message);
     dispatch({ type: "VERIFY_OTP_FAIL", payload: err.message });
+    return false; // Trả về false nếu có lỗi
   }
 };
 
@@ -147,12 +149,7 @@ export const register = (data) => async (dispatch) => {
       type: GLOBALTYPES.AUTH,
       payload: {
         token: res.data.access_token,
-        user: {
-          ...res.data.user,
-          avatar:
-            res.data.user.avatar ||
-            "https://res.cloudinary.com/duw0njssy/image/upload/v1695198799/image_default_AgricultureVN/logo_only_s3ioxv.png", // avatar mặc định nếu chưa có
-        },
+        user: res.data.user,
       },
     });
     localStorage.setItem("firstLogin", true);
@@ -166,9 +163,49 @@ export const register = (data) => async (dispatch) => {
     dispatch({
       type: GLOBALTYPES.ALERT,
       payload: {
-        error: err.response.data.msg,
+        error: err.response?.data?.msg || "Đăng ký thất bại",
       },
     });
   }
 };
+
+export const resetPassword = (data) => async (dispatch) => {
+  try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+
+    const res = await fetch("/api/reset-password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data), // Gửi email, OTP, và mật khẩu mới
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.msg || "Đặt lại mật khẩu thất bại.");
+    }
+
+    const responseData = await res.json();
+
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        success: responseData.msg,
+      },
+    });
+
+    return true; // Thành công
+  } catch (err) {
+    console.error("Reset Password Error:", err.message);
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: { error: err.message },
+    });
+    return false; // Thất bại
+  }
+};
+
+
+
 

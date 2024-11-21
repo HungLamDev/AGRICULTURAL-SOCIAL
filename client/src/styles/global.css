@@ -1,85 +1,85 @@
 :root {
-  --light-color: #ffffff;
-  --dark-color: #000;
-  --light-green: #88c431;
-  --dark-green: #004225;
-  --main-color: #4bef76;
+--light-color: #ffffff;
+--dark-color: #000;
+--light-green: #88c431;
+--dark-green: #004225;
+--main-color: #4bef76;
 --bg-color: #dff3c1;
 }
 * {
-      padding: 0;
-      box-sizing: border-box;
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-        sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    
-    code {
-      font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-        monospace;
-    }
-    
-    #theme{
-      display: none;
-    }
-    
-    #theme:checked ~ .App{
-      filter: invert(1);
-    }
-    
-    .App{
-      width: 100%;
-      min-height: 100vh;
-      background: white;
-    }
-    .main{
-      width: 100%;
-      margin: auto;
-      min-height: 100vh;
-    }
-    img{
-      object-fit: cover;
-    
-    }
+  padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-    
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
 
-    
-    /*------------ auth---------------*/
-      @import url("./auth.css");
-    /*------------ loading---------------*/
-      @import url("./loading.css");
-    /*------------ header---------------*/
-      @import url("./header.css");
-    /*------------ avatar---------------*/
-      @import url("./avatar.css");
-    /*------------ profile---------------*/
-      @import url("./profile.css");
-    /*------------ home---------------*/
-      @import url("./home.css");
-    /*------------statusModal ---------------*/
-      @import url("./statusModalStyle.css");
-    /*------------postThumbStyle ---------------*/
-      @import url("./postThumbStyle.css");
-    /*------------commentsStyle---------------*/
-      @import url("./commentsStyle.css");
-    /*------------newsStyle---------------*/
-      @import url("./newsStyle.css");
-    /*------------notificationsStyle---------------*/
-      @import url("./notificationsStyle.css");
-    /*------------notificationsStyle---------------*/
-      @import url("./ShareModal.css");
-    /*------------notificationsStyle---------------*/
-      @import url("./message.css");
-    /*------------productStyle---------------*/
-      @import url("./productStyle.css");
-    /*------------diaryThumbStyle---------------*/
-      @import url("./diaryThumbStyle.css");
-    /*------------callModal---------------*/
-      @import url("./callModal.css");
-      /*------------martket---------------*/
-      @import url("./market.css");
+#theme{
+  display: none;
+}
+
+#theme:checked ~ .App{
+  filter: invert(1);
+}
+
+.App{
+  width: 100%;
+  min-height: 100vh;
+  background: white;
+}
+.main{
+  width: 100%;
+  margin: auto;
+  min-height: 100vh;
+}
+img{
+  object-fit: cover;
+
+}
+
+
+
+
+/*------------ auth---------------*/
+  @import url("./auth.css");
+/*------------ loading---------------*/
+  @import url("./loading.css");
+/*------------ header---------------*/
+  @import url("./header.css");
+/*------------ avatar---------------*/
+  @import url("./avatar.css");
+/*------------ profile---------------*/
+  @import url("./profile.css");
+/*------------ home---------------*/
+  @import url("./home.css");
+/*------------statusModal ---------------*/
+  @import url("./statusModalStyle.css");
+/*------------postThumbStyle ---------------*/
+  @import url("./postThumbStyle.css");
+/*------------commentsStyle---------------*/
+  @import url("./commentsStyle.css");
+/*------------newsStyle---------------*/
+  @import url("./newsStyle.css");
+/*------------notificationsStyle---------------*/
+  @import url("./notificationsStyle.css");
+/*------------notificationsStyle---------------*/
+  @import url("./ShareModal.css");
+/*------------notificationsStyle---------------*/
+  @import url("./message.css");
+/*------------productStyle---------------*/
+  @import url("./productStyle.css");
+/*------------diaryThumbStyle---------------*/
+  @import url("./diaryThumbStyle.css");
+/*------------callModal---------------*/
+  @import url("./callModal.css");
+  /*------------martket---------------*/
+  @import url("./market.css");
 

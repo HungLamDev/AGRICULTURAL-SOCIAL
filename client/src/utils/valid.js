@@ -1,5 +1,11 @@
-const valid = ({ email, password, cf_password }) => {
+const valid = ({ email, password, cf_password, username }) => {
   const err = {};
+
+  if (!username) {
+    err.username = "Vui lòng điển username!";
+  } else if (username.length < 6) {
+    err.username = "username phải có ít nhất 6 ký tự!";
+  }
 
   if (!email) {
     err.email = "Vui lòng điển email!";

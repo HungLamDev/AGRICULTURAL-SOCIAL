@@ -26,41 +26,18 @@ const Register = () => {
   const [typePass, setTypePass] = useState(false);
   const [typeCfPass, setTypeCfPass] = useState(false);
   const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false); 
-  const [otpError, setOtpError] = useState(""); 
-  const [errors, setErrors] = useState({}); 
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpError, setOtpError] = useState("");
+  const [errors, setErrors] = useState({});
   const [otpLoading, setOtpLoading] = useState(false);
 
   useEffect(() => {
-    if (auth.token) navigate("/");
+    if (auth.token) navigate("/"); // Redirect if the user is already authenticated
   }, [auth.token, navigate]);
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
-  };
-
-  const handleSendOtp = async () => {
-    if (otpLoading) return; 
-    setOtpLoading(true);
-    try {
-      await dispatch(sendOtp(email)); 
-      setOtpSent(true); 
-      setOtpError(""); 
-    } catch (error) {
-      setOtpError("Gửi OTP thất bại. Vui lòng thử lại.");
-    } finally {
-      setOtpLoading(false); 
-    }
-  };
-
-  const handleVerifyOtp = async () => {
-    try {
-      await dispatch(verifyOtp(email, otp)); 
-      setOtpSent(false); 
-    } catch (error) {
-      setOtpError("Mã OTP không đúng. Vui lòng thử lại.");
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -69,19 +46,37 @@ const Register = () => {
     const { errMsg, errLength } = valid(userData);
     setErrors(errMsg);
     if (errLength > 0) return;
+
     if (!otpSent) {
-      await handleSendOtp();
-      return;
+      setOtpLoading(true);
+      try {
+        await dispatch(sendOtp(email)); // Gửi OTP
+        setOtpSent(true);
+        setOtpError(""); // Reset OTP error message
+      } catch (error) {
+        setOtpError("Gửi OTP thất bại. Vui lòng thử lại.");
+        setOtpLoading(false);
+        return;
+      } finally {
+        setOtpLoading(false);
+      }
     }
 
+    // Kiểm tra OTP và thực hiện đăng ký
     if (otp && otp.length === 6) {
       try {
-        await handleVerifyOtp(); 
-        dispatch(register({ ...userData, otp }));
+        // Xác thực OTP
+        const otpValid = await dispatch(verifyOtp(email, otp));
+        if (otpValid) {
+          dispatch(register({ ...userData, otp })); // Đăng ký tài khoản nếu OTP hợp lệ
+          console.log("Đăng ký thành công với dữ liệu:", { ...userData, otp });
+        } else {
+          setOtpError("Mã OTP không đúng. Vui lòng thử lại.");
+        }
       } catch (error) {
-        setOtpError("Mã OTP không đúng. Vui lòng thử lại.");
+        setOtpError("Xác thực OTP thất bại. Vui lòng thử lại.");
       }
-    } else {
+    } else if (otpSent) {
       setOtpError("Mã OTP phải có 6 chữ số.");
     }
   };
@@ -90,7 +85,7 @@ const Register = () => {
     <div className="auth_page">
       <form onSubmit={handleSubmit}>
         <img src={Logo} alt="logo" className="logo_login" />
-        
+
         <div className="form-group">
           <label htmlFor="username">Full Name</label>
           <input
@@ -176,24 +171,14 @@ const Register = () => {
           type="submit"
           className="btn btn-dark w-100"
           style={{ backgroundColor: "red", borderColor: "red" }}
-          disabled={alert.loading || otpLoading || !otpSent}
+          disabled={alert.loading || otpLoading}
         >
           {alert.loading ? "Đang đăng ký..." : "Đăng ký"}
         </button>
+        <button></button>
 
-        <div className="form-group pt-2">
-          <button
-            type="button"
-            className="btn btn-primary w-100"
-            onClick={handleSendOtp}
-            disabled={otpSent || otpLoading} 
-          >
-            Gửi Mã OTP
-          </button>
-        </div>
-
-        <p>
-          Bạn đã có tài khoản? <Link to="/login">Đăng nhập ngay</Link>
+        <p className="text-center text-muted pt-2">
+          <div>Bạn đã có tài khoản? <Link to="/login" style={{ textDecoration: "none" }}>Đăng nhập ngay</Link></div>
         </p>
       </form>
     </div>
