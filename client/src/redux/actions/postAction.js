@@ -241,7 +241,12 @@ export const deletePost =
     dispatch({ type: POSTTYPES.DELETE_POST, payload: post });
     try {
       const res = await deleteDataAPI(`post/${post._id}`, auth.token);
-
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: {
+          success: "Đã xóa bài viết thành công!",
+        },
+      });
       const msg = {
         id: post._id,
         text: "Xóa bài viết !",
