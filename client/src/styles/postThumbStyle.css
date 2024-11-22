@@ -5,6 +5,7 @@
     justify-content: center;
     overflow: hidden;
     margin: 20px;
+    grid-gap: 20px;
 }
 .post_thumb_display {
     min-width: 150px;

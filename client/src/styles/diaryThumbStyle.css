@@ -1,7 +1,7 @@
 .diary_thumb {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     justify-content: center;
     grid-gap: 20px;
     overflow: hidden;

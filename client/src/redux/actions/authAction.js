@@ -99,7 +99,6 @@ export const sendOtp = (email) => async (dispatch) => {
   }
 };
 
-
 export const verifyOtp = (email, otp) => async (dispatch) => {
   try {
     const res = await fetch("/api/verify-otp", {

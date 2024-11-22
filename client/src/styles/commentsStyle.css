@@ -1,25 +1,67 @@
-.comment_input{
+/* Tổng thể form */
+.comment_form {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: var(--bg-color); /* Màu nền của form */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Chế độ sáng và tối */
+  .light_mode {
+    background-color: #f9f9f9;
+  }
+  
+  .dark_mode {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .comment_row {
     display: flex;
-    align-items: center;
-    margin: 20px;
-   
-}
-.comment_input input {
-    background: var(--bg-color);
+    align-items: center; 
+    gap: 10px;
+    background: var(--bg-color); 
+    border-radius: 8px;
+    padding: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .comment_row .Icons {
+    margin-right: 10px;
+  }
+  
+  .comment_input {
+    flex: 1; 
     border: none;
     outline: none;
-    flex: 1;
-    overflow: auto;
+    background: transparent; 
     padding: 10px;
-}
-.comment_input .commentBtn {
-    border: none;
+    font-size: 14px;
+    color: var(--text-color);
+  }
+  
+  .comment_input:focus {
     outline: none;
+  }
+  
+  .comment_button {
+    color: rgb(73, 71, 71);
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
     background: var(--bg-color);
-    font-weight: 600;
-    color: var(--dark-screen);
-    padding: 10px;
-}
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease; 
+  }
+  
+  .comment_button:hover {
+    color: rgb(95, 187, 86); 
+    transform: translateY(-3px); 
+  }
+  
 
 /* Comments */
 

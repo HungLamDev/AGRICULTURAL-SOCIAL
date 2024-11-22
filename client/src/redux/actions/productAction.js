@@ -49,8 +49,13 @@ export const createProduct =
         type: PRODUCTTYPE.CREATE_PRODUCT,
         payload: { ...res.data.newProduct, user: auth.user },
       });
-
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: {
+          success: "Sản phẩm đã được đăng thành công!",
+        },
+      });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -147,6 +152,12 @@ export const updateProduct =
       });
 
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: {
+          success: "Sản phẩm đã được cập nhật thành công!",
+        },
+      });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -161,6 +172,12 @@ export const deleteProduct =
     dispatch({ type: PRODUCTTYPE.DELETE_PRODUCT, payload: product });
     try {
       await deleteDataAPI(`market/${product._id}`, auth.token);
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: {
+          success: "Đã xóa Sản phẩm thành công!",
+        },
+      });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,

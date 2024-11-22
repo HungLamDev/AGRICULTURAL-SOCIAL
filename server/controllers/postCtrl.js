@@ -39,15 +39,14 @@ const postCtrl = {
   },
   getPosts: async (req, res) => {
     try {
-      const posts = await Post.find({
-        user: [...req.user.following, req.user._id],
-      })
-        .sort("-createdAt")
-        .populate("user like", "-password")
-        .populate({
-          path: "comments",
-          populate: { path: "user likes", select: "-password" },
-        });
+      const posts = await Post.find()
+      .sort("-createdAt")
+      .populate("user like", "-password")
+      .populate({
+        path: "comments",
+        populate: { path: "user likes", select: "-password" },
+      });
+
       return res.status(200).json({
         msg: "Lấy bài viết thành công!",
         result: posts.length,

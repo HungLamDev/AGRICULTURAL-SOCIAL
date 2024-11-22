@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import Avatar from "./Avatar";
 import moment from "moment";
 import { isReadNotify, deleteAllNotifies } from "../redux/actions/notifyAction";
-import { GLOBALTYPES } from "../redux/actions/globalTypes";
 import {
   Button,
   Dialog,
@@ -131,8 +130,7 @@ const NotifyModal = () => {
         </div>
         <hr className="my-1" />
         <div
-          className="text-danger text-center"
-          style={{ cursor: "pointer", paddingLeft: "10px" }}
+          className="delete_tb"
           onClick={handleDeleteAll}
         >
           Xóa tất cả

@@ -64,12 +64,12 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="product_card" style={{width: '100%', height: '100%'}}>
+    <div className="product_card" >
       <div>
         <div className="product_card_header" >
           <img
             src={product.img[0] ? product.img[0].url : Logo}
-            alt="product_pic" style={{width: '100%', height: '100%'}}
+            alt="product_pic" style={{width: '100%', height: '100%', padding: '10px'}}
           />
           <div className="btn_product px-2">
             {product?.user?._id === auth.user._id ? (

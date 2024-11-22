@@ -8,13 +8,13 @@ const LikeBtn = ({ isLike, handleLike, handleUnLike }) => {
       {isLike ? (
         <span
           className="material-symbols-outlined text-danger"
-          style={{ filter: theme ? "invert(1)" : "invert(0)" }}
+          style={{ filter: theme ? "invert(1)" : "invert(0)", cursor: 'pointer'}}
           onClick={handleUnLike}
         >
           favorite
         </span>
       ) : (
-        <span className="material-symbols-outlined" onClick={handleLike}>
+        <span className="material-symbols-outlined" onClick={handleLike} style={{cursor: "pointer"}}>
           favorite
         </span>
       )}

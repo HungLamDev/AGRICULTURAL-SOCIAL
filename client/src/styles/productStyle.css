@@ -17,7 +17,7 @@
 .product_card {
   border-radius: 10px;
   min-width: 150px;
-  height: 350px;
+  height: 100%;
   width: 100%;
   position: relative;
   cursor: pointer;

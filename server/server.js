@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const socketIO = require("socket.io");
 const SocketServer = require("./socketSever");
 const { PeerServer } = require("peer");
-const otpRoutes = require("./routes/otpRoutes");
+
 
 const app = express();
 app.use(cors());

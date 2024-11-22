@@ -199,10 +199,10 @@ const StatusModal = () => {
           />
           {(status.onMarket || status.onEditProduct) && (
             <>
-              <div className="pb-2">
+              <div className="product-form__pb-2">
                 <small>Tên SP: </small>
                 <input
-                  className="hastag_box"
+                  className="product-form__hastag-box"
                   type="text"
                   name="price"
                   value={productName}
@@ -210,22 +210,21 @@ const StatusModal = () => {
                   placeholder="Nhập tên sản phẩm ..."
                 />
               </div>
-              <div className="pb-2">
+              <div className="product-form__pb-2">
                 <small>Giá (VNĐ): </small>
                 <input
-                  className="hastag_box"
+                  className="product-form__hastag-box"
                   type="text"
                   name="price"
                   value={price}
                   onChange={(e) => handleChange(e)}
                   placeholder="Nhập giá bán ..."
                 />
-
               </div>
-              <div className="pb-2">
+              <div className="product-form__pb-2">
                 <small>Phân loại: </small>
                 <select
-                  className="hastag_box"
+                  className="product-form__hastag-box"
                   name="address"
                   value={typeProduct}
                   onChange={(e) => setTypeProduct(e.target.value)}
@@ -238,10 +237,10 @@ const StatusModal = () => {
                   ))}
                 </select>
               </div>
-              <div className="pb-2">
+              <div className="product-form__pb-2">
                 <small>Địa chỉ: </small>
                 <select
-                  className="hastag_box"
+                  className="product-form__hastag-box"
                   name="address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
@@ -256,6 +255,7 @@ const StatusModal = () => {
               </div>
             </>
           )}
+
           <div className="show_imgs">
             {images.map((img, index) => (
               <div key={index} id="file_img">

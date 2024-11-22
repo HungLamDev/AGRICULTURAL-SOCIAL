@@ -44,7 +44,13 @@
 .nav-link:hover .material-icons {
       transform: scale(1.1); 
 }
-
+.delete_tb{
+      text-align: center;
+      cursor: pointer;
+}
+.delete_tb:hover{
+      color: red;
+}
 /*--------------header search-----------*/
 .header .search_box{
       position: relative;
@@ -151,5 +157,4 @@
 .wrap_page{
       margin-bottom: 60px;
 }
-
 }
