@@ -78,12 +78,16 @@ export const updateUser =
       }
 
       dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
+      dispatch({
+        type: GLOBALTYPES.NOTIFY,
+        payload: { success: "Cập nhật user thành công!" },
+      });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.NOTIFY,
         payload: { err: err.response?.data?.msg || "Có lỗi xảy ra" },
       });
-     
+
       dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
     }
   };
@@ -92,7 +96,7 @@ export const deleteUser =
   ({ user, auth }) =>
   async (dispatch) => {
     try {
-      const response = await deleteDataAPI(`user/${user._id}`, auth.token);
+      await deleteDataAPI(`user/${user._id}`, auth.token);
       dispatch({
         type: USERS_LOADING.DELETE_USER,
         payload: user._id,

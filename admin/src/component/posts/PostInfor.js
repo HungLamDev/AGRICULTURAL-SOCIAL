@@ -144,8 +144,8 @@ const PostInfor = () => {
           open={openDeleteModal}
           onClose={handleCloseDeleteModal}
           onConfirm={handleConfirmDelete}
-          title="Xóa người dùng"
-          content="Bạn có chắc chắn muốn xóa người dùng này?"
+          title="Xóa bài viết"
+          content="Bạn có chắc chắn muốn xóa bài viết này?"
         />
       </div>
     </div>

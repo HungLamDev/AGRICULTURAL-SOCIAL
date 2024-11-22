@@ -18,7 +18,7 @@
       font-size: 2rem;
 }
 
-/*--------------header menu-----------*/
+
 .header .menu li .active{
       opacity: 1;
 }
@@ -45,7 +45,7 @@
       transform: scale(1.1); 
 }
 
-/*--------------header search-----------*/
+
 .header .search_box{
       position: relative;
       margin: auto;
@@ -115,7 +115,7 @@
       border: none;
       outline: none;
 }
-/*--------------responsive-----------*/
+
 @media (max-width: 768px){
 .header .menu{
       position: fixed;

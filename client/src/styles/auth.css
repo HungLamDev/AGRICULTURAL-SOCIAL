@@ -47,7 +47,7 @@
 .row {
   display: flex;
   justify-content: space-around;
-  margin: 15px; /* Adjust spacing */
+  margin: 15px; 
 }
 
 .row label {
@@ -60,7 +60,7 @@ label input[type="radio"] {
   margin-left: 5px; 
 }   
 
-/* css newpassword */
+
 .new-password-container .logo_login{
 max-width: 350px;
 }
