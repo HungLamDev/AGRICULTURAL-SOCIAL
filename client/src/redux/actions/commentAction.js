@@ -10,7 +10,7 @@ export const createComment =
     if (!post || !post._id || !post.user) {
       dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { err: "Post data is missing or incomplete" },
+        payload: { err: "Dữ liệu bài đăng bị thiếu hoặc không đầy đủ" },
       });
       return;
     }

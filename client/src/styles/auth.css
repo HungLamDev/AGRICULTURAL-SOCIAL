@@ -47,7 +47,6 @@
 .row {
   display: flex;
   justify-content: space-around;
-  margin: 15px; /* Adjust spacing */
 }
 
 .row label {

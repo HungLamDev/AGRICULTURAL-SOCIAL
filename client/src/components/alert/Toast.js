@@ -4,16 +4,21 @@ const Toast = ({ msg, handleShow, bgColor }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       handleShow();
-    }, 5000); // Tự động tắt sau 5 giây
+    }, 5000);
 
-    // Xóa timer khi component bị huỷ
     return () => clearTimeout(timer);
   }, [handleShow]);
 
   return (
     <div
       className={`toast show position-fixed text-light ${bgColor}`}
-      style={{ top: '5px', right: '5px', minWidth: '200px', zIndex: 50 }}
+      style={{
+        top: '5px',
+        right: '5px',
+        minWidth: '200px',
+        zIndex: 50,
+        position: 'relative', 
+      }}
     >
       <div className={`toast-header text-light ${bgColor}`}>
         <strong className="mr-auto">{msg.title}</strong>
@@ -27,6 +32,7 @@ const Toast = ({ msg, handleShow, bgColor }) => {
         </button>
       </div>
       <div className="toast-body">{msg.body}</div>
+      <div className="time-bar"></div>
     </div>
   );
 };

@@ -87,7 +87,7 @@ export const deleteDiary =
       await deleteDataAPI(`/diary/${diary._id}`, auth.token);
       dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { success: "Đã xóa bài viết !" },
+        payload: { success: "Đã xóa nhật ký !" },
       });
     } catch (err) {
       dispatch({

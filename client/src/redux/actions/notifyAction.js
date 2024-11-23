@@ -50,7 +50,6 @@ export const removeNotify =
         throw new Error("Invalid response from API");
       }
     } catch (err) {
-      console.error("Error removing notify:", err);
       const errorMessage =
         err.response && err.response.data
           ? err.response.data.msg
