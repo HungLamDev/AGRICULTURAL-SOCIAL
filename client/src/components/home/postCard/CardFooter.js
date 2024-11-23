@@ -23,19 +23,19 @@ const CardFooter = ({ post }) => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (post.like.find((lk) => lk._id === auth.user._id)) {
+    if (post?.like?.find((lk) => lk._id === auth.user._id)) {
       setIsLike(true);
     } else {
       setIsLike(false);
     }
-  }, [auth.user._id, post.like]);
+  }, [auth.user?._id, post?.like]);
   useEffect(() => {
-    if (auth.user.saved.find((id) => id === post._id)) {
+    if (auth.user?.saved?.find((id) => id === post._id)) {
       setSaved(true);
     } else {
       setSaved(false);
     }
-  }, [auth.user.saved, post._id]);
+  }, [auth.user?.saved, post?._id]);
 
   const handleLike = async () => {
     if (loadLike) return;

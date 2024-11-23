@@ -71,7 +71,7 @@ const Register = () => {
           dispatch(register({ ...userData, otp })); // Đăng ký tài khoản nếu OTP hợp lệ
           console.log("Đăng ký thành công với dữ liệu:", { ...userData, otp });
         } else {
-          setOtpError("Mã OTP không đúng. Vui lòng thử lại.");
+          setOtpError("Mã OTP không đúng hoặc hết hạn! ");
         }
       } catch (error) {
         setOtpError("Xác thực OTP thất bại. Vui lòng thử lại.");
@@ -175,9 +175,9 @@ const Register = () => {
         >
           {alert.loading ? "Đang đăng ký..." : "Đăng ký"}
         </button>
-        <p className="text-center text-muted pt-2">
+        <div className="text-center text-muted pt-2">
           <div>Bạn đã có tài khoản? <Link to="/login" style={{ textDecoration: "none" }}>Đăng nhập ngay</Link></div>
-        </p>
+        </div>
       </form>
     </div>
   );

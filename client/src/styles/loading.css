@@ -33,7 +33,7 @@
   bottom: 0;
   left: 0;
   height: 5px; /* Độ cao của thanh */
-  background-color: #8ae7a6; /* Màu của thanh thời gian */
+  background-color: #cecfce; /* Màu của thanh thời gian */
   animation: countdown 5s linear forwards; /* Thời gian chạy là 5s */
 }
 

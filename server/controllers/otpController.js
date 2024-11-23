@@ -19,7 +19,7 @@ exports.sendOtp = async (req, res) => {
       return res.status(400).json({ msg: "Email đã tồn tại!" });
     }
     const otp = crypto.randomBytes(3).toString("hex");
-    const expiryTime = Date.now() + 5 * 60 * 1000;
+    const expiryTime = Date.now() + 30 * 1000;
 
     const { EMAIL, EMAIL_PASSWORD } = process.env;
     if (!EMAIL || !EMAIL_PASSWORD) {
@@ -119,7 +119,7 @@ exports.verifyOtp = (req, res) => {
   }
 
   if (Date.now() > otpRecord.expiryTime) {
-    delete otpStore[email]; // Xóa OTP hết hạn
+    delete otpStore[email]; 
     return res.status(400).json({ msg: "OTP đã hết hạn!" });
   }
 

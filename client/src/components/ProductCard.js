@@ -103,6 +103,12 @@ const ProductCard = ({ product }) => {
         <div className="product_card_body">
           <div className="product_card_title">{product.productName}</div>
           <div className="product_card_content">
+          <div className="product_card_desc">
+            {product.desc.length > 50
+              ? `${product.desc.split(" ").slice(0, 20).join(" ")}...`
+              : product.desc}
+          </div>
+
             <div className="product_card_price">{product.price} VND</div>
             <div>{product.typeProduct}</div>
             <div>
