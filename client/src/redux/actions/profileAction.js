@@ -48,7 +48,7 @@ export const getProfileUsers =
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { error: err.response?.data?.msg || "An error occurred" },
+        payload: { error: err.response?.data?.msg || "Đã xảy ra lỗi" },
       });
     }
   };
@@ -57,7 +57,6 @@ export const updateUserProfile =
   ({ userData, avatar, auth }) =>
   async (dispatch) => {
     if (!auth || !auth.user) {
-      console.error("Auth object or user is undefined:", auth);
       return dispatch({
         type: GLOBALTYPES.ALERT,
         payload: { error: "Đối tượng xác thực hoặc người dùng không hợp lệ!" },
@@ -87,13 +86,13 @@ export const updateUserProfile =
       if (avatar) {
         media = await imageUpload([avatar]);
         if (!media || !media[0]?.url) {
-          throw new Error("Image upload failed!");
+          throw new Error("Tải hình ảnh lên không thành công!");
         }
       }
 
       const profilePicture = avatar ? media[0].url : auth.user.avatar;
       if (!auth || !auth.user) {
-        throw new Error("Auth object or user is undefined");
+        throw new Error("Đối tượng xác thực hoặc người dùng chưa được xác định");
       }
 
       const res = await patchDataAPI(
@@ -123,13 +122,12 @@ export const updateUserProfile =
       });
       dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.data.msg } });
     } catch (error) {
-      console.error("Error updating user profile:", error); // Log lỗi
       dispatch({
         type: GLOBALTYPES.ALERT,
         payload: {
           error:
             error.response?.data?.msg ||
-            "An error occurred while updating the profile.",
+            "Đã xảy ra lỗi khi cập nhật hồ sơ.",
         },
       });
     }
@@ -140,7 +138,7 @@ export const follow =
     if (!auth || !auth.user._id || !user._id) {
       return dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { error: "Invalid user ID" },
+        payload: { error: "ID người dùng không hợp lệ" },
       });
     }
     let newUser;
@@ -182,7 +180,7 @@ export const follow =
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { error: err.response?.data?.msg || "An error occurred" },
+        payload: { error: err.response?.data?.msg || "Đã xảy ra lỗi" },
       });
     }
   };
@@ -192,7 +190,7 @@ export const unfollow =
     if (!auth || !auth.user || !auth.user._id || !user._id) {
       return dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { error: "Invalid user ID" },
+        payload: { error: "ID người dùng không hợp lệ" },
       });
     }
     let newUser;
@@ -247,7 +245,7 @@ export const unfollow =
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { error: err.response?.data?.msg || "An error occurred" },
+        payload: { error: err.response?.data?.msg || "Đã xảy ra lỗi " },
       });
     }
   };

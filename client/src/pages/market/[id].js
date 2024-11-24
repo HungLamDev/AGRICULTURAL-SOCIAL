@@ -6,7 +6,7 @@ import Carousel from "../../components/Carousel";
 import Avatar from "../../components/Avatar";
 import { MESS_TYPES } from "../../redux/actions/messageAction";
 import { addMessage } from "../../redux/actions/messageAction";
-
+import Products from "../../components/market/Products";
 const Product = () => {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
@@ -49,7 +49,7 @@ const Product = () => {
       {product?.map((item) => (
         <div key={item._id} className="row">
           <div className="row">
-            <div className="col-md-8">
+            <div className="col-md-4">
               <div className="carousel_detail_product">
                 {item.img.length > 0 && (
                   <Carousel images={item.img} id={item._id} />
@@ -63,9 +63,7 @@ const Product = () => {
               <h5>Mô tả sản phẩm</h5>
               <p>{item.desc}</p>
             </div>
-          </div>
-          <div>
-            <div className="col-md-6">
+            <div className="col-md-3">
               <div className="d-flex align-items-center justify-content-center">
                 <Avatar src={item.user.avatar} size="big-avatar" />
                 <div className="card_name m-2">
@@ -95,16 +93,15 @@ const Product = () => {
                 <div className="contact_phone">
                   <i className="fas fa-phone-alt fa-rotate-90"></i>
                   <span>{item.user.mobile}</span>
-                </div>
-
-                <div
-                  className="contact_message"
-                  onClick={handleMessage}
-                  style={{ cursor: "pointer" }}
-                >
-                  <i className="fas fa-comments"></i>
-                  <span>Nhắn tin</span>
-                </div>
+              </div>
+              <div
+                className="contact_message"
+                onClick={handleMessage}
+                style={{ cursor: "pointer" }}
+              >
+                <i className="fas fa-comments"></i>
+                <span>Nhắn tin</span>
+              </div>
               </div>
               <div className="attention_product">
                 <i className="fas fa-angle-double-right"></i>
@@ -116,6 +113,7 @@ const Product = () => {
               </div>
             </div>
           </div>
+          <Products />
         </div>
         
       ))}

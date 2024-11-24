@@ -19,6 +19,7 @@ const NotifyModal = () => {
 
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState(null);
+  const [openDeleteNotify, setOpenDeleteNotify] = useState(false);
 
   const handleIsRead = (msg) => {
     dispatch(isReadNotify({ msg, auth }));
@@ -33,17 +34,13 @@ const NotifyModal = () => {
     }
   };
 
-  const handleDeleteAll = () => {
-    const newArr = notify.data.filter((item) => item.isRead === false);
-    if (newArr.length === 0) return dispatch(deleteAllNotifies(auth.token));
+  const handleOpenDeleteDialog = () => {
+    setOpenDeleteNotify(true);
+  };
 
-    if (
-      window.confirm(
-        `Bạn có ${newArr.length} thông báo chưa đọc. Bạn có muốn xóa tất cả ?`
-      )
-    ) {
-      return dispatch(deleteAllNotifies(auth.token));
-    }
+  const handleConfirmDelete = () => {
+    dispatch(deleteAllNotifies(auth.token));
+    setOpenDeleteNotify(false);
   };
 
   return (
@@ -74,7 +71,25 @@ const NotifyModal = () => {
         </DialogActions>
       </Dialog>
 
-      <div className="notifications ">
+      <Dialog
+        open={openDeleteNotify}
+        onClose={() => setOpenDeleteNotify(false)}
+      >
+        <DialogTitle>Xóa tất cả thông báo</DialogTitle>
+        <DialogContent>
+          <p>Bạn có chắc chắn muốn xóa tất cả thông báo không?</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDeleteNotify(false)} color="primary">
+            Hủy
+          </Button>
+          <Button onClick={handleConfirmDelete} color="primary">
+            Xóa
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <div className="notifications">
         <div className="title">Thông báo</div>
         <hr className="mt-0" />
         {notify.data.length === 0 && (
@@ -129,7 +144,8 @@ const NotifyModal = () => {
           ))}
         </div>
         <hr className="my-1" />
-        <div className="delete_tb" onClick={handleDeleteAll}>
+
+        <div className="delete_tb" onClick={handleOpenDeleteDialog}>
           Xóa tất cả
         </div>
       </div>

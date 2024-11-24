@@ -12,15 +12,6 @@ export const MESS_TYPES = {
   MARK_MESSAGE_READ: "MARK_MESSAGE_READ",
 };
 
-// export const addUser = ({ user, message }) => (dispatch) => {
-//     if (message.users.every((item) => item._id !== user._id)) {
-//       dispatch({
-//         type: MESS_TYPES.ADD_USER,
-//         payload: { ...user, text: "", media: [] },
-//       });
-//     }
-//   };
-
 export const addMessage = ({ msg, auth, socket }) =>
   async (dispatch) => {
     dispatch({ type: MESS_TYPES.ADD_MESSAGE, payload: msg });
