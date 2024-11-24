@@ -75,17 +75,17 @@ const CardHeader = ({ post }) => {
   return (
     <div className="card_header">
       <div className="d-flex">
-        <Avatar src={post.user.avatar} theme={theme} size="big-avatar" />
+        <Avatar src={post?.user?.avatar} theme={theme} size="big-avatar" />
         <div className="card_name m-2">
           <h6>
             <Link
-              to={`/user/${post.user._id}`}
+              to={`/user/${post?.user?._id}`}
               className="text-dark"
               style={{ textDecoration: "none" }}
             >
-              {post.user.username}
+              {post?.user?.username}
             </Link>
-            {post.user.role === "expert" && (
+            {post.user?.role === "expert" && (
               <i
                 className="fa-solid fa-circle-check text-success"
                 style={{ fontSize: "10px", paddingLeft: "5px" }}

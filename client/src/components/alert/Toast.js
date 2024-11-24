@@ -32,7 +32,6 @@ const Toast = ({ msg, handleShow, bgColor }) => {
         </button>
       </div>
       <div className="toast-body">{msg.body}</div>
-      <div className="time-bar"></div>
     </div>
   );
 };
