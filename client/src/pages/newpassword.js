@@ -3,17 +3,17 @@ import axios from "axios";
 import validator from "validator";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { GLOBALTYPES } from "../redux/actions/globalTypes"; // Đường dẫn tuỳ theo cấu trúc dự án
+import { GLOBALTYPES } from "../redux/actions/globalTypes"; 
 import Logo from "../images/logo_ngang.png";
-import Loading from '../components/alert/Loading'
+
 const NewPassword = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [step, setStep] = useState(1); // Step 1: Enter email, Step 2: Enter OTP and new password
+  const [step, setStep] = useState(1); 
   const [loading, setLoading] = useState(false);
 
-  const dispatch = useDispatch(); // Sử dụng dispatch từ Redux
+  const dispatch = useDispatch(); 
 
   // Gửi OTP
   const handleSendOtp = async () => {

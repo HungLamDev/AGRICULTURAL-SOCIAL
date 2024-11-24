@@ -38,7 +38,7 @@ const MsgDisplay = ({ user, msg, theme, data }) => {
         }
         {
           msg.media.map((item, index) => (
-            <div key={index} style={{ width: '100%', filter: theme ? 'invert(1)' : 'invert(0)' }}>
+            <div key={index} style={{ maxWidth: '300px', filter: theme ? 'invert(1)' : 'invert(0)' }}>
               {item.url.match(/video/i) ? videoShow(item.url, theme) : imageShow(item.url, theme)}
             </div>
           ))

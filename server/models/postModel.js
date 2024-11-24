@@ -24,6 +24,7 @@ const postSchema = new mongoose.Schema(
         ref: "comments",
       },
     ],
+    deleted_at: { type: Date, default: null },
   },
   { timestamps: true }
 );

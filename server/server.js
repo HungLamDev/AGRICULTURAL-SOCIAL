@@ -6,12 +6,13 @@ const cookieParser = require("cookie-parser");
 const { Server } = require("socket.io");
 const http = require("http");
 const { ExpressPeerServer } = require("peer");
+const SocketServer = require("./socketSever");
+
 const app = express();
 const path = require("path");
-const SocketServer = require("./socketSever");
-// CORS configuration
 const allowedOrigins = [
   "https://5b37-2001-ee0-533d-d500-fd22-23e-773f-1271.ngrok-free.app",
+  "http://localhost:3000",
 ];
 
 const corsOptions = {
@@ -76,6 +77,8 @@ app.use("/api", require("./routes/notifyRoute"));
 app.use("/api", require("./routes/reportRoute"));
 app.use("/api", require("./routes/messageRouter"));
 app.use("/api", require("./routes/productRoute"));
+app.use("/api", require("./routes/otpRoutes"));
+
 mongoose
   .connect(process.env.MONGODB_URL, mongoOptions)
   .then(() => console.log("Connected to MongoDB"))

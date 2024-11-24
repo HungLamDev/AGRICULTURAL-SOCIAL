@@ -45,7 +45,13 @@
       transform: scale(1.1); 
 }
 
-
+.delete_tb{
+      text-align: center;
+      cursor: pointer;
+}
+.delete_tb:hover{
+      color: red;
+}
 .header .search_box{
       position: relative;
       margin: auto;
@@ -151,5 +157,4 @@
 .wrap_page{
       margin-bottom: 60px;
 }
-
 }

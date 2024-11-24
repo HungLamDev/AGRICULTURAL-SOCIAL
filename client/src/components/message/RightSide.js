@@ -23,7 +23,7 @@ import {
 } from "../../redux/actions/messageAction";
 import loadIcon from "../../images/loading.gif";
 import ting from '../audio/happy-pop-3-185288.mp3';
-
+import { IoIosSend } from "react-icons/io";
 
 const RightSide = () => {
   const auth = useSelector((state) => state.auth);
@@ -371,10 +371,11 @@ const RightSide = () => {
         </div>
         <button
           type="submit"
-          className="material-icons"
+          className=""
           disabled={!text && media.length === 0}
+          style={{background: 'white', fontSize: '20px', color: 'green', paddingBottom: '8px', cursor:'pointer'}}
         >
-          send
+          <IoIosSend/>
         </button>
       </form>
     </>

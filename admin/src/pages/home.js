@@ -4,6 +4,7 @@ import { getPosts } from "../redux/actions/postsAction";
 import { getUsers } from "../redux/actions/usersAction";
 import { getReports } from "../redux/actions/reportAction";
 import moment from "moment";
+import { Navigate } from "react-router-dom";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,9 @@ const HomePage = () => {
     dispatch(getUsers({ auth }));
     dispatch(getReports({ auth }));
   }, [auth, dispatch]);
+  if (!auth.user || !auth.user.admin) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="home_page w-100">

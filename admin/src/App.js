@@ -10,6 +10,7 @@ import HomePage from "./pages/home";
 
 import Header from "./component/header/Header";
 import Load from "./component/Loading";
+import Alert from "./component/alert/Alert";
 
 function App() {
   const auth = useSelector((state) => state.auth.token);
@@ -23,6 +24,7 @@ function App() {
 
   return (
     <Router>
+      <Alert />
       <div className="App">
         <div className="main">
           {auth && <Header />}

@@ -65,6 +65,7 @@ const userSchema = new mongoose.Schema(
     ],
     saved: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     savedDiary: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    deleted_at: { type: Date, default: null },
   },
   {
     timestamps: true,

@@ -10,6 +10,7 @@ export const USERS_LOADING = {
   GET_USERS: "GET_USERS",
   LOADING_USER: "LOADING_USER",
   GET_USER: "GET_USER",
+  DELETE_USER: "DELETE_USER",
 };
 
 export const getUsers =
@@ -35,10 +36,15 @@ export const updateUser =
   ({ userData, auth }) =>
   async (dispatch) => {
     try {
-      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
+      console.log({ userData });
+
+      const currentUser = await getDataAPI(`user/${userData.id}`, auth.token);
+      console.log({ userData });
+
+      const defaultRole = "currentUser"; // Thay đổi giá trị này theo giá trị mặc định của bạn
 
       // Kiểm tra và cập nhật quyền của user
-      if (userData.role) {
+      if (userData.role && userData.role !== currentUser.role) {
         await patchDataAPI(
           `user/${userData.id}`,
           { role: userData.role },
@@ -55,6 +61,18 @@ export const updateUser =
         };
 
         await postDataAPI("notify", msgRole, auth.token);
+      } else if (userData.role === defaultRole) {
+        // Nếu role không thay đổi và bằng giá trị mặc định
+        const msgNoChangeRole = {
+          id: userData.id,
+          text: "Thông báo từ ADMIN!",
+          recipients: userData.id,
+          url: "",
+          content: "Quyền truy cập của bạn không thay đổi.",
+          image: "",
+        };
+
+        await postDataAPI("notify", msgNoChangeRole, auth.token);
       }
 
       // Kiểm tra và cập nhật story của user
@@ -76,12 +94,6 @@ export const updateUser =
 
         await postDataAPI("notify", msgStoryChange, auth.token);
       }
-
-      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
-      dispatch({
-        type: GLOBALTYPES.NOTIFY,
-        payload: { success: "Cập nhật user thành công!" },
-      });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.NOTIFY,
@@ -96,12 +108,27 @@ export const deleteUser =
   ({ user, auth }) =>
   async (dispatch) => {
     try {
-      await deleteDataAPI(`user/${user._id}`, auth.token);
+      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
+
+      // Thực hiện xóa mềm người dùng
+      const response = await patchDataAPI(
+        `user/${user._id}`,
+        { deleted_at: new Date() },
+        auth.token
+      );
+      if (response.status !== 200) {
+        return dispatch({
+          type: GLOBALTYPES.NOTIFY,
+          payload: { err: "Không thể xóa người dùng" },
+        });
+      }
+      // Dispatch action xóa người dùng khỏi state
       dispatch({
         type: USERS_LOADING.DELETE_USER,
         payload: user._id,
       });
 
+      // Gửi thông báo cho người dùng
       const msg = {
         id: user._id,
         text: "Thông báo !",
@@ -110,12 +137,21 @@ export const deleteUser =
         content: "Tài khoản của bạn đã bị xoá do vi phạm quy tắc cộng đồng !",
         image: "",
       };
-
       await postDataAPI("notify", msg, auth.token);
+
+      dispatch({
+        type: GLOBALTYPES.NOTIFY,
+        payload: { success: "Xóa User thành công!" },
+      });
+      console.log("Bắt đầu xóa user:", user._id);
+      console.log("Thông báo thành công đang dispatch...");
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.NOTIFY,
         payload: { err: err.response?.data?.msg || "Có lỗi xảy ra." },
       });
+    } finally {
+      // Tắt trạng thái loading
+      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
     }
   };

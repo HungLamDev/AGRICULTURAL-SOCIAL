@@ -109,7 +109,9 @@ const Register = () => {
             name="email"
             onChange={handleChangeInput}
             value={email}
-            style={{ background: `${errors.email || otpError ? "#FFEEEE" : ""}` }}
+            style={{
+              background: `${errors.email || otpError ? "#FFEEEE" : ""}`,
+            }}
           />
           <small className="text-danger">{errors.email}</small>
         </div>
@@ -175,9 +177,14 @@ const Register = () => {
         >
           {alert.loading ? "Đang đăng ký..." : "Đăng ký"}
         </button>
-        <p className="text-center text-muted pt-2">
-          <div>Bạn đã có tài khoản? <Link to="/login" style={{ textDecoration: "none" }}>Đăng nhập ngay</Link></div>
-        </p>
+        <div className="text-center text-muted pt-2">
+          <div>
+            Bạn đã có tài khoản?{" "}
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              Đăng nhập ngay
+            </Link>
+          </div>
+        </div>
       </form>
     </div>
   );

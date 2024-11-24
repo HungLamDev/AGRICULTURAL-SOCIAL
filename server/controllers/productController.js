@@ -18,7 +18,9 @@ const productController = {
   },
   getProducts: async (req, res) => {
     try {
-      const products = await Product.find().sort("-createdAt").populate("user");
+      const products = await Product.find({ deleted_at: null })
+        .sort("-createdAt")
+        .populate("user");
       return res.status(200).json({
         products,
         result: products.length,
@@ -30,7 +32,10 @@ const productController = {
   },
   getProduct: async (req, res) => {
     try {
-      const product = await Product.findById(req.params.id).populate("user");
+      const product = await Product.findById({
+        _id: req.params.id,
+        deleted_at: null,
+      }).populate("user");
       return res.status(200).json({
         product,
         msg: "Lấy sản phẩm thành công!",
@@ -41,7 +46,10 @@ const productController = {
   },
   getUserProducts: async (req, res) => {
     try {
-      const userProduct = await Product.find({ user: req.params.id })
+      const userProduct = await Product.find({
+        user: req.params.id,
+        deleted_at: null,
+      })
         .sort("-createdAt")
         .populate("user");
       return res.status(200).json({
@@ -88,10 +96,17 @@ const productController = {
   },
   deleteProduct: async (req, res) => {
     try {
-      const product = await Product.findOneAndDelete({
-        _id: req.params.id,
-        user: req.user._id,
-      });
+      const product = await Product.findOneAndUpdate(
+        { _id: req.params.id, user: req.user._id },
+        { deleted_at: new Date() }, // Đánh dấu thời gian xóa
+        { new: true } // Trả về document sau khi update
+      );
+
+      if (!product) {
+        return res
+          .status(404)
+          .json({ msg: "Sản phẩm không tồn tại hoặc không thuộc về bạn." });
+      }
       return res.status(200).json({
         msg: "Xóa sản phẩm thành công!",
         newProduct: {
@@ -107,10 +122,11 @@ const productController = {
     try {
       const category = req.query.category;
 
-      const regex = new RegExp(category, 'i');
+      const regex = new RegExp(category, "i");
 
       const products = await Product.find({
-        typeProduct: {$regex: regex} ,
+        typeProduct: { $regex: regex },
+        deleted_at: null,
       }).populate("user");
       return res.status(200).json({
         products,
@@ -125,19 +141,20 @@ const productController = {
     try {
       const search = req.query.search;
 
-      const regex = new RegExp(search, 'i');
+      const regex = new RegExp(search, "i");
 
       const products = await Product.find({
-        productName: {$regex: regex} ,
+        productName: { $regex: regex },
+        deleted_at: null,
       }).populate("user");
       return res.status(200).json({
         products,
         result: products.length,
         msg: "Lấy danh mục thành công!",
       });
-    }catch (err) {
+    } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
-   }
+  },
 };
 module.exports = productController;

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import Avatar from "./Avatar";
 import moment from "moment";
 import { isReadNotify, deleteAllNotifies } from "../redux/actions/notifyAction";
-import { GLOBALTYPES } from "../redux/actions/globalTypes";
 import {
   Button,
   Dialog,
@@ -93,7 +92,7 @@ const NotifyModal = () => {
                 style={{ textDecoration: "none" }}
                 onClick={() => handleIsRead(msg)}
               >
-                <Avatar src={msg.user.avatar} size="big-avatar" />
+                <Avatar src={msg?.user?.avatar} size="big-avatar" />
                 <div className="mx-1 flex-fill">
                   <div>
                     <strong style={{ marginRight: "10px" }}>
@@ -130,11 +129,7 @@ const NotifyModal = () => {
           ))}
         </div>
         <hr className="my-1" />
-        <div
-          className="text-danger text-center"
-          style={{ cursor: "pointer", paddingLeft: "10px" }}
-          onClick={handleDeleteAll}
-        >
+        <div className="delete_tb" onClick={handleDeleteAll}>
           Xóa tất cả
         </div>
       </div>
