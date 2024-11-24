@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../redux/actions/postsAction";
 import { getUsers } from "../redux/actions/usersAction";
 import { getReports } from "../redux/actions/reportAction";
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
 const HomePage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
 
   const posts = useSelector((state) => state.posts);
@@ -17,7 +19,11 @@ const HomePage = () => {
     dispatch(getUsers({ auth }));
     dispatch(getReports({ auth }));
   }, [auth, dispatch]);
-
+  useEffect(() => {
+    if (auth.token && !auth.user.admin) {
+      navigate("/");
+    }
+  }, [auth.token, auth.user.admin, navigate]);
   return (
     <div className="home_page w-100">
       <div className="row">

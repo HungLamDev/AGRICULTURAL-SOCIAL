@@ -12,6 +12,7 @@ export const login = (data) => async (dispatch) => {
         payload: {
           token: res.data.access_token,
           user: res.data.user,
+          isAdmin: res.data.user.admin,
         },
       });
       localStorage.setItem("firstLogin", true);

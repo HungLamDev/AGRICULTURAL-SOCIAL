@@ -11,7 +11,16 @@ const UserCard = ({ children, user, border, handleClose, setshowFollowers, setsh
     if (setshowFollowers) setshowFollowers(false);
     if (setshowFollowing) setshowFollowing(false);
   };
-
+  const showMsgPreview = (user) => {
+    const MAX_WORDS = 10; // Giới hạn số từ
+    if (user.text) {
+      const words = user.text.split(" "); // Tách tin nhắn thành mảng từ
+      const preview = words.slice(0, MAX_WORDS).join(" "); // Lấy tối đa 10 từ
+      return words.length > MAX_WORDS ? `${preview}...` : preview; // Thêm "..." nếu dài hơn
+    }
+    return "";
+  };
+  
   const showMsg = (user) => {
     return (
       <>
@@ -65,7 +74,10 @@ const UserCard = ({ children, user, border, handleClose, setshowFollowers, setsh
 
           <div className="ml-1" style={{ transform: "translateY(-6px)", paddingTop: "10px" }}>
             <span className="d-block">{user.username}</span>
-            <small style={{ opacity: 0.7 }}>{msg ? showMsg(user) : user.fullname}</small>
+            <small style={{ opacity: 0.7 }}>
+              {msg ? showMsgPreview(user) : user.fullname}
+            </small>
+
           </div>
         </Link>
       </div>
