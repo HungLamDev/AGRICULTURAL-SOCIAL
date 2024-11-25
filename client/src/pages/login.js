@@ -72,17 +72,18 @@ const Login = () => {
         >
           Đăng Nhập
         </button>
-
-        <p className="my-2 text-center">
-          Bạn chưa có tài khoản?{" "}
+        <div className="my-2 p-2" style={{display: 'flex', justifyContent: 'space-between'}}>
+          <div><Link to="/newpassword" style={{ textDecoration: "none" , color: 'blue'}}>Quên mật khẩu</Link></div>
+          <div>
+            Chưa có tài khoản? {' '}
           <Link
             to="/register"
             style={{ color: "crimson", textDecoration: "none" }}
           >
             Đăng ký
           </Link>
-          <Link className="p-1" to="/newpassword" style={{ textDecoration: "none" , color: 'blue'}}>Quên mật khẩu!</Link>
-        </p>
+          </div>
+        </div>
       </form>
     </div>
   );
