@@ -37,7 +37,7 @@ const notifyController = {
   getNotifies: async (req, res) => {
     console.log(req.user._id);
     try {
-      const notifies = await Notifies.find({ recipients: req.user._id })
+      const notifies = await Notifies.find({ recipients: req.user._id, deleted_at: null})
         .sort("-createdAt")
         .populate("user", "-password");
 
@@ -62,11 +62,14 @@ const notifyController = {
   },
   deleteAllNotifies: async (req, res) => {
     try {
-      const notifies = await Notifies.deleteMany({ recipients: req.user._id });
+        const notifies = await Notifies.updateMany(
+            { recipients: req.user._id }, // Tìm các thông báo của người nhận
+            { deleted_at: new Date() } // Cập nhật trường deleted_at với thời gian hiện tại
+        );
 
-      return res.json({ notifies });
+        return res.json({ notifies });
     } catch (err) {
-      return res.status(500).json({ msg: err.message });
+        return res.status(500).json({ msg: err.message });
     }
   },
 };

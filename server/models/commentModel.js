@@ -15,6 +15,7 @@ const commentSchema = new mongoose.Schema(
     },
     postId: mongoose.Schema.Types.ObjectId,
     postUserId: mongoose.Schema.Types.ObjectId,
+    deleted_at: { type: Date, default: null },
   },
   { timestamps: true }
 );

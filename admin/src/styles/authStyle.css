@@ -3,6 +3,12 @@
     min-height: 100vh;
     background: #fdfdfd;
     position: relative;
+    background-image: url('../images/logo_ngang.png'); /* Đường dẫn tới hình ảnh */
+    background-size: cover; /* Đảm bảo hình ảnh phủ toàn bộ */
+    background-position: center; /* Căn giữa hình ảnh */
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; 
 }
 .login_page form {
     background: #fff;

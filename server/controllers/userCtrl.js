@@ -1,4 +1,7 @@
 const Users = require("../models/userModel");
+const Posts = require("../models/postModel");
+const Comments = require("../models/commentModel");
+
 const bcrypt = require("bcrypt");
 const userCtrl = {
   searchUser: async (req, res) => {
@@ -24,7 +27,7 @@ const userCtrl = {
       const { id } = req.params;
       if (!id) return res.status(400).json({ msg: "ID is required" });
 
-      const user = await Users.findById(id)
+      const user = await Users.findOne({ _id: id, deleted_at: null })
         .select("-password")
         .populate("followers", "-password")
         .populate("following", "-password");
@@ -37,7 +40,7 @@ const userCtrl = {
   },
   getAllUsers: async (req, res) => {
     try {
-      const user = await Users.find()
+      const user = await Users.find({ deleted_at: null })
         .populate("following followers", "-password")
         .select("-password");
       return res.status(200).json(user);
@@ -103,13 +106,42 @@ const userCtrl = {
   },
   deleteUser: async (req, res) => {
     try {
-      //finbyidanddelete
-      const user = await Users.findByIdAndDelete(req.params.id);
-      return res.status(200).json("Delete user successfully !");
+      const userId = req.params.id;
+  
+      // Kiểm tra người dùng có tồn tại
+      const user = await Users.findOne({ _id: userId, deleted_at: null });
+      if (!user) {
+        return res
+          .status(404)
+          .json({ msg: "User not found or already deleted." });
+      }
+      const count = await Users.countDocuments({ email: /userdelete\d+@gmail\.com/ });
+      // Xóa mềm người dùng
+      user.deleted_at = new Date();
+      user.email = `userdelete${count + 1}@gmail.com`;
+      await user.save();
+
+      console.log('user bị xóa ', user.deleted_at);
+      
+      // Xóa mềm các bài viết của người dùng
+      await Posts.updateMany(
+        { user: userId, deleted_at: null },
+        { $set: { deleted_at: new Date() } }
+      );
+  
+      // Xóa mềm các bình luận của người dùng
+      await Comments.updateMany(
+        { user: userId, deleted_at: null },
+        { $set: { deleted_at: new Date() } }
+      );
+  
+      return res.status(200).json({ msg: "User deleted successfully!" });
     } catch (err) {
-      return res.status(500).json(err);
+      console.error("Error in deleteUser:", err); // Log lỗi chi tiết
+      return res.status(500).json({ msg: err.message });
     }
   },
+  
   follow: async (req, res) => {
     try {
       const user = await Users.find({
@@ -170,7 +202,7 @@ const userCtrl = {
       const num = req.query.num || 10;
 
       const users = await Users.aggregate([
-        { $match: { _id: { $nin: newArr } } },
+        { $match: { _id: { $nin: newArr }, deleted_at: null } },
         { $sample: { size: Number(num) } },
         {
           $lookup: {
@@ -206,6 +238,7 @@ const userCtrl = {
 
       const users = await Users.find({
         username: { $regex: regex },
+        deleted_at: { $exists: false },
       })
         .limit(5)
         .select("username avatar role");

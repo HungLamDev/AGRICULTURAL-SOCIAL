@@ -29,10 +29,10 @@ const CommentCard = ({ comment, post, commentId, children }) => {
     setContent(comment.content);
     setIsLike(false);
     setOnReply(false);
-    if (comment.likes.find((like) => like._id === auth.user._id)) {
+    if (comment.likes.find((like) => like._id === auth?.user?._id)) {
       setIsLike(true);
     }
-  }, [auth.user._id, comment]);
+  }, [auth?.user?._id, comment]);
 
   const handleUpdate = () => {
     if (comment.content !== content) {
@@ -72,12 +72,12 @@ const CommentCard = ({ comment, post, commentId, children }) => {
   return (
     <div className="comment_card mt-2" style={styleCard}>
       <Link
-        to={`user/${comment.user._id}`}
+        to={`user/${comment.user?._id}`}
         className="d-flex text-dark mb-2"
         style={{ textDecoration: "none" }}
       >
-        <Avatar src={comment.user.avatar} size="small-avatar" theme={theme} />
-        <h6 className="mx-1 mb-0">{comment.user.username}</h6>
+        <Avatar src={comment.user?.avatar} size="small-avatar" theme={theme} />
+        <h6 className="mx-1 mb-0">{comment.user?.username}</h6>
       </Link>
       <div className="comment_content">
         <div className="flex-fill"
@@ -96,10 +96,10 @@ const CommentCard = ({ comment, post, commentId, children }) => {
             <div>
               {comment.tag && (
                 <Link
-                  to={`user/${comment.tag._id}`}
+                  to={`user/${comment?.tag?._id}`}
                   style={{ paddingRight: "10px", textDecoration: "none" }}
                 >
-                  @{comment.tag.username}
+                  @{comment?.tag?.username}
                 </Link>
               )}
               <span>
@@ -166,9 +166,9 @@ const CommentCard = ({ comment, post, commentId, children }) => {
       </div>
       {onReply && (
         <CommentInput post={post} onReply={onReply} setOnReply={setOnReply}>
-          <Link to={`user/${onReply.user._id}`} className="mr-1">
+          <Link to={`user/${onReply.user?._id}`} className="mr-1">
             <Avatar
-              src={onReply.user.avatar}
+              src={onReply.user?.avatar}
               size="small-avatar"
               theme={theme}
             />

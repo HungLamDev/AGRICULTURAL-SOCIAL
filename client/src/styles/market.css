@@ -60,16 +60,6 @@
       transform: scale(1.1);
 }
 
-/* css  show tt sp giỏ hàng*/
-/* .card_detail {
-      margin: 20px auto;
-      max-width: 1200px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-} */
 
 .col-md-8,
 .col-md-4 {
@@ -147,7 +137,7 @@ h3 {
       color: #2980b9;
 }
 
-/* Avatar */
+
 .big-avatar {
       width: 60px;
       height: 60px;
@@ -155,7 +145,7 @@ h3 {
       border: 2px solid #ddd;
 }
 
-/* Buttons */
+
 .contact_phone span,
 .contact_message span {
       font-size: 16px;

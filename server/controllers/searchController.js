@@ -16,6 +16,7 @@ const searchController = {
       console.log("Regex:", regex);
       const users = await User.find({
         username: { $regex: regex },
+        deleted_at: null,
       })
         .limit(5)
         .select("username avatar roles");

@@ -9,77 +9,96 @@ export const POSTS_LOADING = {
   GET_POSTS: "GET_POSTS",
   LOADING_POST: "LOADING_POST",
   GET_POST: "GET_POST",
+  DELETE_POST: "DELETE_POST",
+  UPDATE_POST: "UPDATE_POST",
 };
 
+// Hàm xử lý lỗi chung
+const handleError = (dispatch, err) => {
+  dispatch({
+    type: GLOBALTYPES.NOTIFY,
+    payload: { err: err.response.data.msg || "Có lỗi xảy ra." },
+  });
+};
+
+// Lấy danh sách bài viết
 export const getPosts =
   ({ auth }) =>
   async (dispatch) => {
     try {
-      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
-
-      const res = await getDataAPI("/post/news/result", auth.token);
+      const res = await getDataAPI("post/news/result", auth.token);
       dispatch({
         type: POSTS_LOADING.GET_POSTS,
         payload: res.data,
       });
-
-      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
     } catch (err) {
-      dispatch({
-        type: GLOBALTYPES.NOTIFY,
-        payload: { err: err.response.data.msg },
-      });
+      handleError(dispatch, err);
+    } finally {
+      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
     }
   };
 
+// Lấy một bài viết
 export const getPost =
   ({ id, auth }) =>
   async (dispatch) => {
     try {
       dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
-      const res = await getDataAPI(`/post/${id}`, auth.token);
+
+      const res = await getDataAPI(`post/${id}`, auth.token);
       dispatch({
         type: POSTS_LOADING.GET_POST,
         payload: res.data,
       });
-      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
     } catch (err) {
-      dispatch({
-        type: GLOBALTYPES.NOTIFY,
-        payload: { err: err.response.data.msg },
-      });
+      handleError(dispatch, err);
+    } finally {
+      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
     }
   };
 
+// Cập nhật bài viết
 export const updatePost =
   ({ postData, auth }) =>
   async (dispatch) => {
     try {
-      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
-
-      //Notify to user
+      // Thông báo cho người dùng
       const msg = {
         id: postData.id,
         text: "Thông báo từ ADMIN !",
         recipients: postData.userId,
         url: `post/${postData.id}`,
-        content: postData.desc + " Đường dẫn: " + `post/${postData.id}`,
+        content: `${postData.desc} Đường dẫn: post/${postData.id}`,
         image: "",
       };
-      await postDataAPI("/notify", msg, auth.token);
-      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
-    } catch (err) {
+      await postDataAPI("notify", msg, auth.token);
+
       dispatch({
-        type: GLOBALTYPES.NOTIFY,
-        payload: { err: err.response.data.msg },
+        type: POSTS_LOADING.UPDATE_POST,
+        payload: postData, // Giả sử payload là postData
       });
+
+      // dispatch({
+      //   type: GLOBALTYPES.NOTIFY,
+      //   payload: { success: "Cập nhật bài viết thành công!" },
+      // });
+    } catch (err) {
+      handleError(dispatch, err);
+    } finally {
+      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
     }
   };
+
+// Xóa bài viết
 export const deletePost =
   ({ post, auth }) =>
   async (dispatch) => {
     try {
-      const res = await deleteDataAPI(`/post/${post._id}`, auth.token);
+      await deleteDataAPI(`post/${post._id}`, auth.token);
+      dispatch({
+        type: POSTS_LOADING.DELETE_POST,
+        payload: post._id,
+      });
 
       const msg = {
         id: post._id,
@@ -90,11 +109,14 @@ export const deletePost =
         image: "",
       };
 
-      await postDataAPI("/notify", msg, auth.token);
-    } catch (err) {
+      await postDataAPI("notify", msg, auth.token);
       dispatch({
         type: GLOBALTYPES.NOTIFY,
-        payload: { err: err.response.data.msg },
+        payload: { success: "Xóa bài viết thành công!" },
       });
+    } catch (err) {
+      handleError(dispatch, err);
+    } finally {
+      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
     }
   };

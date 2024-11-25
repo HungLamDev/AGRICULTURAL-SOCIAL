@@ -28,7 +28,7 @@ const diaryController = {
   },
   getDiary: async (req, res) => {
     try {
-      const diary = await Diary.find({ user: req.params.id })
+      const diary = await Diary.find({ user: req.params.id, deleted_at: null  })
         .populate("recipients user")
         .sort("-createdAt");
       return res.status(200).json({ diary });
@@ -38,7 +38,7 @@ const diaryController = {
   },
   getDiaryById: async (req, res) => {
     try {
-      const diary = await Diary.findById(req.params.id).populate(
+      const diary = await Diary.findById({ _id: req.params.id, deleted_at: null }).populate(
         "recipients user"
       );
       return res.status(200).json({ diary });
@@ -50,6 +50,7 @@ const diaryController = {
     try {
       const diaries = await Diary.find({
         user: [...req.user.followers, req.user._id],
+        deleted_at: null
       })
         .populate("recipients user")
         .sort("-createdAt");
@@ -88,12 +89,20 @@ const diaryController = {
   },
   deleteDiary: async (req, res) => {
     try {
-      await Diary.findOneAndDelete({ _id: req.params.id });
-      return res.status(200).json({ msg: "Xóa nhật ký thành công!" });
+        const diaryId = req.params.id;
+
+        const diary = await Diary.findById(diaryId);
+        if (!diary) {
+            return res.status(404).json({ msg: "Nhật ký không tồn tại!" });
+        }
+
+        diary.deleted_at = new Date();
+        await diary.save();
+        return res.json({ msg: "Xóa nhật ký thành công!" });
     } catch (err) {
-      return res.status(500).json({ msg: err.message });
+        return res.status(500).json({ msg: err.message });
     }
-  },
+},
   saveDiary: async (req, res) => {
     try {
       const user = await User.find({

@@ -53,7 +53,7 @@ const NotifyModal = () => {
         <DialogContent>
           {selectedNotification ? (
             <div>
-              <strong>{selectedNotification.user.username}</strong>
+              <strong>{selectedNotification.user?.username}</strong>
               <div>{selectedNotification.text}</div>
               <div>{selectedNotification.content}</div>
               <small className="text-muted">
@@ -107,11 +107,11 @@ const NotifyModal = () => {
                 style={{ textDecoration: "none" }}
                 onClick={() => handleIsRead(msg)}
               >
-                <Avatar src={msg.user.avatar} size="big-avatar" />
+                <Avatar src={msg?.user?.avatar} size="big-avatar" />
                 <div className="mx-1 flex-fill">
                   <div>
                     <strong style={{ marginRight: "10px" }}>
-                      {msg.user.username}
+                      {msg?.user?.username}
                     </strong>
                     <span>{msg.text}</span>
                   </div>
@@ -144,6 +144,7 @@ const NotifyModal = () => {
           ))}
         </div>
         <hr className="my-1" />
+
         <div className="delete_tb" onClick={handleOpenDeleteDialog}>
           Xóa tất cả
         </div>

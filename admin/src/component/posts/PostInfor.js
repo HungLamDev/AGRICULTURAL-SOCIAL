@@ -31,8 +31,7 @@ const PostInfor = () => {
   const handleOpenDeleteModal = () => setOpenDeleteModal(true);
   const handleCloseDeleteModal = () => setOpenDeleteModal(false);
 
-  // Hàm xác nhận xóa
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     dispatch(deletePost({ post, auth }));
     setOpenDeleteModal(false);
     window.location.reload();
@@ -68,15 +67,15 @@ const PostInfor = () => {
           <tbody>
             <tr>
               <th>ID</th>
-              <td>{post._id}</td>
+              <td>{post?._id}</td>
             </tr>
             <tr>
               <th>Username</th>
-              <td>{post.user.username}</td>
+              <td>{post.user?.username}</td>
             </tr>
             <tr>
               <th>Desc</th>
-              <td>{post.desc}</td>
+              <td>{post?.desc}</td>
             </tr>
             <tr>
               <th>Pic</th>
@@ -144,8 +143,8 @@ const PostInfor = () => {
           open={openDeleteModal}
           onClose={handleCloseDeleteModal}
           onConfirm={handleConfirmDelete}
-          title="Xóa người dùng"
-          content="Bạn có chắc chắn muốn xóa người dùng này?"
+          title="Xóa bài viết"
+          content="Bạn có chắc chắn muốn xóa bài viết này?"
         />
       </div>
     </div>

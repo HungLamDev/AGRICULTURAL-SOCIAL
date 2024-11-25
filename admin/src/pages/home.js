@@ -5,6 +5,7 @@ import { getUsers } from "../redux/actions/usersAction";
 import { getReports } from "../redux/actions/reportAction";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { Navigate } from "react-router-dom";
 
 const HomePage = () => {
   const dispatch = useDispatch();

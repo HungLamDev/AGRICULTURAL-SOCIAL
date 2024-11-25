@@ -44,6 +44,7 @@ const Home = () => {
           <div className=" col-md-4">
             <RightSideBar />
           </div>
+          <div className="col-md-1"></div>
         </div>
       </div>
     </div>

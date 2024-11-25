@@ -15,7 +15,7 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  background-color: #77e07c; /* Green color for the dots */
+  background-color: #77e07c;
   border-radius: 50%;
   animation: spin 1.2s linear infinite;
 }
@@ -28,23 +28,6 @@
 .dot6 { top: 85%; left: 14%; animation-delay: -0.6s; }
 .dot7 { top: 50%; left: 0%; animation-delay: -0.5s; }
 .dot8 { top: 14%; left: 14%; animation-delay: -0.4s; }
-.time-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 5px; /* Độ cao của thanh */
-  background-color: #cecfce; /* Màu của thanh thời gian */
-  animation: countdown 5s linear forwards; /* Thời gian chạy là 5s */
-}
-
-@keyframes countdown {
-  from {
-    width: 100%; /* Bắt đầu với chiều rộng đầy đủ */
-  }
-  to {
-    width: 0%; /* Kết thúc với chiều rộng bằng 0 */
-  }
-}
 
 @keyframes spin {
   0% { transform: scale(1); }

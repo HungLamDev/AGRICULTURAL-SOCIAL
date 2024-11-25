@@ -3,10 +3,9 @@ import { postDataAPI } from "../../unitils/fetchData";
 
 export const login = (data) => async (dispatch) => {
   try {
-    dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
     const res = await postDataAPI("login", data);
 
-    if (res.data.user.admin === true) {
+    if (res.data?.user?.admin === true) {
       dispatch({
         type: GLOBALTYPES.AUTH,
         payload: {

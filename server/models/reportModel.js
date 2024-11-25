@@ -7,6 +7,7 @@ const reportSchema = new mongoose.Schema(
     text: String,
     type: String,
     act: String,
+    deleted_at: { type: Date, default: null },
   },
   { timestamps: true }
 );

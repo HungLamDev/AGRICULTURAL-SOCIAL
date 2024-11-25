@@ -110,7 +110,7 @@ const ReportInfor = () => {
           onClose={handleCloseDeleteModal}
           onConfirm={handleConfirmDelete}
           title="Xóa người dùng"
-          content="Bạn có chắc chắn muốn xóa người dùng này?"
+          content="Bạn có chắc chắn muốn xóa báo cáo này?"
         />
       </div>
     </div>

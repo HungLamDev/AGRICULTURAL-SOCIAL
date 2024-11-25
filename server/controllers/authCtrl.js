@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const RefreshToken = require("../models/refreshTokenModel");
 const jwt = require("jsonwebtoken");
 
-
 const createAccessToken = (user) => {
   return jwt.sign(
     {
@@ -29,45 +28,45 @@ const createRefreshToken = (user) => {
 const authCtrl = {
   register: async (req, res) => {
     try {
-      const { username, email, password } = req.body; 
+      const { username, email, password } = req.body;
       const name = await User.findOne({ username: username });
       if (name)
         return res.status(400).json({ msg: "Tên đăng nhập đã được đăng ký!" });
-      
+
       const user_email = await User.findOne({ email: email });
       if (user_email)
         return res.status(409).json({ msg: "Email này đã tồn tại!" });
-      
+
       if (password.length < 6)
         return res
           .status(404)
           .json({ msg: "Mật khẩu phải có ít nhất 6 ký tự trở lên!" });
-      
+
       const passwordHash = await bcrypt.hash(password, 12);
-      const newUser  = new User({
+      const newUser = new User({
         username: username,
         email: email,
         password: passwordHash,
         role: req.body.role,
       });
 
-      const access_token = createAccessToken(newUser );
-      const refresh_token = createRefreshToken(newUser );
+      const access_token = createAccessToken(newUser);
+      const refresh_token = createRefreshToken(newUser);
       res.cookie("refreshtoken", refresh_token, {
         httpOnly: true,
         path: "/api/refresh_token",
         maxAge: 30 * 24 * 60 * 60 * 1000,
       });
 
-      await newUser .save();
+      await newUser.save();
       res.json({
         msg: "Đăng Ký Thành Công!",
         access_token,
         user: {
-          id: newUser ._id,
+          id: newUser._id,
           username: username,
-          email: newUser .email,
-          role: newUser .role,
+          email: newUser.email,
+          role: newUser.role,
         },
       });
     } catch (err) {
@@ -77,9 +76,9 @@ const authCtrl = {
   login: async (req, res) => {
     try {
       const { email, password } = req.body;
-      const user = await User.findOne({ email: req.body.email }).populate(
-        "followers following"
-      );
+      const user = await User.findOne({
+        email: req.body.email
+      }).populate("followers following");
       if (!user)
         return res.status(400).json({ msg: "Email này không tồn tại!" });
       const isMatch = await bcrypt.compare(password, user.password);

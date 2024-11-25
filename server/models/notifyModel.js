@@ -10,6 +10,7 @@ const notifySchema = new mongoose.Schema(
     content: String,
     image: String,
     isRead: { type: Boolean, default: false },
+    deleted_at: { type: Date, default: null },
   },
   {
     timestamps: true,

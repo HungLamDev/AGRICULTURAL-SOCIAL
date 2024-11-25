@@ -35,6 +35,9 @@ function App() {
   useEffect(() => {
     const socket = io("http://localhost:8000");
     dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
+    socket.on("connect", () => {
+      console.log("Socket ID:", socket.id); // In ID socket
+    });
     return () => socket.close();
   }, [dispatch]);
 
@@ -49,8 +52,11 @@ function App() {
 
   useEffect(() => {
     const newPeer = new Peer(undefined, {
-      host: "/",
-      port: 3001,
+      path: "/",
+      secure: true,
+    });
+    newPeer.on("open", (id) => {
+      console.log("My peer ID is: " + id);
     });
     dispatch({ type: GLOBALTYPES.PEER, payload: newPeer });
   }, [dispatch]);

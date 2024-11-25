@@ -18,11 +18,11 @@ const reportController = {
   },
   getReport: async (req, res) => {
     try {
-      const report = await Report.find().populate("user");
-      console.log(report);
-      return res.status(200).json({ report });
+        const report = await Report.find({ deleted_at: null }).populate("user");
+        console.log(report);
+        return res.status(200).json({ report });
     } catch (err) {
-      return res.status(500).json({ msg: err.message });
+        return res.status(500).json({ msg: err.message });
     }
   },
   updateReport: async (req, res) => {
@@ -35,11 +35,19 @@ const reportController = {
   },
   deleteReport: async (req, res) => {
     try {
-      const report = await Report.findByIdAndDelete(req.params.id);
-      return res.status(200).json({ report });
+        const reportId = req.params.id;
+
+        const report = await Report.findById(reportId);
+        if (!report) {
+            return res.status(404).json({ msg: "Báo cáo không tồn tại!" });
+        }
+
+        report.deleted_at = new Date();
+        await report.save();
+        return res.json({ msg: "Xóa báo cáo thành công!" });
     } catch (err) {
-      return res.status(500).json({ msg: err.message });
+        return res.status(500).json({ msg: err.message });
     }
-  },
+  }
 };
 module.exports = reportController;

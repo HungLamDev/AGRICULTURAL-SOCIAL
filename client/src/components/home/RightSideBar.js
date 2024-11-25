@@ -25,7 +25,7 @@ const RightSideBar = () => {
         {!suggestions.loading && (
           <i
             className="fas fa-redo"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", paddingRight: '50px'}}
             onClick={() => dispatch(getSuggestions(auth.token))}
           />
         )}

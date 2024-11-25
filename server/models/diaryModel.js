@@ -6,6 +6,7 @@ const diarySchema = new mongoose.Schema(
     recipients: [{ type: mongoose.Schema.Types.ObjectId, ref: "post" }],
     text: String,
     media: Array,
+    deleted_at: { type: Date, default: null },
   },
   { timestamps: true }
 );

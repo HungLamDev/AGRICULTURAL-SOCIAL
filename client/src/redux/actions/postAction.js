@@ -250,14 +250,19 @@ export const deletePost =
       const msg = {
         id: post._id,
         text: "Xóa bài viết !",
-        recipients: res.data.newPost.user.followers,
+        recipients: res.data.newPost ? res.data.newPost.user.followers : [],
         url: `post/${post._id}`,
       };
       dispatch(removeNotify({ msg, auth, socket }));
     } catch (err) {
+      console.error(err); // In ra lỗi để kiểm tra
+      const errorMessage =
+        err.response && err.response.data
+          ? err.response.data.msg
+          : "Có lỗi xảy ra.";
       dispatch({
         type: GLOBALTYPES.ALERT,
-        payload: { err: err.response.data.msg },
+        payload: { err: errorMessage },
       });
     }
   };

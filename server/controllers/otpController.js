@@ -14,12 +14,12 @@ exports.sendOtp = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({email});
     if (user) {
       return res.status(400).json({ msg: "Email đã tồn tại!" });
     }
     const otp = crypto.randomBytes(3).toString("hex");
-    const expiryTime = Date.now() + 30 * 1000;
+    const expiryTime = Date.now() + 5*60*1000;
 
     const { EMAIL, EMAIL_PASSWORD } = process.env;
     if (!EMAIL || !EMAIL_PASSWORD) {

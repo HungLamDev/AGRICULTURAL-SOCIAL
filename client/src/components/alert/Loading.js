@@ -24,7 +24,6 @@ const Loading = () => {
         <div className="dot dot7"></div>
         <div className="dot dot8"></div>
       </div>
-      <div className="time-bar"></div>
     </div>
   );
 };

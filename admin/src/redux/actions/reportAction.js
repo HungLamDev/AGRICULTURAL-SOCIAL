@@ -42,7 +42,11 @@ export const updateReports =
       );
       dispatch({
         type: GLOBALTYPES.NOTIFY,
-        payload: { loading: false, success: "Cập nhật báo cáo thành công!" },
+        payload: { loading: false },
+      });
+      dispatch({
+        type: GLOBALTYPES.NOTIFY,
+        payload: { success: "Cập nhật báo cáo thành công!" },
       });
     } catch (err) {
       dispatch({
@@ -57,7 +61,14 @@ export const deleteReport =
     try {
       dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: true } });
       await deleteDataAPI(`report/${reportData.id}`, auth.token);
-      dispatch({ type: GLOBALTYPES.NOTIFY, payload: { loading: false } });
+      dispatch({
+        type: GLOBALTYPES.NOTIFY,
+        payload: { loading: false },
+      });
+      dispatch({
+        type: GLOBALTYPES.NOTIFY,
+        payload: { success: "Xóa Report thành công!" },
+      });
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.NOTIFY,

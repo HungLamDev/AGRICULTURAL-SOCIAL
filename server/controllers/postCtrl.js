@@ -1,6 +1,8 @@
 const Post = require("../models/postModel");
 const Comments = require("../models/commentModel");
 const User = require("../models/userModel");
+const Notification = require("../models/notifyModel");
+
 class APIfeatures {
   constructor(query, queryString) {
     this.query = query;
@@ -15,13 +17,18 @@ class APIfeatures {
     return this;
   }
 }
+
+const getActivePostsQuery = () => {
+  return { deleted_at: null };
+};
+
 const postCtrl = {
   createPost: async (req, res) => {
     try {
       const { desc, img, hashtag } = req.body;
 
       if (!req.user || !req.user._id) {
-        return res.status(400).json({ msg: "User is not authenticated." });
+        return res.status(400).json({ msg: "User  is not authenticated." });
       }
       const newPost = new Post({ hashtag, desc, img, user: req.user._id });
 
@@ -37,15 +44,16 @@ const postCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   getPosts: async (req, res) => {
     try {
-      const posts = await Post.find()
-      .sort("-createdAt")
-      .populate("user like", "-password")
-      .populate({
-        path: "comments",
-        populate: { path: "user likes", select: "-password" },
-      });
+      const posts = await Post.find(getActivePostsQuery())
+        .sort("-createdAt")
+        .populate("user like", "-password")
+        .populate({
+          path: "comments",
+          populate: { path: "user likes", select: "-password" },
+        });
 
       return res.status(200).json({
         msg: "Lấy bài viết thành công!",
@@ -56,11 +64,12 @@ const postCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   getNewsPost: async (req, res) => {
     try {
-      const post = await Post.find()
+      const post = await Post.find(getActivePostsQuery())
         .sort("-createdAt")
-        .populate("user like", " -password")
+        .populate("user like", "-password")
         .populate({
           path: "comments",
           populate: { path: "user likes", select: "-password" },
@@ -74,25 +83,34 @@ const postCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   updatePost: async (req, res) => {
     try {
       const { hashtag, desc, img } = req.body;
       if (!req.user || !req.user._id) {
-        return res.status(400).json({ msg: "User is not authenticated." });
+        return res.status(400).json({ msg: "User  is not authenticated." });
       }
       const post = await Post.findOneAndUpdate(
-        { _id: req.params.id },
+        { _id: req.params.id, ...getActivePostsQuery() },
         {
           desc,
           img,
           hashtag,
-        }
+        },
+        { new: true }
       )
         .populate("user like", "-password")
         .populate({
           path: "comments",
           populate: { path: "user likes", select: "-password" },
         });
+
+      if (!post) {
+        return res
+          .status(404)
+          .json({ msg: "Bài viết không tồn tại hoặc đã bị xóa!" });
+      }
+
       return res.status(200).json({
         msg: "Cập nhật bài viết thành công !",
         newPost: {
@@ -106,14 +124,24 @@ const postCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   getPost: async (req, res) => {
     try {
-      const post = await Post.findById(req.params.id)
+      const post = await Post.findOne({
+        _id: req.params.id,
+        ...getActivePostsQuery(),
+      })
         .populate("user like", "-password")
         .populate({
           path: "comments",
           populate: { path: "user likes", select: "-password" },
         });
+
+      if (!post) {
+        return res
+          .status(404)
+          .json({ msg: "Bài viết không tồn tại hoặc đã bị xóa!" });
+      }
 
       return res.status(200).json({
         post,
@@ -122,11 +150,12 @@ const postCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   likePost: async (req, res) => {
     try {
       const post = await Post.find({ _id: req.params.id, like: req.user._id });
       if (post.length > 0)
-        return res.status(403).json({ msg: "Bạn đã thích bài viết nảy rồi !" });
+        return res.status(403).json({ msg: "Bạn đã thích bài viết này rồi !" });
       const updatedPost = await Post.findOneAndUpdate(
         { _id: req.params.id },
         {
@@ -140,6 +169,7 @@ const postCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   unlikePost: async (req, res) => {
     try {
       await Post.findOneAndUpdate(
@@ -154,14 +184,19 @@ const postCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   getUserPost: async (req, res) => {
     try {
-      const posts = await Post.find({ user: req.params.id }).sort("-createdAt");
+      const posts = await Post.find({
+        user: req.params.id,
+        ...getActivePostsQuery(),
+      }).sort("-createdAt");
       return res.status(200).json({ posts, result: posts.length });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   getSavePosts: async (req, res) => {
     try {
       const features = new APIfeatures(
@@ -181,25 +216,46 @@ const postCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   deletePost: async (req, res) => {
     try {
-      const post = await Post.findOneAndDelete({
-        _id: req.params.id,
-        user: req.user._id,
-      });
-      await Comments.deleteMany({ _id: { $in: post.comments } });
+      const postId = req.params.id;
+      const userId = req.user._id;
 
-      res.json({
-        msg: "Xóa bài viết thành công !",
-        newPost: {
-          ...post,
-          user: req.user,
-        },
-      });
+      console.log(
+        `Cố gắng xóa bài viết với ID: ${postId} bởi người dùng với ID: ${userId}`
+      );
+
+      const post = await Post.findById(postId);
+      console.log("Bài viết tìm thấy:", post);
+
+      if (!post) {
+        return res.status(404).json({ msg: "Bài viết không tồn tại!" });
+      }
+
+      if (
+        req.user.admin === true ||
+        post.user.toString() === userId.toString()
+      ) {
+        post.deleted_at = new Date();
+        await post.save();
+        await Notification.updateMany(
+          { post: postId }, 
+          { deleted_at: new Date() } 
+        );
+        return res.json({
+          msg: "Xóa bài viết thành công !",
+        });
+      } else {
+        return res
+          .status(403)
+          .json({ msg: "Bạn không có quyền xóa bài viết này!" });
+      }
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   savePost: async (req, res) => {
     try {
       const user = await User.find({
@@ -229,6 +285,7 @@ const postCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   unSavePost: async (req, res) => {
     try {
       const save = await User.findOneAndUpdate(
@@ -236,7 +293,7 @@ const postCtrl = {
           _id: req.user._id,
         },
         {
-          $push: { saved: req.params.id },
+          $pull: { saved: req.params.id },
         },
         { new: true }
       );
@@ -249,4 +306,5 @@ const postCtrl = {
     }
   },
 };
+
 module.exports = postCtrl;
