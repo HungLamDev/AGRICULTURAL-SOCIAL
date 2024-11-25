@@ -4,9 +4,12 @@
     padding: 20px;
     background-color: #f7f8fa; /* Light background color for contrast */
   }
-  
+  .row_home{
+    justify-content: space-around;
+  }
   .row {
     display: flex;
+    justify-content: space-around;
   }
   
   .border_box {

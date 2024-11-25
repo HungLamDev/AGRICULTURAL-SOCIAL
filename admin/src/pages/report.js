@@ -79,7 +79,7 @@ const Report = () => {
               <td>{new Date(item.createdAt).toLocaleString()}</td>
               <td>{new Date(item.updatedAt).toLocaleString()}</td>
               <td>{item.act}</td>
-              <td onClick={() => handleGetReport(item)}>Xem</td>
+              <td style={{textDecoration: 'none'}} onClick={() => handleGetReport(item)}>Xem</td>
             </tr>
           ))}
         </tbody>

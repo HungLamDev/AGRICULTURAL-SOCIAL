@@ -27,7 +27,7 @@ const HomePage = () => {
   }, [auth.token, auth.user.admin, navigate]);
   return (
     <div className="home_page w-100">
-      <div className="row">
+      <div className="row row-home">
         <div className="total_user col-md-3 border_box">
           <h5>Người dùng</h5>
           <span>{users.users.length}</span>

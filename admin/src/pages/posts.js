@@ -82,7 +82,7 @@ const PostsPage = () => {
               <td>{post.comments.length}</td>
               <td>{new Date(post.createdAt).toLocaleString()}</td>
               <td>{new Date(post.updatedAt).toLocaleString()}</td>
-              <td onClick={() => handleGetPost(post)}>Xem</td>
+              <td style={{textDecoration: 'none'}} onClick={() => handleGetPost(post)}>Xem</td>
             </tr>
           ))}
         </tbody>

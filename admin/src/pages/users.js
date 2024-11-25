@@ -86,7 +86,7 @@ const UsersPage = () => {
               <td>{user.role}</td>
               <td>{new Date(user.createdAt).toLocaleString()}</td>
               <td>{new Date(user.updatedAt).toLocaleString()}</td>
-              <td onClick={() => handleGetUser(user)}>Xem</td>
+              <td style={{textDecoration: 'none'}} onClick={() => handleGetUser(user)}>Xem</td>
             </tr>
           ))}
         </tbody>
