@@ -36,9 +36,14 @@ export const updateUser =
   ({ userData, auth }) =>
   async (dispatch) => {
     try {
-      const currentUser = await getDataAPI(`user/${userData.id}`, auth.token);
-      const defaultRole = "currentUser"; 
+      console.log({ userData });
 
+      const currentUser = await getDataAPI(`user/${userData.id}`, auth.token);
+      console.log({ userData });
+
+      const defaultRole = "currentUser"; // Thay đổi giá trị này theo giá trị mặc định của bạn
+
+      // Kiểm tra và cập nhật quyền của user
       if (userData.role && userData.role !== currentUser.role) {
         await patchDataAPI(
           `user/${userData.id}`,

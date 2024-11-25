@@ -78,10 +78,10 @@ export const updatePost =
         payload: postData, // Giả sử payload là postData
       });
 
-      // dispatch({
-      //   type: GLOBALTYPES.NOTIFY,
-      //   payload: { success: "Cập nhật bài viết thành công!" },
-      // });
+      dispatch({
+        type: GLOBALTYPES.NOTIFY,
+        payload: { success: "Cập nhật bài viết thành công!" },
+      });
     } catch (err) {
       handleError(dispatch, err);
     } finally {

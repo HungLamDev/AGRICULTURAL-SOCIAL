@@ -11,7 +11,7 @@ const PostsPage = () => {
 
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 8;
 
   const handleGetPost = (post) => {
     dispatch({ type: POSTS_LOADING.LOADING_POST, payload: true });
