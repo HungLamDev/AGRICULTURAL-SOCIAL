@@ -1,14 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const Toast = ({ msg, handleShow, bgColor }) => {
+  const [isVisible, setIsVisible] = useState(true); // Trạng thái hiển thị của Toast
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      handleShow();
-    }, 5000); // Tự động tắt sau 5 giây
+      setIsVisible(false); // Tự động ẩn Toast sau 5 giây
+    }, 5000);
 
-    // Xóa timer khi component bị huỷ
-    return () => clearTimeout(timer);
-  }, [handleShow]);
+    return () => clearTimeout(timer); // Dọn dẹp timer khi component bị huỷ
+  }, []);
+
+  // Hàm xử lý đóng Toast
+  const closeToast = () => {
+    setIsVisible(false);
+    handleShow(); // Gọi handleShow từ Alert.js để thay đổi trạng thái ở đó
+  };
+
+  // Nếu Toast không hiển thị, return null
+  if (!isVisible) return null;
 
   return (
     <div
@@ -25,8 +35,9 @@ const Toast = ({ msg, handleShow, bgColor }) => {
             border: "none",
             cursor: "pointer",
             fontSize: "1.5rem",
+            marginLeft: 'auto',
           }}
-          onClick={handleShow}
+          onClick={closeToast}
         >
           &times;
         </button>

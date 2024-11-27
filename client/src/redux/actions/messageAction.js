@@ -12,20 +12,27 @@ export const MESS_TYPES = {
   MARK_MESSAGE_READ: "MARK_MESSAGE_READ",
 };
 
-export const addMessage = ({ msg, auth, socket }) =>
-  async (dispatch) => {
-    dispatch({ type: MESS_TYPES.ADD_MESSAGE, payload: msg });
-    const { _id, avatar, fullname, username } = auth.user
-    socket.emit("addMessage", {...msg, user: { _id, avatar, fullname, username } });
-    try {
-      await postDataAPI("message", msg, auth.token);
-    } catch (err) {
-      dispatch({
-        type: GLOBALTYPES.ALERT,
-        payload: { error: err.response.data.msg },
-      });
-    }
-  };
+export const addMessage = ({ msg, auth, socket }) => async (dispatch) => {
+
+  const { _id, avatar, fullname, username } = auth.user
+    // Lấy thời gian hiện tại
+  const timestamp = new Date().toISOString();
+  
+  // Thêm trường lastMessageTime vào msg
+  const updatedMsg = { ...msg, lastMessageTime: timestamp };
+
+  dispatch({ type: MESS_TYPES.ADD_MESSAGE, payload: updatedMsg });
+  socket.emit("addMessage", { ...updatedMsg, user: { _id, avatar, fullname, username } });
+
+  try {
+    await postDataAPI("message", updatedMsg, auth.token); // Gửi `updatedMsg` thay vì `msg`
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: { error: err.response.data.msg },
+    });
+  }
+};
 
 export const getConversations = ({ auth,page = 1 }) => async (dispatch) => {
     try {

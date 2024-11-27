@@ -72,7 +72,7 @@ const Index = () => {
       <div>
         <h5 className="title_post">Người dùng hàng đầu</h5>
         <div
-          className="suggestions d-flex justify-content-center"
+          className="suggestions d-flex justify-content-center "
           style={{ overflow: "auto" }}
         >
           {suggestions.users

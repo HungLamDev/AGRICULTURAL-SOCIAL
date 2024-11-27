@@ -1,7 +1,7 @@
 const Users = require("../models/userModel");
 const Posts = require("../models/postModel");
 const Comments = require("../models/commentModel");
-
+const Products = require("../models/productModel")
 const bcrypt = require("bcrypt");
 const userCtrl = {
   searchUser: async (req, res) => {
@@ -134,10 +134,14 @@ const userCtrl = {
         { user: userId, deleted_at: null },
         { $set: { deleted_at: new Date() } }
       );
-  
-      return res.status(200).json({ msg: "User deleted successfully!" });
+      await Products.updateMany(
+        { user: userId, deleted_at: null },
+        { $set: { deleted_at: new Date() } }
+      );
+      
+      return res.status(200).json({ msg: "Xóa thành công người dùng" });
     } catch (err) {
-      console.error("Error in deleteUser:", err); // Log lỗi chi tiết
+      console.error("Lỗi xóa người dùng:", err); // Log lỗi chi tiết
       return res.status(500).json({ msg: err.message });
     }
   },

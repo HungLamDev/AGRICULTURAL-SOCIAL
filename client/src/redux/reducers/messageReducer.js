@@ -20,6 +20,24 @@ const messageReducer = (state = initialState, action) => {
             }
             return state;
         case MESS_TYPES.ADD_MESSAGE:
+            const updatedUsers = state.users.map((user) =>
+            user._id === action.payload.recipient || user._id === action.payload.sender
+                ? {
+                    ...user,
+                    text: action.payload.text,
+                    media: action.payload.media,
+                    call: action.payload.call,
+                    lastMessageTime: action.payload.lastMessageTime, // Cập nhật thời gian cuối cùng
+                }
+                : user
+            );
+        
+            // Sắp xếp người dùng theo thời gian nhắn tin gần nhất
+            const sortedUsers = updatedUsers.sort((a, b) => {
+            const timeA = a.lastMessageTime ? new Date(a.lastMessageTime).getTime() : 0;
+            const timeB = b.lastMessageTime ? new Date(b.lastMessageTime).getTime() : 0;
+            return timeB - timeA; // Sắp xếp giảm dần
+            });
             return {
                 ...state,
                 data: state.data.map(item => 
@@ -29,16 +47,7 @@ const messageReducer = (state = initialState, action) => {
                     result :  item.result + 1}
                     : item
                 ),
-                users: state.users.map( user =>
-                    user._id === action.payload.recipient || user._id === action.payload.sender 
-                    ? {
-                        ...user, 
-                        text: action.payload.text, 
-                        media: action.payload.media,
-                        call: action.payload.call,
-                    }
-                    : user
-                ), 
+                users: sortedUsers,
                 newMessages: {
                     ...state.newMessages,
                     [action.payload.sender]: true, // Đánh dấu có tin nhắn mới

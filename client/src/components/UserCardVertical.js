@@ -21,11 +21,11 @@ const UserCardVertical = ({
     <div
       className={`d-flex p-2 align-items-center justify-content-between w-100 ${border}`}
     >
-      <div>
+      <div >
         <Link
           to={`/user/${user._id}`}
           onClick={handleCloseAll}
-          className="d-flex align-items-center"
+          className="d-flex align-items-center p-2"
           style={{ textDecoration: "none", color: "#000" }}
         >
           <Avatar src={user.avatar} size="big-avatar"/>

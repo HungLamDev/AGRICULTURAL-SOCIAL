@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   POSTS_LOADING,
@@ -6,20 +6,31 @@ import {
   updatePost,
 } from "../../redux/actions/postsAction";
 import ConfirmDeleteModal from "../ConfirmDeleteModal";
+
 const PostInfor = () => {
   const post = useSelector((state) => state.posts.post);
   const auth = useSelector((state) => state.auth);
+  const { success, error } = useSelector((state) => state.global || {}); // Lấy success và error từ Redux
 
-  const initialState = {
+  const dispatch = useDispatch();
+  const [postData, setPostData] = useState({
     desc: "",
     userId: post.user._id,
     id: post._id,
-  };
-
-  const dispatch = useDispatch();
-  const [postData, setPostData] = useState(initialState);
+  });
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  // Lắng nghe sự thay đổi của success và error
+  useEffect(() => {
+    if (success) {
+      alert(success); // Hiển thị thông báo thành công
+    }
+    if (error) {
+      alert(error); // Hiển thị thông báo lỗi
+    }
+  }, [success, error]); // Chạy lại khi success hoặc error thay đổi
+
   const handleClose = () => {
     dispatch({ type: POSTS_LOADING.LOADING_POST, payload: false });
   };
@@ -28,13 +39,13 @@ const PostInfor = () => {
     const { name, value } = e.target;
     setPostData({ ...postData, [name]: value });
   };
+
   const handleOpenDeleteModal = () => setOpenDeleteModal(true);
   const handleCloseDeleteModal = () => setOpenDeleteModal(false);
 
   const handleConfirmDelete = async () => {
     dispatch(deletePost({ post, auth }));
     setOpenDeleteModal(false);
-    window.location.reload();
   };
 
   const imageShow = (src) => {
@@ -46,6 +57,7 @@ const PostInfor = () => {
       <video controls src={src} alt="images" style={{ maxHeight: "200px" }} />
     );
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
@@ -130,12 +142,20 @@ const PostInfor = () => {
             name="desc"
           />
           <div className="d-flex justify-content-end mt-2">
-            <button className="btn btn-success me-2" type="submit">
-              Cập nhật
-            </button>
-            <button className="btn btn-danger" onClick={handleOpenDeleteModal}>
-              Xoá
-            </button>
+            <div>
+              <button className="btn btn-success me-2" type="submit">
+                Cập nhật
+              </button>
+            </div>
+            <div>
+              <button
+                className="btn btn-danger"
+                onClick={handleOpenDeleteModal}
+                type="button"
+              >
+                Xoá
+              </button>
+            </div>
           </div>
         </form>
 

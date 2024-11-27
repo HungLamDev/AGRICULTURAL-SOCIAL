@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   REPORTS_LOADING,
   updateReports,
@@ -11,6 +11,9 @@ const ReportInfor = () => {
   const report = useSelector((state) => state.reports.report);
   const auth = useSelector((state) => state.auth);
 
+  // Lấy thông báo từ state.global nếu có
+  const { success, error } = useSelector((state) => state.global || {});
+
   const dispatch = useDispatch();
 
   const initialState = {
@@ -20,6 +23,7 @@ const ReportInfor = () => {
 
   const [reportData, setReportData] = useState(initialState);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
   const handleChangeValue = (e) => {
     const { name, value } = e.target;
     setReportData({ ...reportData, [name]: value });
@@ -41,8 +45,19 @@ const ReportInfor = () => {
   const handleConfirmDelete = () => {
     dispatch(deleteReport({ reportData, auth }));
     setOpenDeleteModal(false);
-    window.location.reload();
   };
+
+  // UseEffect để theo dõi thông báo success và error từ Redux
+  useEffect(() => {
+    if (success) {
+      alert(success); // Hiển thị thông báo thành công
+    }
+
+    if (error) {
+      alert(error); // Hiển thị thông báo lỗi
+    }
+  }, [success, error]); // Chạy lại khi success hoặc error thay đổi
+
   return (
     <div className="post_infor">
       <div className="post_infor_container">
@@ -100,16 +115,18 @@ const ReportInfor = () => {
             <button className="btn btn-success me-2" type="submit">
               Cập nhật
             </button>
-            <button className="btn btn-danger" onClick={handleOpenDeleteModal}>
+            <button type="button" className="btn btn-danger" onClick={handleOpenDeleteModal}>
               Xoá
             </button>
           </div>
         </form>
+
+        {/* Modal xác nhận xóa */}
         <ConfirmDeleteModal
           open={openDeleteModal}
           onClose={handleCloseDeleteModal}
           onConfirm={handleConfirmDelete}
-          title="Xóa người dùng"
+          title="Xóa báo cáo"
           content="Bạn có chắc chắn muốn xóa báo cáo này?"
         />
       </div>

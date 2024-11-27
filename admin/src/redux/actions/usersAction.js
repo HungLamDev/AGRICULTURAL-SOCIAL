@@ -36,10 +36,7 @@ export const updateUser =
   ({ userData, auth }) =>
   async (dispatch) => {
     try {
-      console.log({ userData });
-
       const currentUser = await getDataAPI(`user/${userData.id}`, auth.token);
-      console.log({ userData });
 
       const defaultRole = "currentUser"; // Thay đổi giá trị này theo giá trị mặc định của bạn
 
@@ -61,6 +58,10 @@ export const updateUser =
         };
 
         await postDataAPI("notify", msgRole, auth.token);
+        dispatch({
+          type: GLOBALTYPES.NOTIFY,
+          payload: { success: "Cập nhật quyền thành công!" },
+        });
       } else if (userData.role === defaultRole) {
         // Nếu role không thay đổi và bằng giá trị mặc định
         const msgNoChangeRole = {
@@ -73,6 +74,10 @@ export const updateUser =
         };
 
         await postDataAPI("notify", msgNoChangeRole, auth.token);
+        dispatch({
+          type: GLOBALTYPES.NOTIFY,
+          payload: { success: "Quyền truy cập không thay đổi." },
+        });
       }
 
       // Kiểm tra và cập nhật story của user
@@ -93,6 +98,10 @@ export const updateUser =
         };
 
         await postDataAPI("notify", msgStoryChange, auth.token);
+        dispatch({
+          type: GLOBALTYPES.NOTIFY,
+          payload: { success: "Cập nhật câu chuyện thành công!" },
+        });
       }
     } catch (err) {
       dispatch({
@@ -118,10 +127,14 @@ export const updateUser =
         };
 
         await postDataAPI("/notify", msg, auth.token);
-    } catch (err) {
         dispatch({
-            type: GLOBALTYPES.NOTIFY,
-            payload: { err: err.response.data.msg },
+          type: GLOBALTYPES.NOTIFY,
+          payload: { success: "Xóa người dùng thành công!" },
         });
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.NOTIFY,
+        payload: { success: "Xóa người dùng thất bại!" },
+      });
     }
 };

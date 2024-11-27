@@ -63,8 +63,8 @@ const notifyController = {
   deleteAllNotifies: async (req, res) => {
     try {
         const notifies = await Notifies.updateMany(
-            { recipients: req.user._id }, // Tìm các thông báo của người nhận
-            { deleted_at: new Date() } // Cập nhật trường deleted_at với thời gian hiện tại
+            { recipients: req.user._id }, 
+            { deleted_at: new Date() } 
         );
 
         return res.json({ notifies });

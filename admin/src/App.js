@@ -9,7 +9,7 @@ import LoginPage from "./pages/login";
 import HomePage from "./pages/home";
 
 import Header from "./component/header/Header";
-import Load from "./component/Loading";
+import Load from "../src/component/alert/Loading";
 import Alert from "./component/alert/Alert";
 
 function App() {

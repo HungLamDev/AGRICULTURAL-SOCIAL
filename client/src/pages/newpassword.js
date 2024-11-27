@@ -3,17 +3,23 @@ import axios from "axios";
 import validator from "validator";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { GLOBALTYPES } from "../redux/actions/globalTypes"; 
+import { GLOBALTYPES } from "../redux/actions/globalTypes";
 import Logo from "../images/logo_ngang.png";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const NewPassword = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [step, setStep] = useState(1); 
+  const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   // Gửi OTP
   const handleSendOtp = async () => {
@@ -26,12 +32,12 @@ const NewPassword = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post("/api/sendOtp-Newpassword", { email });
+      await axios.post("/api/sendOtp-Newpassword", { email });
       dispatch({
         type: GLOBALTYPES.ALERT,
         payload: { success: "OTP đã được gửi đến email của bạn." },
       });
-      setStep(2); // Move to Step 2
+      setStep(2);
     } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -61,16 +67,12 @@ const NewPassword = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post("/api/reset-password", {
-        email,
-        otp,
-        newPassword,
-      });
+      await axios.post("/api/reset-password", { email, otp, newPassword });
       dispatch({
         type: GLOBALTYPES.ALERT,
         payload: { success: "Mật khẩu của bạn đã được cập nhật thành công." },
       });
-      setStep(1); // Reset back to Step 1
+      setStep(1);
       setEmail("");
       setOtp("");
       setNewPassword("");
@@ -126,13 +128,29 @@ const NewPassword = () => {
           />
 
           <label>Mật khẩu mới:</label>
-          <input
-            type="password"
-            placeholder="Nhập mật khẩu mới"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
+          <div style={{ position: "relative", width: "100%" }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Nhập mật khẩu mới"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+              style={{ width: "100%", paddingRight: "40px" }}
+            />
+            <span
+              onClick={toggleShowPassword}
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "35%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                fontSize: "18px",
+              }}
+            >
+              {showPassword ? <FaRegEyeSlash/> : <FaRegEye />}
+            </span>
+          </div>
 
           <button onClick={handleResetPassword} disabled={loading}>
             Đặt lại mật khẩu

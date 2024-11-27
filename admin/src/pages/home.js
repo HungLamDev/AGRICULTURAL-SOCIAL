@@ -37,7 +37,7 @@ const HomePage = () => {
           <span>{posts.posts.length}</span>
         </div>
       </div>
-      <div className="row mt-4">
+      <div className="row mt-4 gap-2">
         <div className="new_registration col border_box">
           <h5>Đăng ký mới</h5>
           {users.users

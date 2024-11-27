@@ -222,10 +222,6 @@ const postCtrl = {
       const postId = req.params.id;
       const userId = req.user._id;
 
-      console.log(
-        `Cố gắng xóa bài viết với ID: ${postId} bởi người dùng với ID: ${userId}`
-      );
-
       const post = await Post.findById(postId);
       console.log("Bài viết tìm thấy:", post);
 
@@ -239,9 +235,14 @@ const postCtrl = {
       ) {
         post.deleted_at = new Date();
         await post.save();
+
         await Notification.updateMany(
           { post: postId }, 
           { deleted_at: new Date() } 
+        );
+        await Comments.updateMany(
+          { post: postId },
+          { deleted_at: new Date() }
         );
         return res.json({
           msg: "Xóa bài viết thành công !",

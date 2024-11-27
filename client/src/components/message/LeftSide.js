@@ -130,20 +130,32 @@ const LeftSide = () => {
           ))
         ) : (
           <>
-            {message.users.map((user) => (
-              <div
-                key={user._id}
-                className="message_user"
-                onClick={() => handleAddUser(user)}
-              >
-                <UserCard user={user} msg={true}>
-
-                  {message.newMessages[user._id] && (
-                    <span className="new-message-indicator">Tin nhắn mới</span>
-                  )}
-                </UserCard>
-              </div>
-            ))}
+            {message.users
+              .slice()
+              .sort((a, b) => {
+                const timeA = a.lastMessageTime
+                  ? new Date(a.lastMessageTime).getTime()
+                  : 0;
+                const timeB = b.lastMessageTime
+                  ? new Date(b.lastMessageTime).getTime()
+                  : 0;
+                return timeB - timeA; // Sắp xếp giảm dần theo thời gian
+              })
+              .map((user) => (
+                <div
+                  key={user._id}
+                  className="message_user"
+                  onClick={() => handleAddUser(user)}
+                >
+                  <UserCard user={user} msg={true}>
+                    {message.newMessages[user._id] && (
+                      <span className="new-message-indicator">
+                        Tin nhắn mới
+                      </span>
+                    )}
+                  </UserCard>
+                </div>
+              ))}
             <button ref={pageEnd} style={{ opacity: 0 }}>
               Load more
             </button>
